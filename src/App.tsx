@@ -5,6 +5,7 @@ import { MyNavbar } from './components/MyNavbar';
 import { Home } from './pages/Home';
 import { Movies } from './pages/Movies';
 import { Shows } from './pages/Shows';
+import { BadPath } from './pages/BadPath';
 
 
 
@@ -18,6 +19,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/shows" element={<Shows />} />
       <Route path="/movies" element={<Movies />} />
+      <Route path="*" element={<BadPath />} />
     </Routes>
   </>
   );
