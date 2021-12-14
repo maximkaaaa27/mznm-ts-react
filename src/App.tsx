@@ -6,6 +6,8 @@ import { Home } from './pages/Home';
 import { Movies } from './pages/Movies';
 import { Shows } from './pages/Shows';
 import { BadPath } from './pages/BadPath';
+import { AuthPage } from './pages/authPages/AuthPage';
+import { AdminPage } from './pages/AdminPage';
 
 
 
@@ -19,6 +21,8 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/shows" element={<Shows />} />
       <Route path="/movies" element={<Movies />} />
+      <Route path="/auth" element={<AuthPage />} />
+      <Route path="/admin" element={<AdminPage />} />
       <Route path="*" element={<BadPath />} />
     </Routes>
   </>
