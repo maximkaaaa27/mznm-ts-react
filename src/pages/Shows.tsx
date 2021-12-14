@@ -4,10 +4,11 @@ import { fetchFromRealtimeDB } from "../redux/firebase/firebase";
 
 
 export const Shows = () => {
+  let db = 'no'
+  const getData = (data: any) => {db = data}
+  fetchFromRealtimeDB({id: 'shows/'}, getData)
 
-  const handle = fetchFromRealtimeDB({id: 'shows/'})
-
-  console.log(handle)
+  console.log( db )
   
   return(
   <>

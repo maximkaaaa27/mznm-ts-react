@@ -1,6 +1,9 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getDatabase, set, ref, onValue } from 'firebase/database';
+//import { useAppDispatch } from '../hooks';
+
+
 
 export interface IAdd {
   to: string
@@ -33,12 +36,12 @@ export const addToRealtimeDB = (payload: IAdd) => {
   })
 }
 
-export const fetchFromRealtimeDB = (target: {id: string}) => {
+export const fetchFromRealtimeDB = (target: {id: string}, funcCB:(data: any) => void) => {
   const contentRef = ref(database, target.id);
 
   onValue(contentRef, (snap) => {
     const data = snap.val()
-    return data
+    funcCB(data)
   })
   
 }
