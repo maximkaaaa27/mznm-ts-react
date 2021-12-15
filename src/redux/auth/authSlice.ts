@@ -14,15 +14,18 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     signIn: (state, action: PayloadAction<{}>) => {
+      localStorage.setItem('user', JSON.stringify(action.payload))
       state.user = action.payload;
     },
-    logOut: (state) => {
+    signOutReducer: (state) => {
+
       state.user = {};
+      localStorage.setItem('user', JSON.stringify(null))
     }
   },
 })
 
-export const { signIn, logOut } = authSlice.actions;
+export const { signIn, signOutReducer } = authSlice.actions;
 
 export const selectCount = (state: RootState) => state.auth;
 

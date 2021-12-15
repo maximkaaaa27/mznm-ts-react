@@ -4,7 +4,9 @@ import { authWithGoogle, signOutGoogle } from "../../redux/firebase/firebase";
 
 export const AuthPage = () => {
   const authButtonHandler = () => {
+    
    authWithGoogle()
+   
   }
 
 

@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
 import { getDatabase, set, ref, onValue } from 'firebase/database';
-import { signIn } from '../auth/authSlice';
+import { signIn, signOutReducer } from '../auth/authSlice';
 import { store } from '../store';
 import { fetchContent, showLoader } from './firebaseSlice';
 
@@ -49,14 +49,14 @@ export const fetchFromRealtimeDB = async (from: string) => {
   const contentRef = ref(database, from);
 
   onValue(contentRef, (snap) => {
-    const data = snap.val()
-    if (data === null) return;
+    const data = snap.val();
+      if (data === null) return;
     const payload = Object.keys(data).map(key => {
       return {
         ...data[key]
       }
     })
-    store.dispatch(fetchContent(payload))
+    store.dispatch(fetchContent(payload));
   })
   
 }
@@ -64,23 +64,19 @@ export const fetchFromRealtimeDB = async (from: string) => {
 export const authWithGoogle = () => {
 
   signInWithPopup(auth, provider).then((result) => {
-
-
     const user = result!.user;
-
-    store.dispatch(signIn({user: user.displayName, pic: user.photoURL}))
-
+    store.dispatch(signIn({user: user.displayName, pic: user.photoURL}));
   })
   .catch((error) => {
-    console.error('Google Popup' + error.code)
+    console.error('Google Popup' + error.code);
   })
 
 }
 
 export const signOutGoogle = () => {
   signOut(auth).then(() => {
-    // Sign-out successful.
+    store.dispatch(signOutReducer())
   }).catch((error) => {
-    // An error happened.
+    console.log(error)
   });
 }
