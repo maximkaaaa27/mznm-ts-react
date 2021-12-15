@@ -4,9 +4,7 @@ import type { RootState } from '../store';
 
 
 const initialState = {
-  auth: {
-    user: {}
-  },
+  user: {}
 }
 
 
@@ -15,16 +13,16 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    logIn: (state, action: PayloadAction<{user: string, token: string}>) => {
-      state.auth.user = action.payload;
+    signIn: (state, action: PayloadAction<{}>) => {
+      state.user = action.payload;
     },
     logOut: (state) => {
-      state.auth.user = {};
+      state.user = {};
     }
   },
 })
 
-export const { logIn, logOut } = authSlice.actions;
+export const { signIn, logOut } = authSlice.actions;
 
 export const selectCount = (state: RootState) => state.auth;
 

@@ -1,56 +1,43 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
 
-interface IPayload {
-  string: {
-    about: string
-    title: string
-  }
-}
+
 
 interface IState {
-  shows: [{
-    title: string | null
-    about: string | null
-  }]
-  movies: [{
-    title: string | null
-    about: string | null
-  }]
-  
+  content: IPayload[],
+  loading: boolean
 }
 
 const initialState: IState = {
-  shows: [{
-    title: null,
-    about: null
-  }],
-  movies: [{
-    title: null,
-    about: null
-  }]
+  content: [],
+  loading: false,
 }
 
+export interface IPayload {
+    title: string,
+    about: string
+  }
 
-
+  
 const firebaseSlice = createSlice({
   name: 'firebase',
   initialState,
   reducers: {
-    addContent: (state, action: PayloadAction<{title: string, about: string}>) => {
-      
+    showLoader: (state) => ({...state, loading: true}),
+    addContent: () => {
+ 
     },
-    fetchContent: (state, action: PayloadAction<IPayload>) => {
-      //Object.keys(action.payload).map((item) => ({shows: action.payload[item]}))
-    },
-
+    fetchContent: (state, action: PayloadAction<any[]>) => ({
+      ...state, content: action.payload, loading: false
+    }),
+    
     removeContent: () => {
 
     }
   },
 })
 
-export const { addContent, fetchContent } = firebaseSlice.actions;
+export const { addContent, fetchContent, showLoader } = firebaseSlice.actions;
 
 export const selectCount = (state: RootState) => state.firebase;
 

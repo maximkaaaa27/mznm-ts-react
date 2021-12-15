@@ -12,7 +12,7 @@ export const AdminPage = () => {
   const [about, setAbout] = useState('');
 
   function checkValidity (title: string, to: string, about: string): IAdd{
-    const payload: Partial<IAdd> = {}
+    const payload: Partial<IAdd> = {};
 
     if (title.length < 15) {
       payload.title = title
@@ -23,7 +23,7 @@ export const AdminPage = () => {
     }
 
     payload.to = to;
-    payload.full = !!(payload.title && payload.to && payload.about)
+    payload.full = !!(payload.title && payload.to && payload.about);
  
   
     return payload as IAdd;
@@ -33,14 +33,14 @@ export const AdminPage = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
 
-
       if (!(() => checkValidity(title, typeContent, about).full)) {
         event.preventDefault();
         event.stopPropagation();
       }
-
+      
       setValidated(true);
       addToRealtimeDB({title, to: typeContent, about, full: validated});
+      event.preventDefault();
   }
 
 
@@ -76,13 +76,14 @@ export const AdminPage = () => {
         value={about}
         style={{ height: '100px' }}
         type="text"
-        placeholder="Ссылка" 
+        placeholder="Информация" 
         />
       </Form.Group>
 
       <Button variant="secondary" type="submit">
         Submit
       </Button>
+
     </Form>
   )
 }

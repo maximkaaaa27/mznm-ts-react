@@ -1,7 +1,10 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
 import { getDatabase, set, ref, onValue } from 'firebase/database';
-//import { useAppDispatch } from '../hooks';
+import { signIn } from '../auth/authSlice';
+import { store } from '../store';
+import { fetchContent, showLoader } from './firebaseSlice';
+
 
 
 
@@ -26,22 +29,58 @@ const firebaseConfig = {
 }
 
 const app = initializeApp(firebaseConfig);
-export const database = getDatabase(app);
-export const auth = getAuth(app);
+const database = getDatabase(app);
+const auth = getAuth(app);
 
-export const addToRealtimeDB = (payload: IAdd) => {
+const provider = new GoogleAuthProvider();
+
+
+
+export function addToRealtimeDB (payload: IAdd) {
   set(ref(database, `${payload.to}${payload.title}`), {
       title: payload.title,
       about: payload.about
   })
 }
 
-export const fetchFromRealtimeDB = (target: {id: string}, funcCB:(data: any) => void) => {
-  const contentRef = ref(database, target.id);
+export const fetchFromRealtimeDB = async (from: string) => {
+  store.dispatch(showLoader());
+  
+  const contentRef = ref(database, from);
 
   onValue(contentRef, (snap) => {
     const data = snap.val()
-    funcCB(data)
+    if (data === null) return;
+    const payload = Object.keys(data).map(key => {
+      return {
+        ...data[key]
+      }
+    })
+    store.dispatch(fetchContent(payload))
   })
   
+}
+
+export const authWithGoogle = () => {
+
+  signInWithPopup(auth, provider).then((result) => {
+
+
+    const user = result!.user;
+
+    store.dispatch(signIn({user: user.displayName, pic: user.photoURL}))
+
+  })
+  .catch((error) => {
+    console.error('Google Popup' + error.code)
+  })
+
+}
+
+export const signOutGoogle = () => {
+  signOut(auth).then(() => {
+    // Sign-out successful.
+  }).catch((error) => {
+    // An error happened.
+  });
 }

@@ -1,19 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Card, Col, Row, Spinner } from "react-bootstrap";
 import { fetchFromRealtimeDB } from "../redux/firebase/firebase";
+import { useAppSelector } from '../redux/hooks';
 
 
+export const Shows = (props: {loading: boolean}) => {
 
-export const Shows = () => {
-  let db = 'no'
-  const getData = (data: any) => {db = data}
-  fetchFromRealtimeDB({id: 'shows/'}, getData)
+  const shows = useAppSelector(state => state.firebase.content)
+  useEffect(() => {
+    fetchFromRealtimeDB('shows/')
+  }, [])
 
-  console.log( db )
+  
+
   
   return(
   <>
     <h1 className="p-3">Shows</h1>
-    <div className="btn btn-info"> DB </div>
+    <Row xs={1} md={2} className="g-4 m-2">
+    {props.loading && <Spinner variant="secondary" animation="grow" />}
+      {shows.map((item) => (
+        <Col key={item.title}>
+          <Card>
+            <Card.Img alt="..." src="/empty" />
+            <Card.Title> {item.title} </Card.Title>
+            <Card.Text>
+              {item.about}
+            </Card.Text>
+          </Card>
+        </Col>
+      ))}
+
+    </Row>
   </>
   )
   };
