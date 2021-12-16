@@ -65,7 +65,7 @@ export const authWithGoogle = () => {
 
   signInWithPopup(auth, provider).then((result) => {
     const user = result!.user;
-    store.dispatch(signIn({user: user.displayName, pic: user.photoURL}));
+    store.dispatch(signIn({name: user.displayName, pic: user.photoURL}));
   })
   .catch((error) => {
     console.error('Google Popup' + error.code);
