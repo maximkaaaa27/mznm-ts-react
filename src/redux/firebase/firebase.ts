@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
-import { getDatabase, set, ref, onValue } from 'firebase/database';
+import { getDatabase, set, ref, onValue, push, child, remove } from 'firebase/database';
 import { signIn, signOutReducer } from '../auth/authSlice';
 import { store } from '../store';
 import { fetchContent, showLoader } from './firebaseSlice';
@@ -36,14 +36,11 @@ const provider = new GoogleAuthProvider();
 
 
 
-export function addToRealtimeDB (payload: IAdd) {
-  set(ref(database, `${payload.to}${payload.title}`), {
-      title: payload.title,
-      about: payload.about
-  })
-}
+//================== REALTIME DATABASE========================//
 
 export const fetchFromRealtimeDB = async (from: string) => {
+
+  store.dispatch(fetchContent([]))
   store.dispatch(showLoader());
   
   const contentRef = ref(database, from);
@@ -60,6 +57,28 @@ export const fetchFromRealtimeDB = async (from: string) => {
   })
   
 }
+
+
+export const addToRealtimeDB = (payload: IAdd) => {
+  const contentKey = push(child(ref(database), payload.to)).key
+  set(ref(database, `${payload.to}${contentKey}`), {
+      title: payload.title,
+      about: payload.about,
+      id: contentKey
+  })
+}
+
+
+export const removeFromRealtimeDB = (from:string, id:string) => {
+  const contentKey = ref(database, from + id);
+  remove(contentKey);
+  fetchFromRealtimeDB(from);
+}
+
+
+
+
+//================== AUTHENTICATION ========================//
 
 export const authWithGoogle = () => {
 

@@ -15,7 +15,8 @@ const initialState: IState = {
 
 export interface IPayload {
     title: string,
-    about: string
+    about: string,
+    id: string
   }
 
   

@@ -1,13 +1,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
 
-interface IState  {
-  user:{
-    name: string | null
-    pic: string | null
-  }
 
+interface IPayload  {
+  name: string | null
+  pic: string | null
 }
+
+
+interface IState  {
+  user: IPayload
+}
+
 
 const checkLocalStorage = ():IState => {
   const userLS = localStorage.getItem('user');
@@ -32,7 +36,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    signIn: (state, action: PayloadAction<{name: string | null, pic: string | null}>) => {
+    signIn: (state, action: PayloadAction<IPayload>) => {
       localStorage.setItem('user', JSON.stringify(action.payload))
       state.user = action.payload;
     },

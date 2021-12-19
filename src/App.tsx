@@ -6,7 +6,6 @@ import { Home } from './pages/Home';
 import { Movies } from './pages/Movies';
 import { Shows } from './pages/Shows';
 import { BadPath } from './pages/BadPath';
-import { AuthPage } from './pages/authPages/AuthPage';
 import { AdminPage } from './pages/AdminPage';
 import { useAppSelector } from './redux/hooks';
 
@@ -22,7 +21,6 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/shows" element={<Shows loading={loading}/>} />
       <Route path="/movies" element={<Movies loading={loading}/>} />
-      <Route path="/auth" element={<AuthPage />} />
       <Route path="/admin" element={<AdminPage />} />
       <Route path="*" element={<BadPath />} />
     </Routes>
