@@ -3,9 +3,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/
 import { getDatabase, set, ref, onValue, push, child, remove } from 'firebase/database';
 import { signIn, signOutReducer } from '../auth/authSlice';
 import { store } from '../store';
-import { fetchContent, showLoader } from './firebaseSlice';
-
-
+import { addContent, fetchContent, showLoader } from './firebaseSlice';
 
 
 export interface IAdd {
@@ -14,7 +12,6 @@ export interface IAdd {
   about: string
   full: boolean
 }
-
 
 
 const firebaseConfig = {
@@ -29,14 +26,11 @@ const firebaseConfig = {
 }
 
 const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
-const auth = getAuth(app);
-
-const provider = new GoogleAuthProvider();
-
 
 
 //================== REALTIME DATABASE========================//
+
+const database = getDatabase(app);
 
 export const fetchFromRealtimeDB = async (from: string) => {
 
@@ -60,25 +54,29 @@ export const fetchFromRealtimeDB = async (from: string) => {
 
 
 export const addToRealtimeDB = (payload: IAdd) => {
-  const contentKey = push(child(ref(database), payload.to)).key
-  set(ref(database, `${payload.to}${contentKey}`), {
-      title: payload.title,
-      about: payload.about,
-      id: contentKey
-  })
+  const contentKey = push(child(ref(database), payload.to)).key;
+  const pushPayload = {
+    title: payload.title,
+    about: payload.about,
+    id: contentKey
+  }
+  set(ref(database, `${payload.to}${contentKey}`), pushPayload)
+  store.dispatch(addContent(pushPayload))
 }
 
 
-export const removeFromRealtimeDB = (from:string, id:string) => {
+export const removeFromRealtimeDB = (from:string, id:string | null) => {
+  if (!id || !from) return;
   const contentKey = ref(database, from + id);
   remove(contentKey);
   fetchFromRealtimeDB(from);
 }
 
 
-
-
 //================== AUTHENTICATION ========================//
+
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
 export const authWithGoogle = () => {
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Button, Card, Col, Row, Spinner } from "react-bootstrap";
+import { Card, Col, Row, Spinner } from "react-bootstrap";
 import { fetchFromRealtimeDB, removeFromRealtimeDB } from "../redux/firebase/firebase";
 import { useAppSelector } from "../redux/hooks";
 
@@ -25,9 +25,12 @@ export const Movies = (props: {loading: boolean}) => {
       {movies.map((item) => (
         <Col key={item.id}>
           <Card>
-          <Button variant="danger" onClick={() => removeFromRealtimeDB(contentLink, item.id)}>
-                X
-              </Button>
+            <button type="button" 
+            className="btn-close align-self-end" 
+            aria-label="Close"
+            onClick={() => removeFromRealtimeDB(contentLink, item.id)}
+            >
+            </button>
             <Card.Img alt="..." src="/empty" />
             <Card.Title> {item.title} </Card.Title>
             <Card.Text>

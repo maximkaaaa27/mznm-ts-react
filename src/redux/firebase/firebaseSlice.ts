@@ -16,18 +16,23 @@ const initialState: IState = {
 export interface IPayload {
     title: string,
     about: string,
-    id: string
+    id: string | null
   }
 
-  
+
 const firebaseSlice = createSlice({
   name: 'firebase',
   initialState,
   reducers: {
     showLoader: (state) => ({...state, loading: true}),
-    addContent: () => {
- 
-    },
+
+    addContent: (state, action: PayloadAction<IPayload>) => ({
+      ...state, content: state.content.map((item, index) => {
+          if (state.content[index].id !== action.payload.id) return action.payload
+        return item;
+      })
+    }),
+
     fetchContent: (state, action: PayloadAction<any[]>) => ({
       ...state, content: action.payload, loading: false
     }),
