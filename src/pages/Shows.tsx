@@ -1,33 +1,38 @@
 import React, { useEffect } from "react";
-import { Button, Card, Col, Row, Spinner } from "react-bootstrap";
+import { Card, Col, Row, Spinner } from "react-bootstrap";
 import { fetchFromRealtimeDB, removeFromRealtimeDB } from "../redux/firebase/firebase";
 import { useAppSelector } from '../redux/hooks';
 
 
-export const Shows = (props: {loading: boolean}) => {
+export const Shows = () => {
 
-  const shows = useAppSelector(state => state.firebase.content);
+  const shows = useAppSelector(state => state.firebase.shows);
+  const loading = useAppSelector(state => state.firebase.loading);
   const contentLink = 'shows/';
 
   useEffect(() => {
-    fetchFromRealtimeDB(contentLink)
-  }, [])
+    if (shows.length === 0) {
+      fetchFromRealtimeDB(contentLink)
+    }
+  }, [shows])
 
-  
 
   
   return(
   <>
     <h1 className="p-3">Shows</h1>
     <Row xs={1} md={2} className="g-4 m-2">
-    {props.loading && <Spinner variant="secondary" animation="grow" />}
+    {loading && <Spinner variant="secondary" animation="grow" />}
       {shows.map((item) => (
         <Col key={item.id}>
           
           <Card>
-          <Button variant="danger" onClick={() => removeFromRealtimeDB(contentLink, item.id)}>
-                X
-              </Button>
+          <button type="button" 
+            className="btn-close align-self-end" 
+            aria-label="Close"
+            onClick={() => removeFromRealtimeDB(contentLink, item.id)}
+            >
+            </button>
             <Card.Img alt="..." src="/empty" />
             <Card.Title> 
               {item.title}

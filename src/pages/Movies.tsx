@@ -5,37 +5,53 @@ import { useAppSelector } from "../redux/hooks";
 
 
 
-export const Movies = (props: {loading: boolean}) => {
+export const Movies = () => {
 
-  const movies = useAppSelector(state => state.firebase.content);
+  const movies = useAppSelector(state => state.firebase.movies);
+  const loading = useAppSelector(state => state.firebase.loading);
   const contentLink = 'movies/';
 
   useEffect(() => {
-    fetchFromRealtimeDB(contentLink)
-  }, [])
+    if (!movies.length) {
+      fetchFromRealtimeDB(contentLink)
+    }
+
+  },[movies])
 
   
-
   
+
   return(
   <>
-    <h1 className="p-3">Movies</h1>
-    <Row xs={1} md={2} className="g-4 m-2">
-     {props.loading && <Spinner variant="secondary" animation="grow" />}
+    <Row className="g-4 m-2">
+
+     {loading && <Spinner variant="secondary" animation="grow" />}
+
       {movies.map((item) => (
-        <Col key={item.id}>
-          <Card>
-            <button type="button" 
-            className="btn-close align-self-end" 
-            aria-label="Close"
-            onClick={() => removeFromRealtimeDB(contentLink, item.id)}
+        <Col key={item.id} className="m-3">
+          <Card
+          border="secondary"
+          bg="light"
+          >
+            <Card.Header
+            className="d-flex justify-content-between align-items-center"
             >
-            </button>
-            <Card.Img alt="..." src="/empty" />
-            <Card.Title> {item.title} </Card.Title>
-            <Card.Text>
-              {item.about}
-            </Card.Text>
+              <Card.Title> {item.title} </Card.Title>
+              <button type="button" 
+              className="btn-close" 
+              aria-label="Close"
+              onClick={() => removeFromRealtimeDB(contentLink, item.id)}
+              >
+              </button>
+            </Card.Header>
+
+            <Card.Body>
+              <Card.Img alt="..." src="/empty" />
+              <Card.Text>
+                {item.about}
+              </Card.Text>
+            </Card.Body>
+
           </Card>
         </Col>
       ))}

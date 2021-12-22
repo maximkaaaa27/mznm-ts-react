@@ -3,7 +3,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/
 import { getDatabase, set, ref, onValue, push, child, remove } from 'firebase/database';
 import { signIn, signOutReducer } from '../auth/authSlice';
 import { store } from '../store';
-import { addContent, fetchContent, showLoader } from './firebaseSlice';
+import { addShow, addMovie, fetchMovie, fetchShows, showLoader, removeContent } from './firebaseSlice';
 
 
 export interface IAdd {
@@ -34,7 +34,6 @@ const database = getDatabase(app);
 
 export const fetchFromRealtimeDB = async (from: string) => {
 
-  store.dispatch(fetchContent([]))
   store.dispatch(showLoader());
   
   const contentRef = ref(database, from);
@@ -47,7 +46,22 @@ export const fetchFromRealtimeDB = async (from: string) => {
         ...data[key]
       }
     })
-    store.dispatch(fetchContent(payload));
+
+    switch(from){
+      case 'shows/': 
+      store.dispatch(fetchShows(payload))
+      break;
+
+      case 'movies/': 
+      store.dispatch(fetchMovie(payload))
+      break;
+
+      default:
+      break
+    
+    }
+
+    
   })
   
 }
@@ -61,7 +75,21 @@ export const addToRealtimeDB = (payload: IAdd) => {
     id: contentKey
   }
   set(ref(database, `${payload.to}${contentKey}`), pushPayload)
-  store.dispatch(addContent(pushPayload))
+
+  switch(payload.to){
+    case 'shows/': 
+    store.dispatch(addShow(pushPayload))
+    break;
+
+    case 'movies/': 
+    store.dispatch(addMovie(pushPayload))
+    break;
+
+    default:
+    break
+  
+  }
+
 }
 
 
@@ -69,7 +97,8 @@ export const removeFromRealtimeDB = (from:string, id:string | null) => {
   if (!id || !from) return;
   const contentKey = ref(database, from + id);
   remove(contentKey);
-  fetchFromRealtimeDB(from);
+  store.dispatch(removeContent({from, id}))
+
 }
 
 
