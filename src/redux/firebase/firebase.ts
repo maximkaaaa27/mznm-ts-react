@@ -3,15 +3,9 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/
 import { getDatabase, set, ref, onValue, push, child, remove } from 'firebase/database';
 import { signIn, signOutReducer } from '../auth/authSlice';
 import { store } from '../store';
-import { addShow, addMovie, fetchMovie, fetchShows, showLoader, removeContent } from './firebaseSlice';
+import { fetchMovie, fetchShows, showLoader, removeContent } from './firebaseSlice';
 
 
-export interface IAdd {
-  to: string
-  title: string
-  about: string
-  full: boolean
-}
 
 
 const firebaseConfig = {
@@ -65,30 +59,28 @@ export const fetchFromRealtimeDB = async (from: string) => {
   })
   
 }
+interface IAddContent {
+  contentType: string, 
+  name: string, 
+  about: string,
+  link: string,
+  linkVideo: string
+}
 
 
-export const addToRealtimeDB = (payload: IAdd) => {
-  const contentKey = push(child(ref(database), payload.to)).key;
+export const addToRealtimeDB = (content: IAddContent) => {
+  const contentKey = push(child(ref(database), content.contentType)).key;
+
   const pushPayload = {
-    title: payload.title,
-    about: payload.about,
+    name: content.name,
+    about: content.about,
+    link: content.link,
+    linkVideo: content.linkVideo,
     id: contentKey
   }
-  set(ref(database, `${payload.to}${contentKey}`), pushPayload)
 
-  switch(payload.to){
-    case 'shows/': 
-    store.dispatch(addShow(pushPayload))
-    break;
+  set(ref(database, `${content.contentType}${contentKey}`), pushPayload)
 
-    case 'movies/': 
-    store.dispatch(addMovie(pushPayload))
-    break;
-
-    default:
-    break
-  
-  }
 
 }
 

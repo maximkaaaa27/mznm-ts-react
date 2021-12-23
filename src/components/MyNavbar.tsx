@@ -25,11 +25,10 @@ export const MyNavbar = () => {
           <Link className="nav-link" to="/movies" >Movies</Link>
         </Navbar.Collapse>
 
-
         <div className="me-2">
         {user.name ? 
           <DropdownButton menuVariant="dark" title={user.name.split(' ')[0]}>
-            <Link className="nav-link dropdown-item" to="/admin">Admin</Link>
+            <Dropdown.ItemText>{user.name}</Dropdown.ItemText>
             <Dropdown.Item onClick={() => signOutGoogle()}>Sign out</Dropdown.Item>
           </DropdownButton>
           : <Button variant="secondary" onClick={() => authWithGoogle()}>

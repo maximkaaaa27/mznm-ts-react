@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Card, Col, Row, Spinner } from "react-bootstrap";
+import { AddButton } from "../components/AddButton";
 import { fetchFromRealtimeDB, removeFromRealtimeDB } from "../redux/firebase/firebase";
 import { useAppSelector } from "../redux/hooks";
 
@@ -55,6 +56,9 @@ export const Movies = () => {
           </Card>
         </Col>
       ))}
+      <Col className="m-3">
+      <AddButton />
+      </Col>
 
     </Row>
   </>
