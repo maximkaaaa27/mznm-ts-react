@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Card, Col, Row, Spinner } from "react-bootstrap";
 import { AddButton } from "../components/AddButton";
+import { EditButton } from "../components/EditButton";
 import { fetchFromRealtimeDB, removeFromRealtimeDB } from "../redux/firebase/firebase";
 import { useAppSelector } from "../redux/hooks";
 
@@ -37,13 +38,17 @@ export const Movies = () => {
             <Card.Header
             className="d-flex justify-content-between align-items-center"
             >
-              <Card.Title> {item.title} </Card.Title>
-              <button type="button" 
-              className="btn-close" 
-              aria-label="Close"
-              onClick={() => removeFromRealtimeDB(contentLink, item.id)}
-              >
-              </button>
+              <Card.Title> {item.name} </Card.Title>
+              <div>
+                <EditButton item={item} contentLink={contentLink}/>
+                <button type="button" 
+                className="btn-close" 
+                aria-label="Close"
+                onClick={() => removeFromRealtimeDB(contentLink, item.id)}
+                >
+                </button>
+              </div>
+
             </Card.Header>
 
             <Card.Body>
@@ -57,10 +62,9 @@ export const Movies = () => {
         </Col>
       ))}
       <Col className="m-3">
-      <AddButton />
+      <AddButton contentLink={contentLink}/>
       </Col>
-
     </Row>
   </>
   )
-  };;
+};

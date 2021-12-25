@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
-import { getDatabase, set, ref, onValue, push, child, remove } from 'firebase/database';
+import { getDatabase, ref, onValue, push, child, remove, update } from 'firebase/database';
 import { signIn, signOutReducer } from '../auth/authSlice';
 import { store } from '../store';
 import { fetchMovie, fetchShows, showLoader, removeContent } from './firebaseSlice';
@@ -68,9 +68,11 @@ interface IAddContent {
 }
 
 
-export const addToRealtimeDB = (content: IAddContent) => {
-  const contentKey = push(child(ref(database), content.contentType)).key;
-
+export const addToRealtimeDB = (content: IAddContent, id?: string) => {
+  let contentKey = push(child(ref(database), content.contentType)).key;
+    if (id) {
+      contentKey = id
+    }
   const pushPayload = {
     name: content.name,
     about: content.about,
@@ -78,11 +80,9 @@ export const addToRealtimeDB = (content: IAddContent) => {
     linkVideo: content.linkVideo,
     id: contentKey
   }
-
-  set(ref(database, `${content.contentType}${contentKey}`), pushPayload)
-
-
+  update(ref(database, `${content.contentType}${contentKey}`), pushPayload)
 }
+
 
 
 export const removeFromRealtimeDB = (from:string, id:string | null) => {

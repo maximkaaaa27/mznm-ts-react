@@ -1,15 +1,15 @@
-import React, { useReducer, useState } from "react";
-import { Button, Form, FormControl, InputGroup, Modal } from "react-bootstrap";
-import { addToRealtimeDB } from "../redux/firebase/firebase";
+import React, { useState, useReducer } from 'react';
+import { Button, FormControl, Form, InputGroup, Modal } from 'react-bootstrap';
+import { addToRealtimeDB } from '../redux/firebase/firebase';
+import { IPayload } from '../redux/firebase/firebaseSlice';
 
 
-export const AddButton = ({contentLink}:{contentLink: string}) => {
 
+export const EditButton = ({item, contentLink}:{item: IPayload, contentLink: string}) => {
+  const contentType = contentLink;
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  
-  const contentType = contentLink;
 
   interface IInitState {
     name: string
@@ -24,10 +24,10 @@ export const AddButton = ({contentLink}:{contentLink: string}) => {
   }
 
   const initialState: IInitState = {
-    name: '',
-    info: '',
-    path: '',
-    videoOkID: '',
+    name: item.name,
+    info: item.about,
+    path: item.link,
+    videoOkID: item.linkVideo,
   }
 
   const reducer = (state: IInitState, action: IAction) => {
@@ -62,21 +62,20 @@ export const AddButton = ({contentLink}:{contentLink: string}) => {
       about: state.info,
       link: state.path,
       linkVideo: state.videoOkID
-    })
+    }, item.id)
     handleClose()
   }
 
-
-return (
-  <>
-    <Button variant="secondary" onClick={handleShow}>
-      +
+  return (
+    <>
+    <Button variant="primary" onClick={handleShow}>
+      ...
     </Button>
 
     <Modal show={show} onHide={handleClose}>
 
       <Modal.Header closeButton>
-        <Modal.Title> Добавить </Modal.Title>
+        <Modal.Title> Редактировать </Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
@@ -137,11 +136,10 @@ return (
       </Modal.Body>
 
       <Modal.Footer>
-        <Button variant="info" type="submit" onClick={handleSubmit}>Add</Button>
+        <Button variant="info" type="submit" onClick={handleSubmit}>Edit</Button>
       </Modal.Footer>
 
     </Modal>
-
-  </>
-
-)}
+    </>
+  )
+}

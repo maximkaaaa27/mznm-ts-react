@@ -35,7 +35,7 @@ export const Shows = () => {
             </button>
             <Card.Img alt="..." src="/empty" />
             <Card.Title> 
-              {item.title}
+              {item.name}
 
              </Card.Title>
             <Card.Text>

@@ -4,6 +4,6 @@
 
 ## Redux
 
-## Firebase auth...in progress
+## Firebase auth
 
-## Admin UI...in progress
+## Admin UI
