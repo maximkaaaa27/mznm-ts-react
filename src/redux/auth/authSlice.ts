@@ -5,6 +5,7 @@ import type { RootState } from '../store';
 interface IPayload  {
   name: string | null
   pic: string | null
+  uid: string | null
 }
 
 
@@ -18,12 +19,14 @@ const checkLocalStorage = ():IState => {
   const userLSParsed = () => userLS && JSON.parse(userLS);
   const name = ():null | string => userLSParsed() ? userLSParsed().name : null
   const pic = ():null | string  => userLSParsed() ? userLSParsed().pic : null
-
+  const uid = ():null | string => userLSParsed() ? userLSParsed().uid : null
+  
 
   return {
     user: {
       name: name(), 
-      pic: pic()
+      pic: pic(),
+      uid: uid(),
     } 
   }
 }
@@ -41,7 +44,7 @@ const authSlice = createSlice({
       state.user = action.payload;
     },
     signOutReducer: (state) => {
-      state.user = {name: null, pic: null};
+      state.user = {name: null, pic: null, uid: null};
       localStorage.setItem('user', '')
     }
   },

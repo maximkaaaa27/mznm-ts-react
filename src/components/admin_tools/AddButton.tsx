@@ -1,6 +1,6 @@
 import React, { useReducer, useState } from "react";
 import { Button, Form, FormControl, InputGroup, Modal } from "react-bootstrap";
-import { addToRealtimeDB } from "../redux/firebase/firebase";
+import { addToRealtimeDB } from "../../redux/firebase/firebase";
 
 
 export const AddButton = ({contentLink}:{contentLink: string}) => {

@@ -1,7 +1,7 @@
 import React, { useState, useReducer } from 'react';
 import { Button, FormControl, Form, InputGroup, Modal } from 'react-bootstrap';
-import { addToRealtimeDB } from '../redux/firebase/firebase';
-import { IPayload } from '../redux/firebase/firebaseSlice';
+import { addToRealtimeDB } from '../../redux/firebase/firebase';
+import { IPayload } from '../../redux/firebase/firebaseSlice';
 
 
 
