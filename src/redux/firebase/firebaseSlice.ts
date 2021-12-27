@@ -29,6 +29,8 @@ const firebaseSlice = createSlice({
   reducers: {
     showLoader: (state) => ({...state, loading: true}),
 
+    hideLoader: (state) => ({...state, loading: false}),
+
     fetchMovie: (state, action: PayloadAction<any[]>) => ({
       ...state, movies: action.payload, loading: false
     }),
@@ -39,17 +41,22 @@ const firebaseSlice = createSlice({
 
     removeContent: (state, action: PayloadAction<{from: string, id: string}>) => {
       switch(action.payload.from) {
-        case 'shows/': state.shows.filter((i) => i.id !== action.payload.id)
-        break
-        case 'movies/': state.shows.filter((i) => i.id !== action.payload.id)
-        break
-        default: return state
+        case 'shows/': 
+        state.shows = state.shows.filter((i) => i.id !== action.payload.id)
+        break;
+
+        case 'movies/': 
+        state.movies = state.movies.filter((i) => i.id !== action.payload.id)
+        break;
+        
+        default: 
+        return state;
       }
     }
   },
 })
 
-export const { fetchMovie, fetchShows, removeContent, showLoader } = firebaseSlice.actions;
+export const { fetchMovie, fetchShows, removeContent, showLoader, hideLoader } = firebaseSlice.actions;
 
 export const selectCount = (state: RootState) => state.firebase;
 

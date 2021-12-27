@@ -3,7 +3,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/
 import { getDatabase, ref, onValue, push, child, remove, update } from 'firebase/database';
 import { signIn, signOutReducer } from '../auth/authSlice';
 import { store } from '../store';
-import { fetchMovie, fetchShows, showLoader, removeContent } from './firebaseSlice';
+import { fetchMovie, fetchShows, showLoader, removeContent, hideLoader } from './firebaseSlice';
 
 
 
@@ -30,11 +30,14 @@ export const fetchFromRealtimeDB = async (from: string) => {
 
   store.dispatch(showLoader());
   
-  const contentRef = ref(database, from);
+  const contentRef = ref(database, `mznm/content/${from}`);
 
   onValue(contentRef, (snap) => {
     const data = snap.val();
-      if (data === null) return;
+      if (!data) {
+        store.dispatch(hideLoader())
+        return;
+      }
     const payload = Object.keys(data).map(key => {
       return {
         ...data[key]
@@ -80,14 +83,14 @@ export const addToRealtimeDB = (content: IAddContent, id?: string) => {
     linkVideo: content.linkVideo,
     id: contentKey
   }
-  update(ref(database, `${content.contentType}${contentKey}`), pushPayload)
+  update(ref(database, `mznm/content/${content.contentType}${contentKey}`), pushPayload)
 }
 
 
 
 export const removeFromRealtimeDB = (from:string, id:string | null) => {
   if (!id || !from) return;
-  const contentKey = ref(database, from + id);
+  const contentKey = ref(database, `mznm/content/${from + id}`);
   remove(contentKey);
   store.dispatch(removeContent({from, id}))
 
@@ -100,7 +103,6 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
 export const authWithGoogle = () => {
-
   signInWithPopup(auth, provider).then((result) => {
     const user = result!.user;
     store.dispatch(signIn({

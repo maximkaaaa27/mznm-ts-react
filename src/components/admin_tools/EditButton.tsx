@@ -136,7 +136,7 @@ export const EditButton = ({item, contentLink}:{item: IPayload, contentLink: str
       </Modal.Body>
 
       <Modal.Footer>
-        <Button variant="info" type="submit" onClick={handleSubmit}>Edit</Button>
+        <Button variant="info" type="submit" onClick={handleSubmit}> Сохранить </Button>
       </Modal.Footer>
 
     </Modal>

@@ -2,6 +2,18 @@ import React, { useReducer, useState } from "react";
 import { Button, Form, FormControl, InputGroup, Modal } from "react-bootstrap";
 import { addToRealtimeDB } from "../../redux/firebase/firebase";
 
+interface IInitState {
+  name: string
+  info: string
+  path: string
+  videoOkID: string
+}
+
+interface IAction {
+  type: string
+  payload: string
+}
+
 
 export const AddButton = ({contentLink}:{contentLink: string}) => {
 
@@ -11,17 +23,7 @@ export const AddButton = ({contentLink}:{contentLink: string}) => {
   
   const contentType = contentLink;
 
-  interface IInitState {
-    name: string
-    info: string
-    path: string
-    videoOkID: string
-  }
 
-  interface IAction {
-    type: string
-    payload: string
-  }
 
   const initialState: IInitState = {
     name: '',
@@ -32,6 +34,10 @@ export const AddButton = ({contentLink}:{contentLink: string}) => {
 
   const reducer = (state: IInitState, action: IAction) => {
     switch(action.type) {
+      case 'setInitialState' : 
+        return {
+          ...state, ...initialState
+        };
       case 'name':
         return {
           ...state, name: action.payload
@@ -49,21 +55,30 @@ export const AddButton = ({contentLink}:{contentLink: string}) => {
           ...state, videoOkID: action.payload
         }
       default:
-        throw new Error('Error AddComponent reducer')
+        throw new Error('Error AddComponent reducer. Reducer not exist')
       }
   }
 
-  const [state, dispatch] = useReducer(reducer,initialState);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleSubmit = () => {
-    addToRealtimeDB({
-      contentType,
-      name: state.name,
-      about: state.info,
-      link: state.path,
-      linkVideo: state.videoOkID
-    })
-    handleClose()
+    try {
+      addToRealtimeDB({
+        contentType,
+        name: state.name,
+        about: state.info,
+        link: state.path,
+        linkVideo: state.videoOkID
+      });
+      
+      dispatch({type: 'setInitialState', payload: ''})
+      handleClose();
+
+    } catch(error) {
+      console.error(error)
+      handleClose()
+    }
+
   }
 
 
@@ -74,7 +89,6 @@ return (
     </Button>
 
     <Modal show={show} onHide={handleClose}>
-
       <Modal.Header closeButton>
         <Modal.Title> Добавить </Modal.Title>
       </Modal.Header>
@@ -102,7 +116,6 @@ return (
           })
         } 
         />
-      
       
       <Form.Label>Техническое:</Form.Label>
         <InputGroup className="mb-3">
@@ -137,11 +150,10 @@ return (
       </Modal.Body>
 
       <Modal.Footer>
-        <Button variant="info" type="submit" onClick={handleSubmit}>Add</Button>
+        <Button variant="info" type="submit" onClick={handleSubmit}> Добавить </Button>
       </Modal.Footer>
 
     </Modal>
-
   </>
 
 )}

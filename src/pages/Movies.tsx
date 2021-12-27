@@ -16,16 +16,12 @@ export const Movies = () => {
   const isAdmin = true;
 
 
-  console.log(process.env.REACT_APP_USER_UID)
   useEffect(() => {
     if (!movies.length) {
       fetchFromRealtimeDB(contentLink)
     }
-
   },[movies])
 
-  
-  
 
   return(
   <>
