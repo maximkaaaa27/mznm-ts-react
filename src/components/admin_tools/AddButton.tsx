@@ -83,7 +83,7 @@ export const AddButton = ({contentLink}:{contentLink: string}) => {
 
 
 return (
-  <>
+  <Form>
     <Button variant="secondary" onClick={handleShow}>
       +
     </Button>
@@ -154,6 +154,6 @@ return (
       </Modal.Footer>
 
     </Modal>
-  </>
+  </Form>
 
 )}

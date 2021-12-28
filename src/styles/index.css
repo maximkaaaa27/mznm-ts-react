@@ -5,6 +5,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: url(https://firebasestorage.googleapis.com/v0/b/mznm-ts.appspot.com/o/mznm%2FbackgroundBody.jpg?alt=media&token=8e76cf28-9075-40b9-b21b-8b90141ff617), left top repeat;
+  background-size: 70%;
+  background-attachment: fixed;
+  z-index: -1;
 }
 
 code {

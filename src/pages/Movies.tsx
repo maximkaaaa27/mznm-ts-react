@@ -13,8 +13,7 @@ export const Movies = () => {
   const movies = useAppSelector(state => state.firebase.movies);
   const loading = useAppSelector(state => state.firebase.loading);
   const contentLink = 'movies/';
-  const isAdmin = true;
-
+  const isAdmin = (process.env.REACT_APP_USER_UID === useAppSelector(state => state.auth.user.uid));
 
   useEffect(() => {
     if (!movies.length) {

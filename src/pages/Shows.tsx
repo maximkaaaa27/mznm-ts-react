@@ -12,14 +12,13 @@ export const Shows = () => {
   const shows = useAppSelector(state => state.firebase.shows);
   const loading = useAppSelector(state => state.firebase.loading);
   const contentLink = 'shows/';
-  const isAdmin = true;
+  const isAdmin = (process.env.REACT_APP_USER_UID === useAppSelector(state => state.auth.user.uid));
 
   useEffect(() => {
     if (!shows.length) {
       fetchFromRealtimeDB(contentLink)
     }
   }, [shows])
-
 
   
   return(
