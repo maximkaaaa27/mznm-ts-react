@@ -1,70 +1,62 @@
-import React, { useState, useReducer } from 'react';
-import { Button, FormControl, Form, InputGroup, Modal } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Button, Col, Form, InputGroup, Modal, Row } from 'react-bootstrap';
 import { addToRealtimeDB } from '../../redux/firebase/firebase';
 import { IPayload } from '../../redux/firebase/firebaseSlice';
+import { Formik } from 'formik'
+import * as yup from 'yup';
 
-
+interface IInitState {
+  name: string
+  about: string
+  link: string
+  linkPic: string
+  linkVideo: string
+}
 
 export const EditButton = ({item, contentLink}:{item: IPayload, contentLink: string}) => {
+
   const contentType = contentLink;
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  interface IInitState {
-    name: string
-    info: string
-    path: string
-    videoOkID: string
+  const initialValues: IInitState = {
+    name: item.name ,
+    about: item.about ,
+    link: item.link ,
+    linkPic: item.linkPic,
+    linkVideo: item.linkVideo,
   }
 
-  interface IAction {
-    type: string
-    payload: string
+  const editDatabase = (values: IInitState) => {
+    try {
+
+      addToRealtimeDB({
+        contentType,
+        name: values.name,
+        about: values.about,
+        link: values.link,
+        linkPic: values.linkPic,
+        linkVideo: values.linkVideo
+      }, item.id);
+
+      handleClose();
+
+    } catch(error) {
+
+      console.error(error)
+      handleClose()
+
+    }
   }
 
-  const initialState: IInitState = {
-    name: item.name,
-    info: item.about,
-    path: item.link,
-    videoOkID: item.linkVideo,
-  }
-
-  const reducer = (state: IInitState, action: IAction) => {
-    switch(action.type) {
-      case 'name':
-        return {
-          ...state, name: action.payload
-        };
-      case 'info':
-        return {
-          ...state, info: action.payload
-        }
-      case 'path':
-        return {
-          ...state, path: action.payload
-        }
-      case 'videoOkID':
-        return {
-          ...state, videoOkID: action.payload
-        }
-      default:
-        throw new Error('Error AddComponent reducer')
-      }
-  }
-
-  const [state, dispatch] = useReducer(reducer,initialState);
-
-  const handleSubmit = () => {
-    addToRealtimeDB({
-      contentType,
-      name: state.name,
-      about: state.info,
-      link: state.path,
-      linkVideo: state.videoOkID
-    }, item.id)
-    handleClose()
-  }
+  const schema = yup.object().shape({
+    name: yup.string().required(),
+    about: yup.string().required().min(5),
+    link: yup.string().required(),
+    linkPic: yup.string().required(),
+    linkVideo: yup.string().required(),
+  });
 
   return (
     <>
@@ -73,71 +65,118 @@ export const EditButton = ({item, contentLink}:{item: IPayload, contentLink: str
     </Button>
 
     <Modal show={show} onHide={handleClose}>
-
       <Modal.Header closeButton>
-        <Modal.Title> Редактировать </Modal.Title>
+        <Modal.Title> Добавить </Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-      <Form.Label> Основное:</Form.Label>
-        <FormControl 
-        className="mb-3" 
-        placeholder="Название" 
-        value={state.name} 
-        onChange={(event) => dispatch({
-          type: 'name',
-          payload: event.target.value,
-          })
-        } 
-        />
+      <Formik
+        validationSchema={schema}
+        onSubmit={(values) => editDatabase(values)}
+        initialValues={initialValues}
+      >
+        {({
+          handleSubmit,
+          handleChange,
+          handleBlur,
+          values,
+          touched,
+          isValid,
+          errors,
+        }) => (
+        <Form noValidate onSubmit={handleSubmit}>
 
-        <FormControl 
-        className="mb-3" 
-        placeholder="Информация"
-        value={state.info} 
-        onChange={(event) => dispatch({
-          type: 'info',
-          payload: event.target.value,
-          })
-        } 
-        />
-      
-      
-      <Form.Label>Техническое:</Form.Label>
-        <InputGroup className="mb-3">
-            <InputGroup.Text>
-              https://mznm-studio.ru/{contentLink}
-            </InputGroup.Text>
-            <FormControl placeholder="Path"
-              value={state.path} 
-                  onChange={(event) => dispatch({
-                  type: 'path',
-                  payload: event.target.value,
-                  })
-                } 
-            />
-        </InputGroup>
+          <Row className="mb-3">
+            <Form.Group as={Col}  controlId="validationFormik01">
+              <Form.Label> Название: </Form.Label>
+              <Form.Control
+                type="text"
+                name="name"
+                value={values.name}
+                onChange={handleChange}
+                isValid={touched.name && !errors.name}
+              />
+              <Form.Control.Feedback> Ништяк </Form.Control.Feedback>
+            </Form.Group>
+          </Row>
 
-        <InputGroup className="mb-3">
-          <InputGroup.Text>
-          ok.ru/videoembed/
-          </InputGroup.Text>
-          <FormControl 
-          placeholder="videoOkID"
-          value={state.videoOkID} 
-          onChange={(event) => dispatch({
-            type: 'videoOkID',
-            payload: event.target.value,
-            })
-          } 
-          />
-        </InputGroup>
+          <Row className="mb-3">
+            <Form.Group as={Col} controlId="validationFormik02">
+              <Form.Label> Информация: </Form.Label>
+              <Form.Control
+                type="text"
+                name="about"
+                value={values.about}
+                onChange={handleChange}
+                isValid={touched.about && !errors.about}
+              />
+              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+            </Form.Group>
+          </Row>
+          
+          <Row className="mb-3">
+            <Form.Group as={Col} controlId="validationFormikUsername">
+              <Form.Label>Username</Form.Label>
+              <InputGroup hasValidation>
+                <InputGroup.Text id="inputGroupPrepend">
+                https://mznm-studio.ru/{contentLink}
+                </InputGroup.Text>
+                <Form.Control
+                  type="text"
+                  placeholder="path"
+                  aria-describedby="inputGroupPrepend"
+                  name="link"
+                  value={values.link}
+                  onChange={handleChange}
+                  isInvalid={!!errors.link}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.link}
+                </Form.Control.Feedback>
+              </InputGroup>
+            </Form.Group>
+          </Row>
 
+          <Row className="mb-3">
+            <Form.Group as={Col} controlId="validationFormik03">
+              <Form.Label>videoOkID</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="videoOkId"
+                name="linkVideo"
+                value={values.linkVideo}
+                onChange={handleChange}
+                isInvalid={!!errors.linkVideo}
+              />
+
+              <Form.Control.Feedback type="invalid">
+                {errors.linkVideo}
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Row>
+
+          <Row className="mb-3">
+            <Form.Group as={Col} controlId="validationFormik03">
+              <Form.Label>Link for image</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="linkPic"
+                name="linkPic"
+                value={values.linkPic}
+                onChange={handleChange}
+                isInvalid={!!errors.linkPic}
+              />
+
+              <Form.Control.Feedback type="invalid">
+                {errors.linkVideo}
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Row>
+          <Button type="submit" variant="info"> Сохранить </Button>
+        </Form>
+      )}
+    </Formik>
       </Modal.Body>
-
-      <Modal.Footer>
-        <Button variant="info" type="submit" onClick={handleSubmit}> Сохранить </Button>
-      </Modal.Footer>
 
     </Modal>
     </>

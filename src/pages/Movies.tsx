@@ -47,7 +47,7 @@ export const Movies = () => {
             </Card.Header>
 
             <Card.Body>
-              <Card.Img alt="..." src="/empty" />
+              <Card.Img alt="card pic" src={item.linkPic} />
               <Card.Text>
                 {item.about}
               </Card.Text>

@@ -18,6 +18,7 @@ export interface IPayload {
     name: string,
     about: string,
     link: string,
+    linkPic: string,
     linkVideo: string,
     id: string
   }

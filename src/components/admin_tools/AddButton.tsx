@@ -8,9 +8,9 @@ interface IInitState {
   name: string
   about: string
   link: string
+  linkPic: string
   linkVideo: string
 }
-
 
 
 export const AddButton = ({contentLink}:{contentLink: string}) => {
@@ -24,6 +24,7 @@ export const AddButton = ({contentLink}:{contentLink: string}) => {
     name: '',
     about: '',
     link: '',
+    linkPic: '',
     linkVideo: '',
   }
 
@@ -35,6 +36,7 @@ export const AddButton = ({contentLink}:{contentLink: string}) => {
         name: values.name,
         about: values.about,
         link: values.link,
+        linkPic: values.linkPic,
         linkVideo: values.linkVideo
       });
       handleClose();
@@ -51,6 +53,7 @@ export const AddButton = ({contentLink}:{contentLink: string}) => {
     name: yup.string().required(),
     about: yup.string().required().min(5),
     link: yup.string().required(),
+    linkPic: yup.string().required(),
     linkVideo: yup.string().required(),
   });
 
@@ -153,6 +156,23 @@ return (
             </Form.Group>
           </Row>
 
+          <Row className="mb-3">
+            <Form.Group as={Col} controlId="validationFormik03">
+              <Form.Label>Link for image</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="linkPic"
+                name="linkPic"
+                value={values.linkPic}
+                onChange={handleChange}
+                isInvalid={!!errors.linkPic}
+              />
+
+              <Form.Control.Feedback type="invalid">
+                {errors.linkVideo}
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Row>
           <Button type="submit" variant="info"> Добавить</Button>
         </Form>
       )}
