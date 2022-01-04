@@ -1,16 +1,9 @@
 import React, { useState } from "react";
+import { IInitState } from "./interfaces";
 import { Button, Col, Form, InputGroup, Modal, Row } from "react-bootstrap";
 import { addToRealtimeDB } from "../../redux/firebase/firebase";
 import { Formik } from 'formik';
 import * as yup from 'yup'
-
-interface IInitState {
-  name: string
-  about: string
-  link: string
-  linkPic: string
-  linkVideo: string
-}
 
 
 export const AddButton = ({contentLink}:{contentLink: string}) => {
@@ -29,16 +22,17 @@ export const AddButton = ({contentLink}:{contentLink: string}) => {
   }
 
   const addToDatabase = (values: IInitState) => {
+    
     try {
-
       addToRealtimeDB({
         contentType,
         name: values.name,
         about: values.about,
         link: values.link,
         linkPic: values.linkPic,
-        linkVideo: values.linkVideo
+        linkVideo: values.linkVideo,
       });
+
       handleClose();
 
     } catch(error) {

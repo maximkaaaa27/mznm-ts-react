@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Card, Col, Row, Spinner } from "react-bootstrap";
+import { Card, Col, Container, Row, Spinner } from "react-bootstrap";
 import { AddButton } from "../components/admin_tools/AddButton";
 import { EditButton } from "../components/admin_tools/EditButton";
 import { RemoveButton } from "../components/admin_tools/RemoveButton";
@@ -23,8 +23,8 @@ export const Movies = () => {
 
 
   return(
-  <>
-    <Row className="g-4 m-2">
+  <Container fluid="sm">
+    <Row className="g-4 m-1">
 
      {loading && <Spinner variant="secondary" animation="grow" />}
 
@@ -62,6 +62,6 @@ export const Movies = () => {
       }
       </Col>
     </Row>
-  </>
+  </Container>
   )
 };

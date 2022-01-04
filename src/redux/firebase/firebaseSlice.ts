@@ -2,6 +2,16 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
 
 
+export interface IPayload {
+  name: string,
+  about: string,
+  link: string,
+  linkPic: string,
+  linkVideo: string,
+  id: string
+}
+
+
 interface IState {
   movies: IPayload[],
   shows: IPayload[]
@@ -14,14 +24,6 @@ const initialState: IState = {
   loading: false,
 }
 
-export interface IPayload {
-    name: string,
-    about: string,
-    link: string,
-    linkPic: string,
-    linkVideo: string,
-    id: string
-  }
 
 
 const firebaseSlice = createSlice({

@@ -1,17 +1,11 @@
 import React, { useState } from 'react';
+import { IInitState } from './interfaces';
 import { Button, Col, Form, InputGroup, Modal, Row } from 'react-bootstrap';
 import { addToRealtimeDB } from '../../redux/firebase/firebase';
 import { IPayload } from '../../redux/firebase/firebaseSlice';
 import { Formik } from 'formik'
 import * as yup from 'yup';
 
-interface IInitState {
-  name: string
-  about: string
-  link: string
-  linkPic: string
-  linkVideo: string
-}
 
 export const EditButton = ({item, contentLink}:{item: IPayload, contentLink: string}) => {
 
@@ -66,7 +60,7 @@ export const EditButton = ({item, contentLink}:{item: IPayload, contentLink: str
 
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title> Добавить </Modal.Title>
+        <Modal.Title> Изменить </Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
