@@ -54,9 +54,9 @@ export const EditButton = ({item, contentLink}:{item: IPayload, contentLink: str
 
   return (
     <>
-    <Button variant="primary" onClick={handleShow}>
+    <div className="btn" onClick={handleShow}>
       ...
-    </Button>
+    </div>
 
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>

@@ -17,33 +17,44 @@ export const MyNavbar = () => {
       variant="dark"
       expand="lg"
       >
+
+    <Navbar.Brand>
+    <img
+      src="https://firebasestorage.googleapis.com/v0/b/mznm-ts.appspot.com/o/mznm%2Fmznm-logo.png?alt=media&token=097c4e30-9922-46ec-a161-73a161ec3e31"
+      width="35"
+      height="30"
+      className="d-inline-block align-top"
+      alt="."
+    /> MZNM Studio
+    </Navbar.Brand>
+
     
       <Navbar.Toggle aria-controls="responsive-navbar-nav" className="p-3"/>
         <Navbar.Collapse id="responsive-navbar-nav">
           <Link className="nav-link dark" aria-current="page" to="/">Home</Link>
           <Link className="nav-link" to="/shows" >Shows</Link>
           <Link className="nav-link" to="/movies" >Movies</Link>
-        </Navbar.Collapse>
-
-        <div className="me-2">
         {user.name ? 
-          <DropdownButton menuVariant="dark" title={user.name.split(' ')[0]}>
-            <Dropdown.ItemText>{user.name}</Dropdown.ItemText>
+          <DropdownButton
+          variant="secondary" 
+          menuVariant="dark" 
+          title={'Hello, ' + user.name.split(' ')[0]}
+          >
+            <Dropdown.Header>
+              {userPic() && 
+              <Image src={userPic()} roundedCircle style={{"backgroundSize": "32px 32px", "height": "32px", "width": "32px", "marginRight": "0.5rem"}}/>
+              }
+              {user.name} 
+              </Dropdown.Header>
             <Dropdown.Item onClick={() => signOutGoogle()}>Sign out</Dropdown.Item>
           </DropdownButton>
           : <Button variant="secondary" onClick={() => authWithGoogle()}>
             Sign In
           </Button>
-        }
-
-
           
-        </div>   
-        {userPic() && 
-          <Image src={userPic()} roundedCircle style={{"backgroundSize": "32px 32px", "height": "32px", "width": "32px", "marginRight": "0.5rem"}}/>
         }
 
-
+      </Navbar.Collapse>
     </Navbar>
   )
 }

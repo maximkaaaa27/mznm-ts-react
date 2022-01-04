@@ -29,7 +29,7 @@ export const Movies = () => {
      {loading && <Spinner variant="secondary" animation="grow" />}
 
       {movies.map((item) => (
-        <Col key={item.id} className="m-3">
+        <Col key={item.id} className="btn m-3">
           <Card
           border="secondary"
           bg="light"
@@ -39,7 +39,7 @@ export const Movies = () => {
             >
               <Card.Title> {item.name} </Card.Title>
               {isAdmin && 
-              <div>
+              <div className="d-flex">
                 <EditButton item={item} contentLink={contentLink} />
                 <RemoveButton id={item.id} contentLink={contentLink} />
               </div>
