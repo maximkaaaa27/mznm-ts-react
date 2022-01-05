@@ -111,7 +111,7 @@ return (
           
           <Row className="mb-3">
             <Form.Group as={Col} controlId="validationFormikUsername">
-              <Form.Label>Username</Form.Label>
+              <Form.Label>Link To</Form.Label>
               <InputGroup hasValidation>
                 <InputGroup.Text id="inputGroupPrepend">
                 https://mznm-studio.ru/{contentLink}

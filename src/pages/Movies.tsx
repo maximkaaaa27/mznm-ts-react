@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-import { Card, Col, Container, Row, Spinner } from "react-bootstrap";
+import { Card, Col, Row, Spinner } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { AddButton } from "../components/admin_tools/AddButton";
 import { EditButton } from "../components/admin_tools/EditButton";
 import { RemoveButton } from "../components/admin_tools/RemoveButton";
@@ -23,31 +24,35 @@ export const Movies = () => {
 
 
   return(
-  <Container fluid="sm">
-    <Row className="g-4 m-1">
+    <Row xs={1} md={2} className="g-4 m-2">
 
      {loading && <Spinner variant="secondary" animation="grow" />}
 
       {movies.map((item) => (
-        <Col key={item.id} className="btn m-3">
+        <Col key={item.id}>
           <Card
+          className="text-center"
           border="secondary"
           bg="light"
           >
-            <Card.Header
-            className="d-flex justify-content-between align-items-center"
-            >
-              <Card.Title> {item.name} </Card.Title>
-              {isAdmin && 
-              <div className="d-flex">
-                <EditButton item={item} contentLink={contentLink} />
-                <RemoveButton id={item.id} contentLink={contentLink} />
-              </div>
-              }
+            <Card.Header>
+              <Card.Title>
+                <div className="d-flex">
+                  {item.name} 
+                  {isAdmin && 
+                <div>
+                  <EditButton item={item} contentLink={contentLink} />
+                  <RemoveButton id={item.id} contentLink={contentLink} />
+                </div>
+                  }
+                </div> 
+              </Card.Title>
             </Card.Header>
 
             <Card.Body>
-              <Card.Img alt="card pic" src={item.linkPic} />
+              <Link to={item.link}>
+                <Card.Img alt="card pic" className="btn" src={item.linkPic} />
+              </Link>
               <Card.Text>
                 {item.about}
               </Card.Text>
@@ -56,12 +61,12 @@ export const Movies = () => {
           </Card>
         </Col>
       ))}
+      
       <Col className="m-3">
       { isAdmin &&
       <AddButton contentLink={contentLink}/>
       }
       </Col>
     </Row>
-  </Container>
   )
 };

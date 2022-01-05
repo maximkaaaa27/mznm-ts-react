@@ -31,20 +31,24 @@ export const MyNavbar = () => {
     
       <Navbar.Toggle aria-controls="responsive-navbar-nav" className="p-3"/>
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Link className="nav-link dark" aria-current="page" to="/">Home</Link>
-          <Link className="nav-link" to="/shows" >Shows</Link>
-          <Link className="nav-link" to="/movies" >Movies</Link>
-        {user.name ? 
+          <div className="d-flex menu-link">
+            <Link className="nav-link dark" aria-current="page" to="/">Home</Link>
+            <Link className="nav-link" to="/shows" >Shows</Link>
+            <Link className="nav-link" to="/movies" >Movies</Link>
+          </div>
+          <div className="pe-3">
+          {user.name ? 
           <DropdownButton
+          align={{lg: 'end'}}
           variant="secondary" 
           menuVariant="dark" 
-          title={'Hello, ' + user.name.split(' ')[0]}
+          title={user.name.split(' ')[0]}
           >
             <Dropdown.Header>
               {userPic() && 
               <Image src={userPic()} roundedCircle style={{"backgroundSize": "32px 32px", "height": "32px", "width": "32px", "marginRight": "0.5rem"}}/>
               }
-              {user.name} 
+              {user.name.split(' ')[0] + ' ' + user.name.split(' ')[1].charAt(0)} 
               </Dropdown.Header>
             <Dropdown.Item onClick={() => signOutGoogle()}>Sign out</Dropdown.Item>
           </DropdownButton>
@@ -53,7 +57,7 @@ export const MyNavbar = () => {
           </Button>
           
         }
-
+        </div>
       </Navbar.Collapse>
     </Navbar>
   )
