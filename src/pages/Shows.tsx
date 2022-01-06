@@ -20,7 +20,7 @@ export const Shows = () => {
     }
   }, [shows])
 
-  
+
   return(
   <>
 

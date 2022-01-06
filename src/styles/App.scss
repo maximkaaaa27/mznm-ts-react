@@ -18,3 +18,11 @@ $nav-link-hover-color: #838383;
  #responsive-navbar-nav {
    justify-content: space-between;
  }
+
+ @media (max-width: 700px) {
+  .ok-iframe {
+    width: auto;
+    height: auto;
+    display: block;
+  }
+}

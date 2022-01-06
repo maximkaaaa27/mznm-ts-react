@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Card, Col, Row, Spinner } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { AddButton } from "../components/admin_tools/AddButton";
 import { EditButton } from "../components/admin_tools/EditButton";
 import { RemoveButton } from "../components/admin_tools/RemoveButton";
@@ -14,6 +14,7 @@ export const Movies = () => {
   const movies = useAppSelector(state => state.firebase.movies);
   const loading = useAppSelector(state => state.firebase.loading);
   const contentLink = 'movies/';
+  const pathName = useLocation().pathname.slice(1);
   const isAdmin = (process.env.REACT_APP_USER_UID === useAppSelector(state => state.auth.user.uid));
 
   useEffect(() => {
@@ -50,7 +51,11 @@ export const Movies = () => {
             </Card.Header>
 
             <Card.Body>
-              <Link to={item.link}>
+              <Link to= {
+                // for link from homepage and other, except 'contentLink'
+                (contentLink.slice(0,-1) !== pathName) ?  
+                contentLink + item.link : item.link
+                }>
                 <Card.Img alt="card pic" className="btn" src={item.linkPic} />
               </Link>
               <Card.Text>
