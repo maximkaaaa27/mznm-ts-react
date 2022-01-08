@@ -64,7 +64,6 @@ interface IAddContent {
   contentType: string, 
   name: string, 
   about: string,
-  link: string,
   linkPic: string,
   linkVideo: string
 }
@@ -78,7 +77,6 @@ export const addToRealtimeDB = (content: IAddContent, id?: string) => {
   const pushPayload = {
     name: content.name,
     about: content.about,
-    link: content.link,
     linkPic: content.linkPic,
     linkVideo: content.linkVideo,
     id: contentKey

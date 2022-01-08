@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { IInitState } from "./interfaces";
-import { Button, Col, Form, InputGroup, Modal, Row } from "react-bootstrap";
+import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { addToRealtimeDB } from "../../redux/firebase/firebase";
 import { Formik } from 'formik';
 import * as yup from 'yup'
@@ -16,7 +16,6 @@ export const AddButton = ({contentLink}:{contentLink: string}) => {
   const initialValues: IInitState = {
     name: '',
     about: '',
-    link: '',
     linkPic: '',
     linkVideo: '',
   }
@@ -28,7 +27,6 @@ export const AddButton = ({contentLink}:{contentLink: string}) => {
         contentType,
         name: values.name,
         about: values.about,
-        link: values.link,
         linkPic: values.linkPic,
         linkVideo: values.linkVideo,
       });
@@ -46,7 +44,6 @@ export const AddButton = ({contentLink}:{contentLink: string}) => {
   const schema = yup.object().shape({
     name: yup.string().required(),
     about: yup.string().required().min(5),
-    link: yup.string().required(),
     linkPic: yup.string().required(),
     linkVideo: yup.string().required(),
   });
@@ -109,28 +106,6 @@ return (
             </Form.Group>
           </Row>
           
-          <Row className="mb-3">
-            <Form.Group as={Col} controlId="validationFormikUsername">
-              <Form.Label>Link To</Form.Label>
-              <InputGroup hasValidation>
-                <InputGroup.Text id="inputGroupPrepend">
-                https://mznm-studio.ru/{contentLink}
-                </InputGroup.Text>
-                <Form.Control
-                  type="text"
-                  placeholder="path"
-                  aria-describedby="inputGroupPrepend"
-                  name="link"
-                  value={values.link}
-                  onChange={handleChange}
-                  isInvalid={!!errors.link}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.link}
-                </Form.Control.Feedback>
-              </InputGroup>
-            </Form.Group>
-          </Row>
 
           <Row className="mb-3">
             <Form.Group as={Col} controlId="validationFormik03">

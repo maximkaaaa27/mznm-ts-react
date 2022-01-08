@@ -1,21 +1,24 @@
 import React, { useEffect } from "react";
-import { Card, Col, Row, Spinner } from "react-bootstrap";
-import { Link, useLocation } from "react-router-dom";
+import { Col, Row, Spinner } from "react-bootstrap";
 import { AddButton } from "../components/admin_tools/AddButton";
-import { EditButton } from "../components/admin_tools/EditButton";
-import { RemoveButton } from "../components/admin_tools/RemoveButton";
+import { VideoView } from "../components/VideoView";
+
 import { fetchFromRealtimeDB } from "../redux/firebase/firebase";
 import { useAppSelector } from "../redux/hooks";
+import { MoviesChoise } from "./movies/MoviesChoise";
+import { MoviesList } from "./movies/MoviesList";
 
 
 
 export const Movies = () => {
 
-  const movies = useAppSelector(state => state.firebase.movies);
-  const loading = useAppSelector(state => state.firebase.loading);
   const contentLink = 'movies/';
-  const pathName = useLocation().pathname.slice(1);
-  const isAdmin = (process.env.REACT_APP_USER_UID === useAppSelector(state => state.auth.user.uid));
+
+  const movies = useAppSelector(state => state.firebase.movies);
+  const current = useAppSelector(state => state.firebase.current);
+  const loading = useAppSelector(state => state.firebase.loading);
+
+  const isFullOption = (process.env.REACT_APP_USER_UID === useAppSelector(state => state.auth.user.uid));
 
   useEffect(() => {
     if (!movies.length) {
@@ -25,50 +28,27 @@ export const Movies = () => {
 
 
   return(
-    <Row xs={1} md={2} className="g-4 m-2">
+
+
+
+    <Row xs={1} md={2} className="m-3 p-2">
 
      {loading && <Spinner variant="secondary" animation="grow" />}
 
-      {movies.map((item) => (
-        <Col key={item.id}>
-          <Card
-          className="text-center"
-          border="secondary"
-          bg="light"
-          >
-            <Card.Header>
-              <Card.Title>
-                <div className="d-flex">
-                  {item.name} 
-                  {isAdmin && 
-                <div>
-                  <EditButton item={item} contentLink={contentLink} />
-                  <RemoveButton id={item.id} contentLink={contentLink} />
-                </div>
-                  }
-                </div> 
-              </Card.Title>
-            </Card.Header>
+    {(!current) ? 
+        <MoviesChoise
+          showTools={isFullOption}
+          listMovies={movies}
+        />
+      : <div className="d-flex-column">
+          <MoviesList />
+          <VideoView />
+        </div>
 
-            <Card.Body>
-              <Link to= {
-                // for link from homepage and other, except 'contentLink'
-                (contentLink.slice(0,-1) !== pathName) ?  
-                contentLink + item.link : item.link
-                }>
-                <Card.Img alt="card pic" className="btn" src={item.linkPic} />
-              </Link>
-              <Card.Text>
-                {item.about}
-              </Card.Text>
-            </Card.Body>
+    }
 
-          </Card>
-        </Col>
-      ))}
-      
-      <Col className="m-3">
-      { isAdmin &&
+    <Col className="m-3">
+      { isFullOption &&
       <AddButton contentLink={contentLink}/>
       }
       </Col>

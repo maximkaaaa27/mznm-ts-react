@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { IInitState } from './interfaces';
-import { Button, Col, Form, InputGroup, Modal, Row } from 'react-bootstrap';
+import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 import { addToRealtimeDB } from '../../redux/firebase/firebase';
 import { IPayload } from '../../redux/firebase/firebaseSlice';
 import { Formik } from 'formik'
@@ -17,7 +17,6 @@ export const EditButton = ({item, contentLink}:{item: IPayload, contentLink: str
   const initialValues: IInitState = {
     name: item.name ,
     about: item.about ,
-    link: item.link ,
     linkPic: item.linkPic,
     linkVideo: item.linkVideo,
   }
@@ -29,7 +28,6 @@ export const EditButton = ({item, contentLink}:{item: IPayload, contentLink: str
         contentType,
         name: values.name,
         about: values.about,
-        link: values.link,
         linkPic: values.linkPic,
         linkVideo: values.linkVideo
       }, item.id);
@@ -47,7 +45,6 @@ export const EditButton = ({item, contentLink}:{item: IPayload, contentLink: str
   const schema = yup.object().shape({
     name: yup.string().required(),
     about: yup.string().required().min(5),
-    link: yup.string().required(),
     linkPic: yup.string().required(),
     linkVideo: yup.string().required(),
   });
@@ -105,29 +102,6 @@ export const EditButton = ({item, contentLink}:{item: IPayload, contentLink: str
                 isValid={touched.about && !errors.about}
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-            </Form.Group>
-          </Row>
-          
-          <Row className="mb-3">
-            <Form.Group as={Col} controlId="validationFormikUsername">
-              <Form.Label>Link to</Form.Label>
-              <InputGroup hasValidation>
-                <InputGroup.Text id="inputGroupPrepend">
-                https://mznm-studio.ru/{contentLink}
-                </InputGroup.Text>
-                <Form.Control
-                  type="text"
-                  placeholder="path"
-                  aria-describedby="inputGroupPrepend"
-                  name="link"
-                  value={values.link}
-                  onChange={handleChange}
-                  isInvalid={!!errors.link}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.link}
-                </Form.Control.Feedback>
-              </InputGroup>
             </Form.Group>
           </Row>
 
