@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Col } from "react-bootstrap"
+import { Col, Image } from "react-bootstrap"
 import { EditButton } from "../../components/admin_tools/EditButton";
 import { RemoveButton } from "../../components/admin_tools/RemoveButton";
 import { IPayload, setCurrent } from '../../redux/firebase/firebaseSlice';
@@ -19,38 +19,26 @@ export const MoviesChoise = ({listMovies, showTools}:IProps) => {
     <>
     {listMovies.map((item) => (
       <Col key={item.id}>
-        <Card
 
-        className="text-center"
-        border="secondary"
-        bg="light"
+        <div
+        className="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden"
         >
-          <Card.Header>
-            <Card.Title>
-              <div className="d-flex" >
-                {item.name} 
-                {showTools && 
-              <div>
-                <EditButton item={item} contentLink='movies/' />
-                <RemoveButton id={item.id} contentLink='movies/' />
-              </div>
-                }
-              </div> 
-            </Card.Title>
-          </Card.Header>
-
-          <Card.Body>
-
-              <Card.Img alt="card pic" className="btn" src={item.linkPic} 
+        {showTools && 
+          <div className='d-flex justify-end'>
+            <EditButton item={item} contentLink='movies/' />
+            <RemoveButton id={item.id} contentLink='movies/' />
+          </div>
+        }
+          <div className="my-3 p-3" >
+            <h2> {item.name} </h2>
+            <p className='lead about'>{item.about}</p>
+            <div className='mx-auto'>
+              <Image fluid alt="card pic" className="btn" src={item.linkPic} 
               onClick={() => handleSetCurrent(setCurrent(item))}
               />
-
-            <Card.Text>
-              {item.about}
-            </Card.Text>
-          </Card.Body>
-
-        </Card>
+            </div>
+          </div> 
+        </div>
       </Col>
     ))}
     </>

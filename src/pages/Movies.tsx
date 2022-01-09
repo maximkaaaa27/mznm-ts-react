@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Col, Row, Spinner } from "react-bootstrap";
 import { AddButton } from "../components/admin_tools/AddButton";
+import { CommentsView } from "../components/CommentsView";
 import { VideoView } from "../components/VideoView";
 
 import { fetchFromRealtimeDB } from "../redux/firebase/firebase";
@@ -31,27 +32,27 @@ export const Movies = () => {
 
 
 
-    <Row xs={1} md={2} className="m-3 p-2">
-
+    <Row xs={1} md={2} className="m-2">
      {loading && <Spinner variant="secondary" animation="grow" />}
-
     {(!current) ? 
         <MoviesChoise
           showTools={isFullOption}
           listMovies={movies}
         />
       : <div className="d-flex-column">
-          <MoviesList />
+          <h1 className="display-6">{current.name}</h1>
           <VideoView />
+          <MoviesList />
+          <CommentsView />
         </div>
-
     }
 
-    <Col className="m-3">
-      { isFullOption &&
-      <AddButton contentLink={contentLink}/>
-      }
+      <Col className="m-3">
+        { isFullOption && !current &&
+        <AddButton contentLink={contentLink}/>
+        }
       </Col>
+
     </Row>
   )
 };
