@@ -84,6 +84,20 @@ export const addToRealtimeDB = (content: IAddContent, id?: string) => {
   update(ref(database, `mznm/content/${content.contentType}${contentKey}`), pushPayload)
 }
 
+export const addComment = (
+  comment: {name: string, text: string, show: boolean}, 
+  contentType: string, 
+  id: string
+  ) => {
+ 
+  const pushPayload = {
+    name: comment.name, 
+    text: comment.text,
+    show: comment.show
+  }
+  update(ref(database, `mznm/content/${contentType}/${id}/comments`), pushPayload)
+}
+
 
 
 export const removeFromRealtimeDB = (from:string, id:string | null) => {

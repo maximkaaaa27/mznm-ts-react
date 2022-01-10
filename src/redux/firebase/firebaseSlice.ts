@@ -8,7 +8,13 @@ export interface IPayload {
   link: string,
   linkPic: string,
   linkVideo: string,
-  id: string
+  id: string,
+  comments?: [{
+    user: string,
+    text: string,
+    show: boolean,
+  }],
+
 }
 
 
