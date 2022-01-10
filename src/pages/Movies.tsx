@@ -28,31 +28,29 @@ export const Movies = () => {
   },[movies])
 
 
-  return(
+  return (
 
-
-
-    <Row xs={1} md={2} className="m-2">
-     {loading && <Spinner variant="secondary" animation="grow" />}
+  <div className="m-3">
+  {loading && <Spinner variant="secondary" animation="grow" />}
     {(!current) ? 
+      <Row xs={1} md={2} className="m-2">
         <MoviesChoise
           showTools={isFullOption}
           listMovies={movies}
         />
+        </Row>
       : <div className="d-flex-column">
-          <h1 className="display-6">{current.name}</h1>
+          <h1 className="display-6 m-3">{current.name}</h1>
           <VideoView />
           <MoviesList />
           <CommentsView />
         </div>
     }
-
       <Col className="m-3">
         { isFullOption && !current &&
         <AddButton contentLink={contentLink}/>
         }
       </Col>
-
-    </Row>
+      </div>
   )
 };
