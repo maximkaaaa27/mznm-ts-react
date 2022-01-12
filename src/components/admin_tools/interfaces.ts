@@ -3,4 +3,5 @@ export interface IInitState {
   about: string
   linkPic: string
   linkVideo: string
+  comments: any[]
 }

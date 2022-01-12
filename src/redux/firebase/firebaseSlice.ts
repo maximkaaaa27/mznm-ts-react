@@ -12,18 +12,21 @@ export interface IPayload {
   comments: any[],
 }
 
-
-
-interface IState {
-  movies: IPayload[]
-  shows: IPayload[]
-  current: {
+interface ICurrent {
     name: string
     linkPic: string,
     linkVideo: string,
     id: string,
     comments: any[],
-  }
+  
+}
+
+
+
+interface IState {
+  movies: IPayload[]
+  shows: IPayload[]
+  current: ICurrent
   loading: boolean
 }
 
@@ -50,12 +53,22 @@ const firebaseSlice = createSlice({
 
     hideLoader: (state) => ({...state, loading: false}),
 
-    setCurrent: (state, action: PayloadAction<any>) => ({
-      ...state, current: action.payload
+    addComment: (state, action: PayloadAction<any[]>) => ({
+      ...state, current: {
+        ...state.current,
+        comments: action.payload,
+      }
     }),
 
-    addCoolComment: (state, action: PayloadAction<{userName: string, comment: string, visible: boolean}>) => ({
-      ...state, current: state.current
+    setCurrent: (state, action: PayloadAction<any>) => ({
+      ...state, current: {
+        ...action.payload,
+        comments: Object.keys(action.payload.comments).map(key => {
+          return {
+            ...action.payload.comments[key]
+          }
+        })
+      }
     }),
 
     fetchMovie: (state, action: PayloadAction<any[]>) => ({
@@ -83,7 +96,8 @@ const firebaseSlice = createSlice({
   },
 })
 
-export const { 
+export const {
+  addComment, 
   fetchMovie, 
   fetchShows, 
   removeContent, 

@@ -18,6 +18,7 @@ export const AddButton = ({contentLink}:{contentLink: string}) => {
     about: '',
     linkPic: '',
     linkVideo: '',
+    comments: ['']
   }
 
   const addToDatabase = (values: IInitState) => {
@@ -29,6 +30,7 @@ export const AddButton = ({contentLink}:{contentLink: string}) => {
         about: values.about,
         linkPic: values.linkPic,
         linkVideo: values.linkVideo,
+        comments: initialValues.comments
       });
 
       handleClose();

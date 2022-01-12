@@ -15,10 +15,11 @@ export const EditButton = ({item, contentLink}:{item: IPayload, contentLink: str
   const handleShow = () => setShow(true);
 
   const initialValues: IInitState = {
-    name: item.name ,
-    about: item.about ,
+    name: item.name,
+    about: item.about,
     linkPic: item.linkPic,
     linkVideo: item.linkVideo,
+    comments: item.comments
   }
 
   const editDatabase = (values: IInitState) => {
@@ -29,16 +30,15 @@ export const EditButton = ({item, contentLink}:{item: IPayload, contentLink: str
         name: values.name,
         about: values.about,
         linkPic: values.linkPic,
-        linkVideo: values.linkVideo
+        linkVideo: values.linkVideo,
+        comments: item.comments
       }, item.id);
 
       handleClose();
 
     } catch(error) {
-
-      console.error(error)
-      handleClose()
-
+        console.error(error)
+        handleClose()
     }
   }
 

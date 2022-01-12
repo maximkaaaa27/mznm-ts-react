@@ -3,7 +3,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/
 import { getDatabase, ref, onValue, push, child, remove, update } from 'firebase/database';
 import { signIn, signOutReducer } from '../auth/authSlice';
 import { store } from '../store';
-import { fetchMovie, fetchShows, showLoader, removeContent, hideLoader } from './firebaseSlice';
+import { fetchMovie, fetchShows, showLoader, removeContent, hideLoader, addComment } from './firebaseSlice';
 
 
 
@@ -65,7 +65,8 @@ interface IAddContent {
   name: string, 
   about: string,
   linkPic: string,
-  linkVideo: string
+  linkVideo: string,
+  comments: any[]
 }
 
 
@@ -79,6 +80,7 @@ export const addToRealtimeDB = (content: IAddContent, id?: string) => {
     about: content.about,
     linkPic: content.linkPic,
     linkVideo: content.linkVideo,
+    comments: content.comments,
     id: contentKey
   }
   update(ref(database, `mznm/content/${content.contentType}${contentKey}`), pushPayload)
@@ -98,13 +100,31 @@ interface IAddComment {
 
 export const addCommentToDB = (comment: IAddComment) => {
   const forSend = {
+    user: comment.from.userName,
+    date: Date.now(),
     comment: comment.payload.comment,
-    visible: comment.payload.visible
+    visible: comment.payload.visible,
   }
   const from = comment.from;
-  const destination = `mznm/content/${from.contentType}${from.id}/comments/${from.userName}`
- // store.dispatch(addComment({[from.userName]: forSend}))
-  update(ref(database, destination), forSend)
+  const destination = `mznm/content/${from.contentType}${from.id}/comments/${from.userName}${Date.now()}`;
+  const contentRef = ref(database, `mznm/content/${from.contentType}`);
+  
+  update(ref(database, destination), forSend);
+
+  onValue(contentRef, (snap) => {
+    const data = snap.val();
+      if (!data) {
+        store.dispatch(hideLoader())
+        return;
+      }
+    const comments = data[from.id].comments;
+    const payload = Object.keys(comments).map(key => {
+      return {
+        ...comments[key]
+      }
+    })
+    store.dispatch(addComment(payload));
+  })
 }
 
 
