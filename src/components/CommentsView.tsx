@@ -1,21 +1,27 @@
 import React from 'react';
-import { addComment } from '../redux/firebase/firebase';
+import { addCommentToDB } from '../redux/firebase/firebase';
 import { useAppSelector } from '../redux/hooks';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 
 export const CommentsView = () => {
-  const contentType = '/movies'
+  const contentType = 'movies/'
   const current = useAppSelector(state => state.firebase.current);
-  const userName = useAppSelector(state => state.auth.user.name)
-  const comments = current?.comments
-
-
+  const userName = useAppSelector(state => state.auth.user.name);
 
   const addToDatabase = (text: string) => {
     if(current && text && userName) {
-      addComment({name: userName, text, show: false}, contentType, current?.id)
+      const toDB = {
+        payload: {
+          comment: text,
+          visible: false,
+        },
+        from: {
+          userName, contentType, id: current.id
+        }
+      }
+      addCommentToDB(toDB)
     }
     
   }
@@ -24,18 +30,10 @@ export const CommentsView = () => {
     text: yup.string().required().min(5),
   });
 
-
-
   return (
     <>
     <h1>Comments</h1>
-    {/* {comments && comments.map(item => (
-      <div key={item.user}>
-        <div className='display-6'>{item.user}</div>
-        <p>{item.text}</p>
-      </div>
-    ))
-    } */}
+
     <Formik
         validationSchema={schema}
         onSubmit={(value) => addToDatabase(value.text)}
@@ -44,10 +42,7 @@ export const CommentsView = () => {
         {({
           handleSubmit,
           handleChange,
-          handleBlur,
           values,
-          touched,
-          isValid,
           errors,
         }) => (
         <Form noValidate onSubmit={handleSubmit}>

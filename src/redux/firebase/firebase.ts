@@ -84,18 +84,27 @@ export const addToRealtimeDB = (content: IAddContent, id?: string) => {
   update(ref(database, `mznm/content/${content.contentType}${contentKey}`), pushPayload)
 }
 
-export const addComment = (
-  comment: {name: string, text: string, show: boolean}, 
-  contentType: string, 
-  id: string
-  ) => {
- 
-  const pushPayload = {
-    name: comment.name, 
-    text: comment.text,
-    show: comment.show
+interface IAddComment {
+  payload: {
+    comment: string,
+    visible: boolean 
   }
-  update(ref(database, `mznm/content/${contentType}/${id}/comments`), pushPayload)
+  from: {
+    userName: string,
+    contentType: string, 
+    id: string
+  }
+}
+
+export const addCommentToDB = (comment: IAddComment) => {
+  const forSend = {
+    comment: comment.payload.comment,
+    visible: comment.payload.visible
+  }
+  const from = comment.from;
+  const destination = `mznm/content/${from.contentType}${from.id}/comments/${from.userName}`
+ // store.dispatch(addComment({[from.userName]: forSend}))
+  update(ref(database, destination), forSend)
 }
 
 

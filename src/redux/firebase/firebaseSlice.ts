@@ -9,26 +9,34 @@ export interface IPayload {
   linkPic: string,
   linkVideo: string,
   id: string,
-  comments?: [{
-    user: string,
-    text: string,
-    show: boolean,
-  }],
-
+  comments: any[],
 }
+
 
 
 interface IState {
   movies: IPayload[]
   shows: IPayload[]
-  current: null | IPayload
+  current: {
+    name: string
+    linkPic: string,
+    linkVideo: string,
+    id: string,
+    comments: any[],
+  }
   loading: boolean
 }
 
 const initialState: IState = {
   movies: [],
   shows: [],
-  current: null,
+  current: {
+    name: '',
+    linkPic: '',
+    linkVideo: '',
+    id: '',
+    comments: []
+  },
   loading: false,
 }
 
@@ -42,8 +50,12 @@ const firebaseSlice = createSlice({
 
     hideLoader: (state) => ({...state, loading: false}),
 
-    setCurrent: (state, action: PayloadAction<IPayload>) => ({
+    setCurrent: (state, action: PayloadAction<any>) => ({
       ...state, current: action.payload
+    }),
+
+    addCoolComment: (state, action: PayloadAction<{userName: string, comment: string, visible: boolean}>) => ({
+      ...state, current: state.current
     }),
 
     fetchMovie: (state, action: PayloadAction<any[]>) => ({
@@ -71,7 +83,13 @@ const firebaseSlice = createSlice({
   },
 })
 
-export const { fetchMovie, fetchShows, removeContent, setCurrent,showLoader, hideLoader } = firebaseSlice.actions;
+export const { 
+  fetchMovie, 
+  fetchShows, 
+  removeContent, 
+  setCurrent,
+  showLoader, 
+  hideLoader } = firebaseSlice.actions;
 
 export const selectCount = (state: RootState) => state.firebase;
 

@@ -32,7 +32,7 @@ export const Movies = () => {
 
   <div className="m-3">
   {loading && <Spinner variant="secondary" animation="grow" />}
-    {(!current) ? 
+    {(!current.name) ? 
       <Row xs={1} md={2} className="m-2">
         <MoviesChoise
           showTools={isFullOption}
