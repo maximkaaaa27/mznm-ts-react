@@ -15,13 +15,12 @@ interface IState  {
 
 
 const checkLocalStorage = ():IState => {
-  const userLS = localStorage.getItem('user');
+  const userLS = sessionStorage.getItem('client');
   const userLSParsed = () => userLS && JSON.parse(userLS);
   const name = ():null | string => userLSParsed() ? userLSParsed().name : null
   const pic = ():null | string  => userLSParsed() ? userLSParsed().pic : null
   const uid = ():null | string => userLSParsed() ? userLSParsed().uid : null
   
-
   return {
     user: {
       name: name(), 
@@ -31,6 +30,7 @@ const checkLocalStorage = ():IState => {
   }
 }
 
+
 const initialState: IState = checkLocalStorage()
 
 
@@ -39,14 +39,16 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    signIn: (state, action: PayloadAction<IPayload>) => {
-      localStorage.setItem('user', JSON.stringify(action.payload))
-      state.user = action.payload;
-    },
-    signOutReducer: (state) => {
-      state.user = {name: null, pic: null, uid: null};
-      localStorage.setItem('user', '')
-    }
+    signIn: (state, action: PayloadAction<IPayload>) => ({
+      ...state, user: action.payload
+    }),
+    signOutReducer: (state) => ({
+      ...state, user: {
+        name: null,
+        pic: null,
+        uid: null,
+      }
+    })
   },
 })
 

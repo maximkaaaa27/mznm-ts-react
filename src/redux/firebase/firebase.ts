@@ -98,15 +98,19 @@ interface IAddComment {
   }
 }
 
-export const addCommentToDB = (comment: IAddComment) => {
+export const addCommentToDB = ({payload, from}: IAddComment) => {
+
   const forSend = {
-    user: comment.from.userName,
-    date: Date.now(),
-    comment: comment.payload.comment,
-    visible: comment.payload.visible,
+    user: from.userName,
+    comment: payload.comment,
+    visible: payload.visible,
+    date: Date.now()
   }
-  const from = comment.from;
-  const destination = `mznm/content/${from.contentType}${from.id}/comments/${from.userName}${Date.now()}`;
+
+  const keyWrite = forSend.user.toLowerCase().replace(' ', '_') + forSend.date;
+
+  const destination = `mznm/content/${from.contentType}${from.id}/comments/${keyWrite}`;
+
   const contentRef = ref(database, `mznm/content/${from.contentType}`);
   
   update(ref(database, destination), forSend);
@@ -146,11 +150,13 @@ const provider = new GoogleAuthProvider();
 export const authWithGoogle = () => {
   signInWithPopup(auth, provider).then((result) => {
     const user = result!.user;
-    store.dispatch(signIn({
+    const payload = {
       name: user.displayName,
       pic: user.photoURL, 
       uid: user.uid,
-    }));
+    }
+    sessionStorage.setItem('client', JSON.stringify(payload))
+    store.dispatch(signIn(payload));
   })
   .catch((error) => {
     console.error('Google Popup' + error.code);
@@ -159,6 +165,7 @@ export const authWithGoogle = () => {
 
 export const signOutGoogle = () => {
   signOut(auth).then(() => {
+    sessionStorage.removeItem('client');
     store.dispatch(signOutReducer())
   }).catch((error) => {
     console.log(error)

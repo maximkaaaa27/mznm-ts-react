@@ -4,27 +4,30 @@ import { useAppSelector } from '../redux/hooks';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { Button, Form } from 'react-bootstrap';
+import { ManageComment } from './admin_tools/ManageComment';
 
 export const CommentsView = () => {
   const contentType = 'movies/'
   const current = useAppSelector(state => state.firebase.current);
-  const userName = useAppSelector(state => state.auth.user.name);
+  const user = useAppSelector(state => state.auth.user);
+  const isFullOption = (process.env.REACT_APP_USER_UID === user.uid)
 
 
   const addToDatabase = (text: string) => {
-    if(current && text && userName) {
+    if(current && text && user.name) {
       const toDB = {
         payload: {
           comment: text,
           visible: false,
         },
         from: {
-          userName, contentType, id: current.id
+          userName: user.name, contentType, id: current.id
         }
       }
       addCommentToDB(toDB)
     }
     
+
   }
 
   const schema = yup.object().shape({
@@ -33,6 +36,25 @@ export const CommentsView = () => {
 
   return (
     <>
+    {!isFullOption ? 
+      <div>
+        <h2>Comments</h2>
+          {current.comments.map(item => (
+            <div key={item.date}>
+              {item.visible &&
+                <div> 
+                  <h6>{item.user}</h6> 
+                  <div className="m-2 p-3 w-75 bg-light border rounded-3 overflow-auto">
+                    <p>{item.comment}</p>
+                  </div>
+                </div>
+              }
+            </div>      
+        ))}
+        </div>
+    :  <ManageComment />
+    }
+
       <Formik
           validationSchema={schema}
           onSubmit={(value) => addToDatabase(value.text)}
@@ -46,7 +68,6 @@ export const CommentsView = () => {
           }) => (
           <Form noValidate onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="validationFormik01">
-                <Form.Label> {userName?.split(' ')[0] + ':'} </Form.Label>
                 <Form.Control
                   as="textarea"
                   placeholder="Leave a comment here"
@@ -57,19 +78,11 @@ export const CommentsView = () => {
                   onChange={handleChange}
                   isValid={!!errors.text}
                 />
-                <Form.Control.Feedback> Ништяк </Form.Control.Feedback>
               </Form.Group>
             <Button type="submit" variant="info"> Оставить отзыв </Button>
           </Form>
           )}
         </Formik>
-
-        <h1>Comments</h1>
-      {current.comments.map(item => (
-        <div className="d-flex" key={item.date}>
-        {item.user}: <p>{item.comment}</p>
-        </div>
-      ))}
     </>
   )
 }
