@@ -21,7 +21,7 @@ export const MoviesChoise = ({listMovies, showTools}:IProps) => {
       <Col key={item.id}>
 
         <div
-        className="bg-light me-md-3 pt-3 px-3 pt-md-2 px-md-2 text-center overflow-hidden"
+        className="bg-light shadow me-md-3 pt-3 px-3 pt-md-2 px-md-2 text-center overflow-hidden"
         >
         {showTools && 
           <div className='d-flex justify-end'>

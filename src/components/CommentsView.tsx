@@ -36,7 +36,6 @@ export const CommentsView = () => {
 
   return (
     <>
-    {!isFullOption ? 
       <div>
         <h2>Comments</h2>
           {current.comments.map(item => (
@@ -52,9 +51,7 @@ export const CommentsView = () => {
             </div>      
         ))}
         </div>
-    :  <ManageComment />
-    }
-
+        {isFullOption && <ManageComment />}
       <Formik
           validationSchema={schema}
           onSubmit={(value) => addToDatabase(value.text)}

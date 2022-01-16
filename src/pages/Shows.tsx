@@ -45,9 +45,9 @@ export const Shows = () => {
               </div>
               }
             </Card.Header>
-
+            
             <Card.Body>
-              <Card.Img alt="..." src="/empty" />
+              <Card.Img alt="..." src={item.linkPic} />
               <Card.Text>
                 {item.about}
               </Card.Text>
