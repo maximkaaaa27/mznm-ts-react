@@ -1,19 +1,23 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { addCommentToDB } from '../redux/firebase/firebase';
 import { useAppSelector } from '../redux/hooks';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { Button, Form } from 'react-bootstrap';
 import { ManageComment } from './admin_tools/ManageComment';
+import { ThanksCommModal } from './ThanksCommModal'
 
 export const CommentsView = () => {
   const contentType = 'movies/'
   const current = useAppSelector(state => state.firebase.current);
   const user = useAppSelector(state => state.auth.user);
-  const isFullOption = (process.env.REACT_APP_USER_UID === user.uid)
+  const [modalShow, setModalShow] = useState(false);
+  const isFullOption = (process.env.REACT_APP_USER_UID === user.uid);
 
 
-  const addToDatabase = (text: string) => {
+
+  const addToDatabase = (text: string, resetForm: () => void) => {
+    resetForm();
     if(current && text && user.name) {
       const toDB = {
         payload: {
@@ -24,11 +28,16 @@ export const CommentsView = () => {
           userName: user.name, contentType, id: current.id
         }
       }
-      addCommentToDB(toDB)
+    addCommentToDB(toDB);
+
+    setModalShow(true);
+    setTimeout(() => setModalShow(false), 5000)
     }
     
 
   }
+
+
 
   const schema = yup.object().shape({
     text: yup.string().required().min(5),
@@ -54,7 +63,7 @@ export const CommentsView = () => {
         {isFullOption && <ManageComment />}
       <Formik
           validationSchema={schema}
-          onSubmit={(value) => addToDatabase(value.text)}
+          onSubmit={(value, {resetForm}) => addToDatabase(value.text, resetForm)}
           initialValues={{text: ''}}
         >
           {({
@@ -80,6 +89,10 @@ export const CommentsView = () => {
           </Form>
           )}
         </Formik>
+        <ThanksCommModal 
+          show={modalShow}
+          onHide={() => setModalShow(false)}
+        />
     </>
   )
 }

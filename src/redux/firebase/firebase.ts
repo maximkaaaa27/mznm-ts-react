@@ -137,8 +137,7 @@ export const removeFromRealtimeDB = (from:string, id:string | null) => {
   if (!id || !from) return;
   const contentKey = ref(database, `mznm/content/${from + id}`);
   remove(contentKey);
-  store.dispatch(removeContent({from, id}))
-
+  store.dispatch(removeContent({from, id}));
 }
 
 
