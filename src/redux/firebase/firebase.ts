@@ -99,20 +99,17 @@ interface IAddComment {
 }
 
 export const addCommentToDB = ({payload, from}: IAddComment) => {
-
+  let contentKey = push(child(ref(database), `${from.contentType}${from.id}/comments/`)).key;
   const forSend = {
     user: from.userName,
     comment: payload.comment,
     visible: payload.visible,
-    date: Date.now()
+    date: Date.now(),
+    id: contentKey
   }
 
-  const keyWrite = forSend.user.toLowerCase().replace(' ', '_') + forSend.date;
-
-  const destination = `mznm/content/${from.contentType}${from.id}/comments/${keyWrite}`;
-
+  const destination = `mznm/content/${from.contentType}${from.id}/comments/${contentKey}`;
   const contentRef = ref(database, `mznm/content/${from.contentType}`);
-  
   update(ref(database, destination), forSend);
 
   onValue(contentRef, (snap) => {
@@ -129,6 +126,32 @@ export const addCommentToDB = ({payload, from}: IAddComment) => {
     })
     store.dispatch(addComment(payload));
   })
+}
+
+export const changeVisiblePropComment = ({from, id, commentId} : {from: string, id: string, commentId: string}) => {
+  const contentRef = ref(database, `mznm/content/${from + id}/comments/`);
+  const commentRef = ref(database, `mznm/content/${from + id}/comments/${commentId}`);
+
+  onValue(contentRef, (snap) => {
+    const data = snap.val();
+      if (!data) {
+        store.dispatch(hideLoader())
+        return;
+      }
+    const targetComment = data[commentId];
+    update(commentRef, {...targetComment, visible: true})
+    const payload = Object.keys(data).map(key => {
+      return {
+        ...data[key]
+      }
+    })
+    store.dispatch(addComment(payload));
+  })
+}
+
+export const removeComment = ({from, id, commentId} : {from: string, id: string, commentId: string}) => {
+  const commentKey = ref(database, `mznm/content/${from + id}/comments/${commentId}`);
+  remove(commentKey);
 }
 
 

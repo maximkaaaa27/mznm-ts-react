@@ -9,7 +9,6 @@ export const ThanksCommModal = ({show, onHide} : {show: boolean, onHide: () => v
     show={show}
     onHide={onHide}
     size="lg"
-    centered
     >
       <Modal.Header closeButton>
         <Modal.Title id="thanks-modal">

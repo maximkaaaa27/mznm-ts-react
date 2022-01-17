@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { Col, Row, Spinner } from "react-bootstrap";
-import { AddButton } from "../components/admin_tools/AddButton";
-import { CommentsView } from "../components/CommentsView";
-import { VideoView } from "../components/VideoView";
+import { AddButton } from "../components/buttons/AddButton";
+import { CommentsView } from "../components/views/CommentsView";
+import { VideoView } from "../components/views/VideoView";
 
 import { fetchFromRealtimeDB } from "../redux/firebase/firebase";
 import { useAppSelector } from "../redux/hooks";

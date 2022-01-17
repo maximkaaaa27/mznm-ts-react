@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { Card, Col, Row, Spinner } from "react-bootstrap";
-import { AddButton } from "../components/admin_tools/AddButton";
-import { EditButton } from "../components/admin_tools/EditButton";
-import { RemoveButton } from "../components/admin_tools/RemoveButton";
+import { AddButton } from "../components/buttons/AddButton";
+import { EditButton } from "../components/buttons/EditButton";
+import { RemoveButton } from "../components/buttons/RemoveButton";
 import { fetchFromRealtimeDB } from "../redux/firebase/firebase";
 import { useAppSelector } from '../redux/hooks';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Col, Image } from "react-bootstrap"
-import { EditButton } from "../../components/admin_tools/EditButton";
-import { RemoveButton } from "../../components/admin_tools/RemoveButton";
+import { EditButton } from "../../components/buttons/EditButton";
+import { RemoveButton } from "../../components/buttons/RemoveButton";
 import { IPayload, setCurrent } from '../../redux/firebase/firebaseSlice';
 import { useAppDispatch } from '../../redux/hooks';
 

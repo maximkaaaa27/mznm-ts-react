@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
-import { addCommentToDB } from '../redux/firebase/firebase';
-import { useAppSelector } from '../redux/hooks';
+import { addCommentToDB } from '../../redux/firebase/firebase';
+import { useAppSelector } from '../../redux/hooks';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { Button, Form } from 'react-bootstrap';
-import { ManageComment } from './admin_tools/ManageComment';
-import { ThanksCommModal } from './ThanksCommModal'
+import { CommentsPrivateView } from '../views/CommentsPrivateView';
+import { ThanksCommModal } from '../modals/ThanksCommModal'
+import { CommentsPublicView } from './CommentsPublicView';
 
 export const CommentsView = () => {
   const contentType = 'movies/'
@@ -29,15 +30,10 @@ export const CommentsView = () => {
         }
       }
     addCommentToDB(toDB);
-
     setModalShow(true);
-    setTimeout(() => setModalShow(false), 5000)
+    setTimeout(() => setModalShow(false), 5000);
     }
-    
-
   }
-
-
 
   const schema = yup.object().shape({
     text: yup.string().required().min(5),
@@ -45,22 +41,8 @@ export const CommentsView = () => {
 
   return (
     <>
-      <div>
-        <h2>Comments</h2>
-          {current.comments.map(item => (
-            <div key={item.date}>
-              {item.visible &&
-                <div> 
-                  <h6>{item.user}</h6> 
-                  <div className="m-2 p-3 w-75 bg-light border rounded-3 overflow-auto">
-                    <p>{item.comment}</p>
-                  </div>
-                </div>
-              }
-            </div>      
-        ))}
-        </div>
-        {isFullOption && <ManageComment />}
+      <CommentsPublicView comments={current.comments} />
+      {isFullOption && <CommentsPrivateView comments={current.comments} id={current.id}/>}
       <Formik
           validationSchema={schema}
           onSubmit={(value, {resetForm}) => addToDatabase(value.text, resetForm)}
