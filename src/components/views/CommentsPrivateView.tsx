@@ -1,51 +1,25 @@
-import React, { useState } from 'react';
-import { Table } from 'react-bootstrap';
-import { EditPropCommModal } from '../modals/EditPropCommModal';
+import React from 'react';
+import { useAppSelector } from '../../redux/hooks';
+import { RemoveButton } from '../buttons/RemoveButton';
+import { OneComment } from './OneComment';
 
 
 
-export const CommentsPrivateView = (props: {comments: any[], id: string}) => {
-  const toInspectComments = props.comments.filter(i => !i.visible);
-  const [modalShow, setModalShow] = useState(false);
-  const [item, setItem] = useState({
-    date: '',
-    user: '',
-    comment: ''
-  });
-
-  const trHandleClick = (item: any) => {
-    setItem(item);
-    setModalShow(true);
-  }
-
+export const CommentsPrivateView = () => {
+  const current = useAppSelector(state => state.firebase.current);
 
 
   return (
-    <>
-    <Table striped bordered hover size="sm">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Name user</th>
-          <th>Text</th>
-        </tr>
-      </thead>
-      <tbody>
-        {toInspectComments.map(item => (
-          <tr key={item.date} onClick={() => trHandleClick(item)}>
-            <td>{new Date(item.date).toLocaleString()}</td>
-            <td>{item.user}</td>
-            <td>{item.comment}</td>
-          </tr>
-        ))}
-      </tbody>
-    </Table>
-    <EditPropCommModal 
-              comment={item}
-              id={props.id}
-              show={modalShow}
-              onHide={() => setModalShow(false)}
-            />
-    </>        
+    <div>
+      <div className='public'>
+      {current.comments.map(item => (
+        <div key={item.id} className="p-3">
+          <OneComment item={item} id={current.id}/>
+          <RemoveButton id={''} contentLink='sdsd'/>
+        </div>
+       
+      ))}
+      </div>     
+    </div>
   )
 }

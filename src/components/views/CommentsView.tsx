@@ -41,8 +41,9 @@ export const CommentsView = () => {
 
   return (
     <>
-      <CommentsPublicView comments={current.comments} />
-      {isFullOption && <CommentsPrivateView comments={current.comments} id={current.id}/>}
+      <h2>Comments</h2>
+      
+      {isFullOption ? <CommentsPrivateView /> : <CommentsPublicView comments={current.comments}/>} 
       <Formik
           validationSchema={schema}
           onSubmit={(value, {resetForm}) => addToDatabase(value.text, resetForm)}
@@ -55,7 +56,7 @@ export const CommentsView = () => {
             errors,
           }) => (
           <Form noValidate onSubmit={handleSubmit}>
-              <Form.Group className="mb-3" controlId="validationFormik01">
+              <Form.Group className="m-2" controlId="validationFormik01">
                 <Form.Control
                   as="textarea"
                   placeholder="Leave a comment here"

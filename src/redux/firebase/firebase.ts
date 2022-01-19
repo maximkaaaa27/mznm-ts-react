@@ -128,7 +128,7 @@ export const addCommentToDB = ({payload, from}: IAddComment) => {
   })
 }
 
-export const changeVisiblePropComment = ({from, id, commentId} : {from: string, id: string, commentId: string}) => {
+export const changeVisiblePropComment = ({from, id, commentId, visible} : {from: string, id: string, commentId: string, visible: boolean}) => {
   const contentRef = ref(database, `mznm/content/${from + id}/comments/`);
   const commentRef = ref(database, `mznm/content/${from + id}/comments/${commentId}`);
 
@@ -139,13 +139,7 @@ export const changeVisiblePropComment = ({from, id, commentId} : {from: string, 
         return;
       }
     const targetComment = data[commentId];
-    update(commentRef, {...targetComment, visible: true})
-    const payload = Object.keys(data).map(key => {
-      return {
-        ...data[key]
-      }
-    })
-    store.dispatch(addComment(payload));
+    update(commentRef, {...targetComment, visible})
   })
 }
 

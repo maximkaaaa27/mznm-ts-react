@@ -1,10 +1,13 @@
 import React from "react";
 
-export const CommentsPublicView = (props : {comments: any[]}) => (
-  <div>
-  <h2>Comments</h2>
-    {props.comments.map(item => (
-      <div key={item.date}>
+export const CommentsPublicView = ({comments}: {comments: any[]}) => {
+
+
+
+return (
+  <>
+    {comments.map(item => (
+      <div key={item.id} className="p-3">
         {item.visible &&
           <div> 
             <h6>{item.user}</h6> 
@@ -14,6 +17,7 @@ export const CommentsPublicView = (props : {comments: any[]}) => (
           </div>
         }
       </div>      
-  ))}
-  </div>
-)
+    ))}
+  </>
+  )
+}
