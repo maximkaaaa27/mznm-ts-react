@@ -1,10 +1,10 @@
 import React from "react";
 import { Col, Row } from "react-bootstrap";
-import { useAppSelector } from "../../redux/hooks";
+import { ICurrent } from "../../redux/firebase/firebaseSlice";
 
-export const VideoView = () => {
 
-  const currentPlay = useAppSelector(state => state.firebase.current)
+export const VideoView = ({video}: {video: ICurrent}) => {
+
 
   return (
     <Row>
@@ -13,8 +13,8 @@ export const VideoView = () => {
         className='video-frame ok-iframe' 
         width='640' 
         height='330' 
-        title={currentPlay?.name} 
-        src={currentPlay?.linkVideo} 
+        title={video.name} 
+        src={video.linkVideo} 
         frameBorder="0" 
         allow="autoplay" 
         allowFullScreen />

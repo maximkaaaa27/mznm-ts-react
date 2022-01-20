@@ -1,7 +1,7 @@
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import { Movies } from "./Movies";
-import { Shows } from "./Shows";
+import { MoviePage } from "./MoviePage";
+import { ShowPage } from "./ShowPage";
 
 export const Home = () => {
 
@@ -10,13 +10,13 @@ export const Home = () => {
     <Row className="g-4 m-2">
       <Col>
         <h1> Сериалы </h1>
-        <Shows />
+        <ShowPage />
       </Col>
     </Row>
     <Row>
       <Col>
         <h1> Фильмы </h1>
-        <Movies />
+        <MoviePage />
       </Col>
     </Row>
     </Container>

@@ -12,7 +12,7 @@ export interface IPayload {
   comments: any[],
 }
 
-interface ICurrent {
+export interface ICurrent {
     name: string
     linkPic: string,
     linkVideo: string,
@@ -20,8 +20,6 @@ interface ICurrent {
     comments: any[],
   
 }
-
-
 
 interface IState {
   movies: IPayload[]
@@ -53,11 +51,8 @@ const firebaseSlice = createSlice({
 
     hideLoader: (state) => ({...state, loading: false}),
 
-    addComment: (state, action: PayloadAction<any[]>) => ({
-      ...state, current: {
-        ...state.current,
-        comments: action.payload,
-      }
+    fetchContent: (state, action: PayloadAction<{from: string, contentArr: any[]}>) => ({
+      ...state, [action.payload.from]: action.payload.contentArr, loading: false
     }),
 
     setCurrent: (state, action: PayloadAction<any>) => ({
@@ -70,37 +65,11 @@ const firebaseSlice = createSlice({
         })
       }
     }),
-
-    fetchMovie: (state, action: PayloadAction<any[]>) => ({
-      ...state, movies: action.payload, loading: false
-    }),
-
-    fetchShows: (state, action: PayloadAction<any[]>) => ({
-      ...state, shows: action.payload, loading: false
-    }),
-
-    removeContent: (state, action: PayloadAction<{from: string, id: string}>) => {
-      switch(action.payload.from) {
-        case 'shows/': 
-        state.shows = state.shows.filter((i) => i.id !== action.payload.id)
-        break;
-
-        case 'movies/': 
-        state.movies = state.movies.filter((i) => i.id !== action.payload.id)
-        break;
-        
-        default: 
-        return state;
-      }
-    }
   },
 })
 
-export const {
-  addComment, 
-  fetchMovie, 
-  fetchShows, 
-  removeContent, 
+export const { 
+  fetchContent,
   setCurrent,
   showLoader, 
   hideLoader } = firebaseSlice.actions;

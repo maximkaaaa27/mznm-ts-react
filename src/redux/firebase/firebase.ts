@@ -3,7 +3,8 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/
 import { getDatabase, ref, onValue, push, child, remove, update } from 'firebase/database';
 import { signIn, signOutReducer } from '../auth/authSlice';
 import { store } from '../store';
-import { fetchMovie, fetchShows, showLoader, removeContent, hideLoader, addComment } from './firebaseSlice';
+import { IAddComment, IAddContent } from './addTypes';
+import { fetchContent, showLoader, hideLoader } from './firebaseSlice';
 
 
 
@@ -26,11 +27,11 @@ const app = initializeApp(firebaseConfig);
 
 const database = getDatabase(app);
 
+
 export const fetchFromRealtimeDB = async (from: string) => {
+  const contentRef = ref(database, `mznm/content/${from}`);
 
   store.dispatch(showLoader());
-  
-  const contentRef = ref(database, `mznm/content/${from}`);
 
   onValue(contentRef, (snap) => {
     const data = snap.val();
@@ -38,94 +39,31 @@ export const fetchFromRealtimeDB = async (from: string) => {
         store.dispatch(hideLoader())
         return;
       }
-    const payload = Object.keys(data).map(key => {
+    const contentArr = Object.keys(data).map(key => {
       return {
         ...data[key]
       }
     })
-
-    switch(from){
-      case 'shows/': 
-      store.dispatch(fetchShows(payload))
-      break;
-
-      case 'movies/': 
-      store.dispatch(fetchMovie(payload))
-      break;
-
-      default:
-      break
-    
-    }
+    store.dispatch(fetchContent({contentArr, from: from.slice(0,-1)}))
   })
   
 }
-interface IAddContent {
-  contentType: string, 
-  name: string, 
-  about: string,
-  linkPic: string,
-  linkVideo: string,
-  comments: any[]
+
+
+export const addToRealtimeDB = (content: IAddContent) => {
+  let id = push(child(ref(database), content.contentType)).key;
+  const pathDB = `mznm/content/${content.contentType}${id}`
+  update(ref(database, pathDB), {...content, id})
 }
 
-
-export const addToRealtimeDB = (content: IAddContent, id?: string) => {
-  let contentKey = push(child(ref(database), content.contentType)).key;
-    if (id) {
-      contentKey = id
-    }
-  const pushPayload = {
-    name: content.name,
-    about: content.about,
-    linkPic: content.linkPic,
-    linkVideo: content.linkVideo,
-    comments: content.comments,
-    id: contentKey
-  }
-  update(ref(database, `mznm/content/${content.contentType}${contentKey}`), pushPayload)
+export const changeCardDB = (content: IAddContent, id: string) => {
+  update(ref(database, `mznm/content/${content.contentType}${id}`), {...content})
 }
 
-interface IAddComment {
-  payload: {
-    comment: string,
-    visible: boolean 
-  }
-  from: {
-    userName: string,
-    contentType: string, 
-    id: string
-  }
-}
-
-export const addCommentToDB = ({payload, from}: IAddComment) => {
-  let contentKey = push(child(ref(database), `${from.contentType}${from.id}/comments/`)).key;
-  const forSend = {
-    user: from.userName,
-    comment: payload.comment,
-    visible: payload.visible,
-    date: Date.now(),
-    id: contentKey
-  }
-
-  const destination = `mznm/content/${from.contentType}${from.id}/comments/${contentKey}`;
-  const contentRef = ref(database, `mznm/content/${from.contentType}`);
-  update(ref(database, destination), forSend);
-
-  onValue(contentRef, (snap) => {
-    const data = snap.val();
-      if (!data) {
-        store.dispatch(hideLoader())
-        return;
-      }
-    const comments = data[from.id].comments;
-    const payload = Object.keys(comments).map(key => {
-      return {
-        ...comments[key]
-      }
-    })
-    store.dispatch(addComment(payload));
-  })
+export const addCommentToDB = ({comment, to}: IAddComment) => {
+  const id = push(child(ref(database), `${to.contentLink}${to.id}/comments/`)).key;
+  const path = `mznm/content/${to.contentLink}${to.id}/comments/${id}`;
+  update(ref(database, path), {...comment, id});
 }
 
 export const changeVisiblePropComment = ({from, id, commentId, visible} : {from: string, id: string, commentId: string, visible: boolean}) => {
@@ -154,7 +92,6 @@ export const removeFromRealtimeDB = (from:string, id:string | null) => {
   if (!id || !from) return;
   const contentKey = ref(database, `mznm/content/${from + id}`);
   remove(contentKey);
-  store.dispatch(removeContent({from, id}));
 }
 
 

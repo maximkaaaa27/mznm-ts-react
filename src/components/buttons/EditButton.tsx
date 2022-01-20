@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { IInitState } from './interfaces';
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
-import { addToRealtimeDB } from '../../redux/firebase/firebase';
+import { changeCardDB } from '../../redux/firebase/firebase';
 import { IPayload } from '../../redux/firebase/firebaseSlice';
 import { Formik } from 'formik'
 import * as yup from 'yup';
@@ -25,7 +25,7 @@ export const EditButton = ({item, contentLink}:{item: IPayload, contentLink: str
   const editDatabase = (values: IInitState) => {
     try {
 
-      addToRealtimeDB({
+      changeCardDB({
         contentType,
         name: values.name,
         about: values.about,
