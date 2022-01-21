@@ -1,9 +1,9 @@
 import React from "react";
 import { Col, Row } from "react-bootstrap";
-import { ICurrent } from "../../redux/firebase/firebaseSlice";
+import { IPayload } from "../../redux/firebase/firebaseSlice";
 
 
-export const VideoView = ({video}: {video: ICurrent}) => {
+export const VideoView = ({video}: {video: IPayload}) => {
 
 
   return (

@@ -18,7 +18,13 @@ export const AddButton = ({contentLink}:{contentLink: string}) => {
     about: '',
     linkPic: '',
     linkVideo: '',
-    comments: ['']
+    comments: {'init': {
+      textContent: 'init',
+      date: 1,
+      userName: 'init',
+      visible: false,
+      id: 'init'
+    }}
   }
 
   const addToDatabase = (values: IInitState) => {

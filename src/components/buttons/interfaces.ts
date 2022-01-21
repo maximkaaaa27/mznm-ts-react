@@ -3,5 +3,11 @@ export interface IInitState {
   about: string
   linkPic: string
   linkVideo: string
-  comments: any[]
+  comments: {[key: string]: {
+    textContent: string
+    date: number
+    userName: string
+    visible: boolean
+    id: string
+}}
 }

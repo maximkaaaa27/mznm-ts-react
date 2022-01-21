@@ -4,11 +4,11 @@ import * as yup from 'yup';
 import { Button, Form } from "react-bootstrap";
 import { ThanksCommModal } from "../modals/ThanksCommModal";
 import { addCommentToDB } from "../../redux/firebase/firebase";
-import { ICurrent } from "../../redux/firebase/firebaseSlice";
+import { IPayload } from "../../redux/firebase/firebaseSlice";
 
 
 export const SendCommentForm = (
-  {userName, contentLink, current}: {userName: string, contentLink: string, current: ICurrent}) => {
+  {userName, userPic, contentLink, current}: {userName: string, userPic: string | null, contentLink: string, current: IPayload}) => {
 
   const [modalShow, setModalShow] = useState(false);
 
@@ -18,7 +18,7 @@ export const SendCommentForm = (
 
     addCommentToDB({
       comment: {
-        textContent, date, userName, visible: false},
+        textContent, date, userName, userPic ,visible: false},
       to: {
         contentLink, id: current.id
     }});
@@ -35,7 +35,7 @@ export const SendCommentForm = (
 
 
   return (
-    <div>
+    <div className="m-2">
     <Formik
       validationSchema={schema}
       onSubmit={(value, {resetForm}) => addToDatabase(value.textContent, resetForm)}
@@ -57,14 +57,15 @@ export const SendCommentForm = (
             <Form.Control
               as="textarea"
               placeholder="Leave a comment here"
-              style={{ 'height': '80px', 'width': '50%', 'resize': 'none'}}
+              style={{ 'height': '80px', 'width': '50%', 'resize': 'none', 'marginBottom':'0.5rem'}}
               name="textContent"
               value={values.textContent}
               onChange={handleChange}
               isValid={touched.textContent && !errors.textContent}
             />
+            <Button type="submit" variant="info" >Send</Button>
           </Form.Group>
-            <Button type="submit">Send</Button>
+            
           </Form>
           )}
         </Formik>

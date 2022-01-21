@@ -66,23 +66,19 @@ export const addCommentToDB = ({comment, to}: IAddComment) => {
   update(ref(database, path), {...comment, id});
 }
 
-export const changeVisiblePropComment = ({from, id, commentId, visible} : {from: string, id: string, commentId: string, visible: boolean}) => {
-  const contentRef = ref(database, `mznm/content/${from + id}/comments/`);
-  const commentRef = ref(database, `mznm/content/${from + id}/comments/${commentId}`);
 
-  onValue(contentRef, (snap) => {
-    const data = snap.val();
-      if (!data) {
-        store.dispatch(hideLoader())
-        return;
-      }
-    const targetComment = data[commentId];
-    update(commentRef, {...targetComment, visible})
-  })
+export const toggleVisibleComment = ({comment, contentId, contentLink}: 
+  {comment: {id: string, visible: boolean},
+    contentLink: string
+    contentId: string, 
+}) => {
+    update(ref(database, `mznm/content/${contentLink + contentId}/comments/${comment.id}`), { visible: !comment.visible})
 }
 
-export const removeComment = ({from, id, commentId} : {from: string, id: string, commentId: string}) => {
-  const commentKey = ref(database, `mznm/content/${from + id}/comments/${commentId}`);
+
+export const removeComment = ({contentLink, contentId, commentId} : 
+  {contentLink: string, contentId: string, commentId: string}) => {
+  const commentKey = ref(database, `mznm/content/${contentLink + contentId}/comments/${commentId}`);
   remove(commentKey);
 }
 

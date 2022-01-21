@@ -1,43 +1,38 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
 
+interface IComments {
+  [key: string]: {
+    textContent: string
+    date: number
+    userName: string
+    userPic: string
+    visible: boolean
+    id: string
+}
+}
+
 
 export interface IPayload {
   name: string,
   about: string,
-  link: string,
   linkPic: string,
   linkVideo: string,
   id: string,
-  comments: any[],
+  comments: IComments,
 }
 
-export interface ICurrent {
-    name: string
-    linkPic: string,
-    linkVideo: string,
-    id: string,
-    comments: any[],
-  
-}
+
 
 interface IState {
   movies: IPayload[]
   shows: IPayload[]
-  current: ICurrent
   loading: boolean
 }
 
 const initialState: IState = {
   movies: [],
   shows: [],
-  current: {
-    name: '',
-    linkPic: '',
-    linkVideo: '',
-    id: '',
-    comments: []
-  },
   loading: false,
 }
 

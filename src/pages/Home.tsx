@@ -1,6 +1,6 @@
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import { MoviePage } from "./MoviePage";
+import { MoviesPage } from "./MoviesPage";
 import { ShowPage } from "./ShowPage";
 
 export const Home = () => {
@@ -16,7 +16,7 @@ export const Home = () => {
     <Row>
       <Col>
         <h1> Фильмы </h1>
-        <MoviePage />
+        <MoviesPage />
       </Col>
     </Row>
     </Container>

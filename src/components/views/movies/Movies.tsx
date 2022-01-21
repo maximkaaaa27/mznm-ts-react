@@ -2,7 +2,7 @@ import React from 'react';
 import { Col, Image } from "react-bootstrap"
 import { EditButton } from "../../buttons/EditButton";
 import { RemoveButton } from "../../buttons/RemoveButton";
-import { IPayload, setCurrent } from '../../../redux/firebase/firebaseSlice';
+import { IPayload } from '../../../redux/firebase/firebaseSlice';
 import { Link } from 'react-router-dom';
 
 

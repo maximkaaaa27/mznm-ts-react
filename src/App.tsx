@@ -6,6 +6,7 @@ import { MyNavbar } from './components/MyNavbar';
 
 
 function App() {
+
   
   const routes = useRoutes();
 

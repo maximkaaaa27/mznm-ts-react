@@ -4,7 +4,13 @@ export interface IAddContent {
   about: string,
   linkPic: string,
   linkVideo: string,
-  comments: any[]
+  comments: {[key: string]: {
+    textContent: string
+    date: number
+    userName: string
+    visible: boolean
+    id: string
+}}
 }
 
 export interface IAddComment {
@@ -12,6 +18,7 @@ export interface IAddComment {
     textContent: string
     date: number
     userName: string
+    userPic: string | null
     visible: boolean
   }
   to: {

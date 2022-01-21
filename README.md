@@ -6,4 +6,4 @@
 
 ## Firebase auth
 
-## Admin UI
+## Firebase Realtime Database
