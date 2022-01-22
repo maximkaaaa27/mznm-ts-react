@@ -1,10 +1,13 @@
 import React from 'react';
 import { Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { IPayload } from '../../../redux/firebase/firebaseSlice';
+import { IContent } from '../../../redux/firebase/interfaces';
 
 
-export const MoviesRest = ({currentMovie, movies}: {currentMovie: IPayload, movies: IPayload[]}) => {
+export const MoviesRest = ({currentMovie, movies}:{
+  currentMovie: IContent, 
+  movies: IContent[]
+}) => {
 
   const restMovies = movies.filter(item => item.id !== currentMovie.id);
 
@@ -16,7 +19,6 @@ return (
       <Link to={"/movies/" + movie.id}>
         <Image fluid alt='pic'className='btn' src={movie.linkPic}/>
       </Link>
-
     </div>
   ))}
   </>

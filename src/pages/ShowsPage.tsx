@@ -7,7 +7,7 @@ import { fetchFromRealtimeDB } from "../redux/firebase/firebase";
 import { useAppSelector } from '../redux/hooks';
 
 
-export const ShowPage = () => {
+export const ShowsPage = () => {
 
   const shows = useAppSelector(state => state.firebase.shows);
   const loading = useAppSelector(state => state.firebase.loading);

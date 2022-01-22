@@ -1,15 +1,15 @@
 import React from 'react';
-import { Col, Image } from "react-bootstrap"
-import { EditButton } from "../../buttons/EditButton";
+import { Col, Image } from "react-bootstrap";
 import { RemoveButton } from "../../buttons/RemoveButton";
-import { IPayload } from '../../../redux/firebase/firebaseSlice';
+import { EditButton } from "../../buttons/EditButton";
+import { IContent } from '../../../redux/firebase/interfaces';
 import { Link } from 'react-router-dom';
 
 
-export const Movies = ({listMovies, showTools}:{listMovies: IPayload[], showTools: boolean}) => {
-
-  return (
-    <>
+export const Movies = ({listMovies, showTools}:{
+  listMovies: IContent[], showTools: boolean
+}) => (
+  <>
     {listMovies.map((movie) => (
       <Col key={movie.id}>
         <div
@@ -33,6 +33,5 @@ export const Movies = ({listMovies, showTools}:{listMovies: IPayload[], showTool
         </div>
       </Col>
     ))}
-    </>
-  )
-}
+  </>
+)

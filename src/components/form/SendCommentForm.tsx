@@ -4,11 +4,11 @@ import * as yup from 'yup';
 import { Button, Form } from "react-bootstrap";
 import { ThanksCommModal } from "../modals/ThanksCommModal";
 import { addCommentToDB } from "../../redux/firebase/firebase";
-import { IPayload } from "../../redux/firebase/firebaseSlice";
+import { IContent } from "../../redux/firebase/interfaces";
 
 
 export const SendCommentForm = (
-  {userName, userPic, contentLink, current}: {userName: string, userPic: string | null, contentLink: string, current: IPayload}) => {
+  {userName, userPic, contentLink, current}: {userName: string, userPic: string, contentLink: string, current: IContent}) => {
 
   const [modalShow, setModalShow] = useState(false);
 
@@ -18,14 +18,23 @@ export const SendCommentForm = (
 
     addCommentToDB({
       comment: {
-        textContent, date, userName, userPic ,visible: false},
+        contains: {
+          visible: false,
+          textContent,
+          userName,
+          userPic,
+          date, 
+          id: '', //not use         
+        }
+      },
       to: {
-        contentLink, id: current.id
-    }});
-
+        contentLink,
+        contentId: current.id,
+        commentId: ''//not use
+      }
+    });
     setModalShow(true);
-    setTimeout(() => setModalShow(false), 5000);
-
+    setTimeout(() => setModalShow(false), 3000);
     }
   
 

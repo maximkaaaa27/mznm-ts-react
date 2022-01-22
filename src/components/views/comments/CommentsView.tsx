@@ -2,11 +2,11 @@ import React from 'react';
 import { CommentsPrivateView } from './CommentsPrivateView';
 import { CommentsPublicView } from './CommentsPublicView';
 import { SendCommentForm } from '../../form/SendCommentForm';
-import { IPayload } from '../../../redux/firebase/firebaseSlice';
 import { useAppSelector } from '../../../redux/hooks';
+import { IContent } from '../../../redux/firebase/interfaces';
 
 export const CommentsView = ({current, fullOption, contentLink}: {
-  current: IPayload, fullOption:boolean, contentLink: string
+  current: IContent, fullOption:boolean, contentLink: string
 }) => {
 
   const user = useAppSelector(state => state.auth.user);
@@ -14,29 +14,28 @@ export const CommentsView = ({current, fullOption, contentLink}: {
     return {
       ...current.comments[key]
     } 
-  })
+  });
 
-  const publicComments = comments.filter(i => i.visible);
+  const publicComments = !comments ? [] : comments.filter(i => i.visible);
   
   return (
     <>
       <h3>Comments</h3>
-      {fullOption ? <CommentsPrivateView 
-      comments={comments} 
-      contentLink={contentLink}
-      contentId={current.id}
-      /> 
-      : <CommentsPublicView comments={publicComments}/>
-      }
+        {fullOption ? <CommentsPrivateView 
+        comments={comments} 
+        contentLink={contentLink}
+        contentId={current.id}
+        /> 
+        : <CommentsPublicView comments={publicComments}/>
+        }
 
-      {!!user.name && 
-      <SendCommentForm 
-      userName={user.name}
-      userPic={user.pic} 
-      contentLink={contentLink}
-      current={current}
-      />}
-      
+        {!!user.name && 
+        <SendCommentForm 
+        userName={user.name}
+        userPic={!user.pic ? '': user.pic} 
+        contentLink={contentLink}
+        current={current}
+        />}    
     </>
   )
 }

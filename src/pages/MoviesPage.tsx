@@ -30,10 +30,10 @@ export const MoviesPage = () => {
     {loading && <Spinner variant="secondary" animation="grow" />}
 
       <Row xs={1} md={2} className="m-2">
-        <Movies showTools={isFullOption} listMovies={movies} />
-       
-
-    
+        <Movies 
+        showTools={isFullOption} 
+        listMovies={movies} 
+        />  
         <Col className="m-3">
           { isFullOption && <AddButton contentLink={contentLink} /> }
         </Col>

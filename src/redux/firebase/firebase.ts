@@ -3,7 +3,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/
 import { getDatabase, ref, onValue, push, child, remove, update } from 'firebase/database';
 import { signIn, signOutReducer } from '../auth/authSlice';
 import { store } from '../store';
-import { IAddComment, IAddContent } from './addTypes';
+import { IAddComment, IContent, IFirebasePath } from './interfaces';
 import { fetchContent, showLoader, hideLoader } from './firebaseSlice';
 
 
@@ -39,7 +39,7 @@ export const fetchFromRealtimeDB = async (from: string) => {
         store.dispatch(hideLoader())
         return;
       }
-    const contentArr = Object.keys(data).map(key => {
+    const contentArr: IContent[] = Object.keys(data).map(key => {
       return {
         ...data[key]
       }
@@ -49,23 +49,21 @@ export const fetchFromRealtimeDB = async (from: string) => {
   
 }
 
-
-export const addToRealtimeDB = (content: IAddContent) => {
-  let id = push(child(ref(database), content.contentType)).key;
-  const pathDB = `mznm/content/${content.contentType}${id}`
+export const addToRealtimeDB = ({content, to}: {content: IContent, to: IFirebasePath}) => {
+  let id = push(child(ref(database), to.contentLink)).key;
+  const pathDB = `mznm/content/${to.contentLink}${id}`
   update(ref(database, pathDB), {...content, id})
 }
 
-export const changeCardDB = (content: IAddContent, id: string) => {
-  update(ref(database, `mznm/content/${content.contentType}${id}`), {...content})
+export const changeCardDB = ({content, to}: {content: IContent, to: IFirebasePath}) => {
+  update(ref(database, `mznm/content/${to.contentLink}${content.id}`), {...content})
 }
 
 export const addCommentToDB = ({comment, to}: IAddComment) => {
-  const id = push(child(ref(database), `${to.contentLink}${to.id}/comments/`)).key;
-  const path = `mznm/content/${to.contentLink}${to.id}/comments/${id}`;
-  update(ref(database, path), {...comment, id});
+  const id = push(child(ref(database), `${to.contentLink}${to.contentId}/comments/`)).key;
+  const path = `mznm/content/${to.contentLink}${to.contentId}/comments/${id}`;
+  update(ref(database, path), {...comment.contains, id});
 }
-
 
 export const toggleVisibleComment = ({comment, contentId, contentLink}: 
   {comment: {id: string, visible: boolean},
@@ -75,14 +73,11 @@ export const toggleVisibleComment = ({comment, contentId, contentLink}:
     update(ref(database, `mznm/content/${contentLink + contentId}/comments/${comment.id}`), { visible: !comment.visible})
 }
 
-
 export const removeComment = ({contentLink, contentId, commentId} : 
   {contentLink: string, contentId: string, commentId: string}) => {
   const commentKey = ref(database, `mznm/content/${contentLink + contentId}/comments/${commentId}`);
   remove(commentKey);
 }
-
-
 
 export const removeFromRealtimeDB = (from:string, id:string | null) => {
   if (!id || !from) return;
@@ -95,6 +90,7 @@ export const removeFromRealtimeDB = (from:string, id:string | null) => {
 
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
+
 
 export const authWithGoogle = () => {
   signInWithPopup(auth, provider).then((result) => {

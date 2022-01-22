@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import { IInitState } from './interfaces';
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 import { changeCardDB } from '../../redux/firebase/firebase';
-import { IPayload } from '../../redux/firebase/firebaseSlice';
 import { Formik } from 'formik'
 import * as yup from 'yup';
+import { IContent } from '../../redux/firebase/interfaces';
 
 
-export const EditButton = ({item, contentLink}:{item: IPayload, contentLink: string}) => {
+export const EditButton = ({item, contentLink}:{item: IContent, contentLink: string}) => {
 
-  const contentType = contentLink;
+
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const initialValues: IInitState = {
+  const initialValues: IContent = {
+    id: item.id,
     name: item.name,
     about: item.about,
     linkPic: item.linkPic,
@@ -22,17 +22,23 @@ export const EditButton = ({item, contentLink}:{item: IPayload, contentLink: str
     comments: item.comments
   }
 
-  const editDatabase = (values: IInitState) => {
+  const editDatabase = (values: IContent) => {
     try {
 
       changeCardDB({
-        contentType,
-        name: values.name,
-        about: values.about,
-        linkPic: values.linkPic,
-        linkVideo: values.linkVideo,
-        comments: item.comments
-      }, item.id);
+        content: {
+            id: values.id,
+            name: values.name,
+            about: values.about,
+            linkPic: values.linkPic,
+            linkVideo: values.linkVideo,
+            comments: item.comments      
+        },
+        to: {
+          contentLink,
+          contentId: item.id
+        }
+      });
 
       handleClose();
 
@@ -41,6 +47,21 @@ export const EditButton = ({item, contentLink}:{item: IPayload, contentLink: str
         handleClose()
     }
   }
+
+  // contentType,
+  // name: values.name,
+  // about: values.about,
+  // linkPic: values.linkPic,
+  // linkVideo: values.linkVideo,
+  // comments: item.comments
+
+
+
+
+
+
+
+
 
   const schema = yup.object().shape({
     name: yup.string().required(),

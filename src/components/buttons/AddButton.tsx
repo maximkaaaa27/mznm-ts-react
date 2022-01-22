@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { IInitState } from "./interfaces";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { addToRealtimeDB } from "../../redux/firebase/firebase";
 import { Formik } from 'formik';
 import * as yup from 'yup'
+import { IContent } from "../../redux/firebase/interfaces";
 
 
 export const AddButton = ({contentLink}:{contentLink: string}) => {
@@ -11,9 +11,8 @@ export const AddButton = ({contentLink}:{contentLink: string}) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  
-  const contentType = contentLink;
-  const initialValues: IInitState = {
+  const initialValues: IContent = {
+    id: '',
     name: '',
     about: '',
     linkPic: '',
@@ -22,29 +21,36 @@ export const AddButton = ({contentLink}:{contentLink: string}) => {
       textContent: 'init',
       date: 1,
       userName: 'init',
+      userPic: 'pic',
       visible: false,
       id: 'init'
     }}
   }
 
-  const addToDatabase = (values: IInitState) => {
+  const addToDatabase = (values: IContent) => {
     
     try {
       addToRealtimeDB({
-        contentType,
-        name: values.name,
-        about: values.about,
-        linkPic: values.linkPic,
-        linkVideo: values.linkVideo,
-        comments: initialValues.comments
+        content: {
+          id: '', //not use
+          name: values.name,
+          about: values.about,
+          linkPic: values.linkPic,
+          linkVideo: values.linkVideo,
+          comments: initialValues.comments
+        },
+        to: {
+          contentId: '',//not use
+          contentLink,
+        }
       });
 
       handleClose();
 
     } catch(error) {
 
-      console.error(error)
-      handleClose()
+      console.error(error);
+      handleClose();
 
     }
   }

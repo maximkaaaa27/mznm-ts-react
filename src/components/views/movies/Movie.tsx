@@ -6,7 +6,7 @@ import { VideoView } from "../VideoView";
 import { MoviesRest } from "./MoviesRest";
 import { CommentsView } from "../comments/CommentsView";
 
-export const Movie = () => {
+export const Movie = ({contentLink} : {contentLink: string}) => {
 
 const movieId = useParams().id;
 const movies = useAppSelector(state => state.firebase.movies);
@@ -16,9 +16,9 @@ const isFullOption = (process.env.REACT_APP_USER_UID === user.uid);
 
 useEffect(() => {
   if (!movies.length) {
-    fetchFromRealtimeDB('movies/')
+    fetchFromRealtimeDB(contentLink);
   }
-},[movies])
+},[movies, contentLink]);
 
 
 const movie = 'Not found' && movies.find(({id}) => id === movieId);
@@ -26,16 +26,14 @@ const movie = 'Not found' && movies.find(({id}) => id === movieId);
 
 return (
   <div className="d-flex-column">
-          <h1 className="display-6 m-3">{movie?.name}</h1>
-          {movie && 
-          <div className="m-3">
-            <VideoView video={movie}/>
-            <MoviesRest currentMovie={movie} movies={movies}/>
-            <CommentsView current={movie} fullOption={isFullOption} contentLink={'movies/'}/>
-          </div>
-          
-          }
-
+    <h1 className="display-6 m-3">{movie?.name}</h1>
+    {movie && 
+      <div className="m-3">
+        <VideoView video={movie}/>
+        <MoviesRest currentMovie={movie} movies={movies}/>
+        <CommentsView current={movie} fullOption={isFullOption} contentLink={contentLink}/>
+      </div>
+    }
   </div> 
 )
 }
