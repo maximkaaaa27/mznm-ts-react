@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Card, Col, Row, Spinner } from "react-bootstrap";
-import { AddButton } from "../components/buttons/AddButton";
+import { AddShowButton } from "../components/buttons/AddShowButton";
 import { EditButton } from "../components/buttons/EditButton";
 import { RemoveButton } from "../components/buttons/RemoveButton";
 import { fetchFromRealtimeDB } from "../redux/firebase/firebase";
@@ -22,9 +22,9 @@ export const ShowsPage = () => {
 
 
   return(
-  <>
+  <div className="m-5">
 
-    <Row className="g-4 m-2">
+    <Row xs={1} md={2} className="m-2">
 
     {loading && <Spinner variant="secondary" animation="grow" />}
 
@@ -58,11 +58,11 @@ export const ShowsPage = () => {
       ))}
       <Col className="m-3">
       { isAdmin &&
-      <AddButton contentLink={contentLink}/>
+      <AddShowButton />
       }
       </Col>
 
     </Row>
-  </>
+  </div>
   )
   };

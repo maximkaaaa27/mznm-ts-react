@@ -17,6 +17,7 @@ export const MyNavbar = () => {
       bg="secondary"
       variant="dark"
       expand="lg"
+      fixed="top"
       >
 
     <Navbar.Brand>

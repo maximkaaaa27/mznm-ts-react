@@ -25,7 +25,7 @@ export const MoviesPage = () => {
 
   return (
 
-  <div className="m-3">
+  <div className="m-5">
 
     {loading && <Spinner variant="secondary" animation="grow" />}
 

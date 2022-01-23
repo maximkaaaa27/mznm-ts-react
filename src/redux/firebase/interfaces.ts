@@ -20,6 +20,31 @@ export interface IContent {
 }
 
 
+export interface IEpisodes {
+  episodeId: string
+  name: string
+  about: string
+  linkPic: string
+  linkVideo: string
+  comments: IComment
+}
+
+export interface ISeason {
+  seasonId: string
+  seasonNumber: number
+  year: string
+  episodes: IEpisodes
+}
+
+
+export interface IContentShows {
+  id: string
+  name: string
+  about: string
+  linkPic: string
+  seasons: ISeason | null
+}
+
 export interface IFirebaseState {
   movies: IContent[]
   shows: IContent[]

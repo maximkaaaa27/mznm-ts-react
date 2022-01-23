@@ -4,6 +4,7 @@ import { CommentsPublicView } from './CommentsPublicView';
 import { SendCommentForm } from '../../form/SendCommentForm';
 import { useAppSelector } from '../../../redux/hooks';
 import { IContent } from '../../../redux/firebase/interfaces';
+import { authWithGoogle } from '../../../redux/firebase/firebase';
 
 export const CommentsView = ({current, fullOption, contentLink}: {
   current: IContent, fullOption:boolean, contentLink: string
@@ -20,7 +21,7 @@ export const CommentsView = ({current, fullOption, contentLink}: {
   
   return (
     <>
-      <h3>Comments</h3>
+      <h3 className="border-bottom">Comments</h3>
         {fullOption ? <CommentsPrivateView 
         comments={comments} 
         contentLink={contentLink}
@@ -29,8 +30,12 @@ export const CommentsView = ({current, fullOption, contentLink}: {
         : <CommentsPublicView comments={publicComments}/>
         }
 
-        {!!user.name && 
-        <SendCommentForm 
+        {(!user.name) ? 
+        <div className="mt-3 d-flex">
+        <p className='btn text-warning' onClick={() => authWithGoogle()}>Представьтесь</p>
+        <p className='btn text-info'>для того чтобы присоединиться к обсуждению</p>
+        </div> 
+        :<SendCommentForm 
         userName={user.name}
         userPic={!user.pic ? '': user.pic} 
         contentLink={contentLink}

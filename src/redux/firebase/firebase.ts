@@ -3,7 +3,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/
 import { getDatabase, ref, onValue, push, child, remove, update } from 'firebase/database';
 import { signIn, signOutReducer } from '../auth/authSlice';
 import { store } from '../store';
-import { IAddComment, IContent, IFirebasePath } from './interfaces';
+import { IAddComment, IContent, IContentShows, IFirebasePath } from './interfaces';
 import { fetchContent, showLoader, hideLoader } from './firebaseSlice';
 
 
@@ -52,6 +52,12 @@ export const fetchFromRealtimeDB = async (from: string) => {
 export const addToRealtimeDB = ({content, to}: {content: IContent, to: IFirebasePath}) => {
   let id = push(child(ref(database), to.contentLink)).key;
   const pathDB = `mznm/content/${to.contentLink}${id}`
+  update(ref(database, pathDB), {...content, id})
+}
+
+export const addShowToRealtimeDB = ({content, to}: {content: IContentShows, to: {showsId: string}}) => {
+  let id = push(child(ref(database), 'shows/')).key;
+  const pathDB = `mznm/content/shows/${id}`
   update(ref(database, pathDB), {...content, id})
 }
 
