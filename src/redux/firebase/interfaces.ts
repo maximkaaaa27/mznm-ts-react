@@ -31,9 +31,9 @@ export interface IEpisodes {
 
 export interface ISeason {
   seasonId: string
-  seasonNumber: number
+  seasonNumberName: string
   year: string
-  episodes: IEpisodes
+  episodes: IEpisodes | null
 }
 
 
@@ -47,7 +47,7 @@ export interface IContentShows {
 
 export interface IFirebaseState {
   movies: IContent[]
-  shows: IContent[]
+  shows: IContentShows[]
   loading: boolean
 }
 

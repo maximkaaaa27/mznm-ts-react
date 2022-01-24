@@ -3,7 +3,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/
 import { getDatabase, ref, onValue, push, child, remove, update } from 'firebase/database';
 import { signIn, signOutReducer } from '../auth/authSlice';
 import { store } from '../store';
-import { IAddComment, IContent, IContentShows, IFirebasePath } from './interfaces';
+import { IAddComment, IContent, IContentShows, IFirebasePath, ISeason } from './interfaces';
 import { fetchContent, showLoader, hideLoader } from './firebaseSlice';
 
 
@@ -55,13 +55,22 @@ export const addToRealtimeDB = ({content, to}: {content: IContent, to: IFirebase
   update(ref(database, pathDB), {...content, id})
 }
 
-export const addShowToRealtimeDB = ({content, to}: {content: IContentShows, to: {showsId: string}}) => {
+export const addShowToRealtimeDB = ({content}: {content: IContentShows}) => {
   let id = push(child(ref(database), 'shows/')).key;
   const pathDB = `mznm/content/shows/${id}`
   update(ref(database, pathDB), {...content, id})
 }
 
-export const changeCardDB = ({content, to}: {content: IContent, to: IFirebasePath}) => {
+export const addSeasonToRealtimeDB = ({content, id}: {content: ISeason, id: string}) => {
+  const pathDB = `mznm/content/shows/${id}/seasons/${content.seasonNumberName}`
+  update(ref(database, pathDB), {...content})
+}
+
+
+export const changeCardDB = ({content, to}: {
+  content: IContent | IContentShows,
+  to: IFirebasePath
+}) => {
   update(ref(database, `mznm/content/${to.contentLink}${content.id}`), {...content})
 }
 

@@ -3,37 +3,23 @@ import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 import { changeCardDB } from '../../redux/firebase/firebase';
 import { Formik } from 'formik'
 import * as yup from 'yup';
-import { IContent } from '../../redux/firebase/interfaces';
+import { IContent, IContentShows } from '../../redux/firebase/interfaces';
 
 
-export const EditButton = ({item, contentLink}:{item: IContent, contentLink: string}) => {
+export const EditButton = ({item, contentLink}:{item: any, contentLink: string}) => {
 
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const initialValues: IContent = {
-    id: item.id,
-    name: item.name,
-    about: item.about,
-    linkPic: item.linkPic,
-    linkVideo: item.linkVideo,
-    comments: item.comments
-  }
+  const initialValues = {...item}
 
-  const editDatabase = (values: IContent) => {
+  const editDatabase = (values: IContent | IContentShows) => {
+
     try {
-
       changeCardDB({
-        content: {
-            id: values.id,
-            name: values.name,
-            about: values.about,
-            linkPic: values.linkPic,
-            linkVideo: values.linkVideo,
-            comments: item.comments      
-        },
+        content: {...values},
         to: {
           contentLink,
           contentId: item.id
@@ -48,26 +34,12 @@ export const EditButton = ({item, contentLink}:{item: IContent, contentLink: str
     }
   }
 
-  // contentType,
-  // name: values.name,
-  // about: values.about,
-  // linkPic: values.linkPic,
-  // linkVideo: values.linkVideo,
-  // comments: item.comments
-
-
-
-
-
-
-
-
 
   const schema = yup.object().shape({
     name: yup.string().required(),
-    about: yup.string().required().min(5),
-    linkPic: yup.string().required(),
-    linkVideo: yup.string().required(),
+    linkPic: yup.string(),
+    linkVideo: yup.string(),
+    about: yup.string(),
   });
 
   return (
@@ -125,24 +97,25 @@ export const EditButton = ({item, contentLink}:{item: IContent, contentLink: str
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
           </Row>
-
-          <Row className="mb-3">
-            <Form.Group as={Col} controlId="validationFormik03">
-              <Form.Label>videoOkID</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="videoOkId"
-                name="linkVideo"
-                value={values.linkVideo}
-                onChange={handleChange}
-                isInvalid={!!errors.linkVideo}
-              />
-
-              <Form.Control.Feedback type="invalid">
+          {item.linkVideo && 
+            <Row className="mb-3">
+              <Form.Group as={Col} controlId="validationFormik03">
+                <Form.Label>videoOkID</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="videoOkId"
+                  name="linkVideo"
+                  value={values.linkVideo}
+                  onChange={handleChange}
+                  isInvalid={!!errors.linkVideo}
+                />
+                  <Form.Control.Feedback type="invalid">
                 {errors.linkVideo}
               </Form.Control.Feedback>
             </Form.Group>
-          </Row>
+          </Row>          
+          }
+
 
           <Row className="mb-3">
             <Form.Group as={Col} controlId="validationFormik03">
@@ -157,7 +130,7 @@ export const EditButton = ({item, contentLink}:{item: IContent, contentLink: str
               />
 
               <Form.Control.Feedback type="invalid">
-                {errors.linkVideo}
+                {errors.linkPic}
               </Form.Control.Feedback>
             </Form.Group>
           </Row>

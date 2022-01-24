@@ -1,29 +1,26 @@
 import React, { useState } from "react";
-import { Button, Col, Form, Modal, Row } from "react-bootstrap";
-import { addShowToRealtimeDB } from "../../redux/firebase/firebase";
-import { IContentShows } from "../../redux/firebase/interfaces";
-import { Formik } from 'formik';
+import { addSeasonToRealtimeDB } from "../../redux/firebase/firebase";
+import { ISeason } from "../../redux/firebase/interfaces";
 import * as yup from 'yup';
 import { Plus } from "../icons/plus";
+import { Button, Col, Form, Modal, Row } from "react-bootstrap";
+import { Formik } from "formik";
 
-
-export const AddShowButton = () => {
-
+export const AddSeasonBtn = ({id} : {id: string}) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const initialValues = {
-    id: '',
-    name: '',
-    about: '',
-    linkPic: '',
+    seasonId:'',
+    seasonNumberName: '',
+    year: '',
   }
 
-  const addToDatabase = (values: IContentShows) => {
+  const addToDatabase = (values: ISeason) => {
     
     try {
-      addShowToRealtimeDB({
-        content: {...values}
+      addSeasonToRealtimeDB({
+        content: {...values}, id
       });
 
       handleClose();
@@ -37,9 +34,8 @@ export const AddShowButton = () => {
   }
 
   const schema = yup.object().shape({
-    name: yup.string().required(),
-    about: yup.string().required(),
-    linkPic: yup.string().required(),
+    seasonNumberName: yup.string().required(),
+    year: yup.string()
   });
 
 
@@ -58,7 +54,7 @@ return (
       <Modal.Body>
       <Formik
         validationSchema={schema}
-        onSubmit={(values) => addToDatabase({...values, id: '', seasons: null})}
+        onSubmit={(values) => addToDatabase({...values, seasonId: '', episodes: null})}
         initialValues={initialValues}
       >
         {({
@@ -74,13 +70,13 @@ return (
 
           <Row className="mb-3">
             <Form.Group as={Col}  controlId="validationFormik01">
-              <Form.Label> Название: </Form.Label>
+              <Form.Label> Название сезона(? сезон): </Form.Label>
               <Form.Control
                 type="text"
-                name="name"
-                value={values.name}
+                name="seasonNumberName"
+                value={values.seasonNumberName}
                 onChange={handleChange}
-                isValid={touched.name && !errors.name}
+                isValid={touched.seasonNumberName && !errors.seasonNumberName}
               />
               <Form.Control.Feedback> Ништяк </Form.Control.Feedback>
             </Form.Group>
@@ -88,36 +84,19 @@ return (
 
           <Row className="mb-3">
             <Form.Group as={Col} controlId="validationFormik02">
-              <Form.Label> Информация: </Form.Label>
+              <Form.Label> Год: </Form.Label>
               <Form.Control
                 type="text"
-                name="about"
-                value={values.about}
+                name="year"
+                value={values.year}
                 onChange={handleChange}
-                isValid={touched.about && !errors.about}
+                isValid={touched.year && !errors.year}
               />
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
           </Row>
           
 
-          <Row className="mb-3">
-            <Form.Group as={Col} controlId="validationFormik03">
-              <Form.Label>Link for image</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="linkPic"
-                name="linkPic"
-                value={values.linkPic}
-                onChange={handleChange}
-                isInvalid={!!errors.linkPic}
-              />
-
-              <Form.Control.Feedback type="invalid">
-                {errors.linkPic}
-              </Form.Control.Feedback>
-            </Form.Group>
-          </Row>
           <Button type="submit" variant="info"> Добавить</Button>
         </Form>
       )}
@@ -127,5 +106,3 @@ return (
     </Modal>
   </>
 )}
-
-

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Card, Col, Row, Spinner } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { AddShowButton } from "../components/buttons/AddShowButton";
 import { EditButton } from "../components/buttons/EditButton";
 import { RemoveButton } from "../components/buttons/RemoveButton";
@@ -47,7 +48,9 @@ export const ShowsPage = () => {
             </Card.Header>
             
             <Card.Body>
+              <Link to={item.id}>
               <Card.Img alt="..." src={item.linkPic} />
+              </Link>
               <Card.Text>
                 {item.about}
               </Card.Text>
