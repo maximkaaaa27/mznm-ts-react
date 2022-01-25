@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { addSeasonToRealtimeDB } from "../../redux/firebase/firebase";
-import { ISeason } from "../../redux/firebase/interfaces";
 import * as yup from 'yup';
 import { Plus } from "../icons/plus";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
@@ -11,16 +10,18 @@ export const AddSeasonBtn = ({id} : {id: string}) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const initialValues = {
-    seasonId:'',
-    seasonNumberName: '',
+    seasonNumber: 0,
     year: '',
   }
 
-  const addToDatabase = (values: ISeason) => {
+  const addToDatabase = ({...values}: {seasonNumber: number, year: string}) => {
     
+
+
     try {
       addSeasonToRealtimeDB({
-        content: {...values}, id
+        content: {...values, seasonId: ''},
+        id
       });
 
       handleClose();
@@ -34,7 +35,7 @@ export const AddSeasonBtn = ({id} : {id: string}) => {
   }
 
   const schema = yup.object().shape({
-    seasonNumberName: yup.string().required(),
+    seasonNumber: yup.number().required(),
     year: yup.string()
   });
 
@@ -54,7 +55,7 @@ return (
       <Modal.Body>
       <Formik
         validationSchema={schema}
-        onSubmit={(values) => addToDatabase({...values, seasonId: '', episodes: null})}
+        onSubmit={(values) => addToDatabase({...values})}
         initialValues={initialValues}
       >
         {({
@@ -70,13 +71,13 @@ return (
 
           <Row className="mb-3">
             <Form.Group as={Col}  controlId="validationFormik01">
-              <Form.Label> Название сезона(? сезон): </Form.Label>
+              <Form.Label> № сезона: </Form.Label>
               <Form.Control
-                type="text"
-                name="seasonNumberName"
-                value={values.seasonNumberName}
+                type="number"
+                name="seasonNumber"
+                value={values.seasonNumber}
                 onChange={handleChange}
-                isValid={touched.seasonNumberName && !errors.seasonNumberName}
+                isValid={touched.seasonNumber && !errors.seasonNumber}
               />
               <Form.Control.Feedback> Ништяк </Form.Control.Feedback>
             </Form.Group>

@@ -19,8 +19,7 @@ export interface IContent {
   comments: IComment
 }
 
-
-export interface IEpisodes {
+export interface IEpisode {
   episodeId: string
   name: string
   about: string
@@ -29,20 +28,27 @@ export interface IEpisodes {
   comments: IComment
 }
 
-export interface ISeason {
-  seasonId: string
-  seasonNumberName: string
-  year: string
-  episodes: IEpisodes | null
+export interface IEpisodes {
+  [key: string]: IEpisode
 }
 
+export interface ISeason {
+  seasonId: string
+  seasonNumber: number
+  year?: string
+  episodes?: IEpisodes
+}
+
+export interface ISeasons {
+ [key: string]: ISeason
+}
 
 export interface IContentShows {
   id: string
   name: string
   about: string
   linkPic: string
-  seasons: ISeason | null
+  seasons: ISeasons | null
 }
 
 export interface IFirebaseState {
