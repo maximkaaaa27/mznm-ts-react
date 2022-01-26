@@ -5,7 +5,7 @@ import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { Formik } from "formik";
 import { IEpisode } from "../../redux/firebase/interfaces";
 
-export const AddEpisodeBtn = ({id, seasonId} : {id: string, seasonId: string}) => {
+export const AddEpisodeBtn = ({link, season} : {link: string, season: string}) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -31,7 +31,7 @@ export const AddEpisodeBtn = ({id, seasonId} : {id: string, seasonId: string}) =
     try {
       addEpisodeToRealtimeDB({
         content: {...values},
-        id, seasonId
+        link, season
       });
 
       handleClose();

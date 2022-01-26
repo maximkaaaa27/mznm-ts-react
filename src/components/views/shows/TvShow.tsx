@@ -21,7 +21,7 @@ export const TvShow = ({contentLink} : {contentLink: string}) => {
 
 
 
-const tvshow = 'Not found' && shows.find(({id}) => id === showId);
+const tvshow = 'Not found' && shows.find(({link}) => link === showId);
 
 const seasons = tvshow?.seasons && Object.keys(tvshow.seasons).map(key => {
   if (!tvshow.seasons) return {seasonId: '', seasonNumber: 0, year: '', episodes: null}
@@ -35,15 +35,15 @@ const seasons = tvshow?.seasons && Object.keys(tvshow.seasons).map(key => {
       {seasons && seasons.map(item => (
       <div key={item.seasonId} 
       className="d-flex flex-column flex-shrink-0 p-3 bg-light w-25 border-bottom"
-    
       >
+
         <p className="lead">
         {item.seasonNumber} Season ({item.year})
         </p>
-        <AddEpisodeBtn id={tvshow.id} seasonId={item.seasonId} />
+        <AddEpisodeBtn link={tvshow.link} season={item.seasonNumber + 'season'} />
       </div>))}
       {tvshow &&
-        <AddSeasonBtn id={tvshow.id} />
+        <AddSeasonBtn id={tvshow.link} totalSeasons={tvshow.totalSeasons}/>
       }
 
     </div>

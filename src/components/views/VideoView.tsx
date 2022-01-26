@@ -7,7 +7,7 @@ export const VideoView = ({video}: {video: IContent}) => {
 
 
   return (
-    <Row>
+    <Row className="mb-5">
       <Col md="auto">
         <iframe 
         className='video-frame ok-iframe' 

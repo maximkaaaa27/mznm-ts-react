@@ -3,7 +3,7 @@ import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 import { changeCardDB } from '../../redux/firebase/firebase';
 import { Formik } from 'formik'
 import * as yup from 'yup';
-import { IContent, IContentShows } from '../../redux/firebase/interfaces';
+import { IContent } from '../../redux/firebase/interfaces';
 
 
 export const EditButton = ({item, contentLink}:{item: any, contentLink: string}) => {
@@ -15,7 +15,7 @@ export const EditButton = ({item, contentLink}:{item: any, contentLink: string})
 
   const initialValues = {...item}
 
-  const editDatabase = (values: IContent | IContentShows) => {
+  const editDatabase = (values: IContent) => {
 
     try {
       changeCardDB({
@@ -39,6 +39,7 @@ export const EditButton = ({item, contentLink}:{item: any, contentLink: string})
     name: yup.string().required(),
     linkPic: yup.string(),
     linkVideo: yup.string(),
+    totalSeasons: yup.number(),
     about: yup.string(),
   });
 
@@ -114,6 +115,23 @@ export const EditButton = ({item, contentLink}:{item: any, contentLink: string})
               </Form.Control.Feedback>
             </Form.Group>
           </Row>          
+          }
+
+          {item.totalSeasons && 
+          <Row className="mb-3">
+          <Form.Group as={Col} controlId="validationFormik02">
+            <Form.Label> Количество сезонов: </Form.Label>
+            <Form.Control
+              type="string"
+              name="totalSeasons"
+              value={values.totalSeasons}
+              onChange={handleChange}
+              isValid={touched.totalSeasons && !errors.totalSeasons}
+            />
+            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+          </Form.Group>
+          </Row>
+          
           }
 
 

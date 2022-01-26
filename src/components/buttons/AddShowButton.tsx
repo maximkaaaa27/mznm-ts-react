@@ -13,10 +13,11 @@ export const AddShowButton = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const initialValues = {
-    id: '',
     name: '',
     about: '',
+    totalSeasons: 0,
     linkPic: '',
+    link: ''
   }
 
   const addToDatabase = (values: IContentShows) => {
@@ -36,10 +37,14 @@ export const AddShowButton = () => {
     }
   }
 
+  const nameRegex = /^[a-z]+$/;
+
   const schema = yup.object().shape({
     name: yup.string().required(),
     about: yup.string().required(),
     linkPic: yup.string().required(),
+    link: yup.string().required().matches(nameRegex, "Only low English letters").min(4).max(12),
+    totalSeasons: yup.number(),
   });
 
 
@@ -58,7 +63,7 @@ return (
       <Modal.Body>
       <Formik
         validationSchema={schema}
-        onSubmit={(values) => addToDatabase({...values, id: '', seasons: null})}
+        onSubmit={(values) => addToDatabase({...values, seasons: null})}
         initialValues={initialValues}
       >
         {({
@@ -99,6 +104,20 @@ return (
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
           </Row>
+
+          <Row className="mb-3">
+            <Form.Group as={Col} controlId="validationFormik02">
+              <Form.Label> Количество сезонов: </Form.Label>
+              <Form.Control
+                type="string"
+                name="totalSeasons"
+                value={values.totalSeasons}
+                onChange={handleChange}
+                isValid={touched.totalSeasons && !errors.totalSeasons}
+              />
+              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+            </Form.Group>
+          </Row>
           
 
           <Row className="mb-3">
@@ -115,6 +134,24 @@ return (
 
               <Form.Control.Feedback type="invalid">
                 {errors.linkPic}
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Row>
+
+          <Row className="mb-3">
+            <Form.Group as={Col} controlId="validationFormik03">
+              <Form.Label>Link (min: 4, max:12 only Eng Letters</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="linkPic"
+                name="link"
+                value={values.link}
+                onChange={handleChange}
+                isInvalid={!!errors.link}
+              />
+
+              <Form.Control.Feedback type="invalid">
+                {errors.link}
               </Form.Control.Feedback>
             </Form.Group>
           </Row>

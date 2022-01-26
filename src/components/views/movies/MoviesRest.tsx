@@ -15,10 +15,11 @@ return (
   <>
   {restMovies.map(movie => (
     <div className='bg-light' key={movie.id} style={{"width": "40%"}}>
-      <p className='lead'>{movie.name}</p>
+ 
       <Link to={"/movies/" + movie.id}>
         <Image fluid alt='pic'className='btn' src={movie.linkPic}/>
       </Link>
+      <p className='lead'>{movie.name}</p>
     </div>
   ))}
   </>

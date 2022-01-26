@@ -5,7 +5,7 @@ import { Plus } from "../icons/plus";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { Formik } from "formik";
 
-export const AddSeasonBtn = ({id} : {id: string}) => {
+export const AddSeasonBtn = ({id, totalSeasons} : {id: string, totalSeasons: number}) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -15,8 +15,8 @@ export const AddSeasonBtn = ({id} : {id: string}) => {
   }
 
   const addToDatabase = ({...values}: {seasonNumber: number, year: string}) => {
-    
 
+    
 
     try {
       addSeasonToRealtimeDB({
@@ -72,13 +72,28 @@ return (
           <Row className="mb-3">
             <Form.Group as={Col}  controlId="validationFormik01">
               <Form.Label> № сезона: </Form.Label>
+              {(!totalSeasons) ? 
               <Form.Control
-                type="number"
-                name="seasonNumber"
-                value={values.seasonNumber}
-                onChange={handleChange}
-                isValid={touched.seasonNumber && !errors.seasonNumber}
-              />
+              type="number"
+              name="seasonNumber"
+              value={values.seasonNumber}
+              onChange={handleChange}
+              isValid={touched.seasonNumber && !errors.seasonNumber}
+            />
+            : 
+            <Form.Select 
+              aria-label="Select season"
+              name="seasonNumber"
+              value={values.seasonNumber}
+              onChange={handleChange}
+              >
+              <option value={0} disabled>Seasons</option>
+                {Array(Number(totalSeasons)).fill('Season').map((item,index) => (
+                  <option key={item + index} value={++index}>{item + ' ' + index++}</option>
+                ))}
+
+            </Form.Select>     
+            }
               <Form.Control.Feedback> Ништяк </Form.Control.Feedback>
             </Form.Group>
           </Row>

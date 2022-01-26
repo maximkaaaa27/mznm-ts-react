@@ -44,10 +44,11 @@ export interface ISeasons {
 }
 
 export interface IContentShows {
-  id: string
   name: string
   about: string
   linkPic: string
+  link: string
+  totalSeasons: number
   seasons: ISeasons | null
 }
 

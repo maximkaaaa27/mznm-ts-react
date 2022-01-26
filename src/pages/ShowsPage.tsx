@@ -30,7 +30,7 @@ export const ShowsPage = () => {
     {loading && <Spinner variant="secondary" animation="grow" />}
 
       {shows.map((item) => (
-        <Col key={item.id} className="m-3">  
+        <Col key={item.link} className="m-3">  
           <Card
           border="secondary"
           bg="light"
@@ -42,13 +42,13 @@ export const ShowsPage = () => {
               {isAdmin && 
               <div>
                 <EditButton item={item} contentLink={contentLink} />
-                <RemoveButton id={item.id} contentLink={contentLink} />
+                <RemoveButton id={item.link} contentLink={contentLink} />
               </div>
               }
             </Card.Header>
             
             <Card.Body>
-              <Link to={item.id}>
+              <Link to={item.link}>
               <Card.Img alt="..." src={item.linkPic} />
               </Link>
               <Card.Text>

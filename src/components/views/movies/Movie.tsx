@@ -25,8 +25,8 @@ const movie = 'Not found' && movies.find(({id}) => id === movieId);
 
 
 return (
-  <div className="d-flex-column">
-    <h1 className="display-6 m-3">{movie?.name}</h1>
+  <div className="d-flex-column my-5">
+    <h1 className="display-6 p-3">{movie?.name}</h1>
     {movie && 
       <div className="m-3">
         <VideoView video={movie}/>

@@ -56,31 +56,30 @@ export const addToRealtimeDB = ({content, to}: {content: IContent, to: IFirebase
 }
 
 export const addShowToRealtimeDB = ({content}: {content: IContentShows}) => {
-  const id = push(child(ref(database), 'shows/')).key;
-  const pathDB = `mznm/content/shows/${id}`
-  update(ref(database, pathDB), {...content, id})
+  const pathDB = `mznm/content/shows/${content.link}`
+  update(ref(database, pathDB), {...content})
 }
 
 export const addSeasonToRealtimeDB = ({content, id}: {content: ISeason, id: string}) => {
   const seasonId = push(child(ref(database), `shows/${id}/seasons/`)).key;
-  const pathDB = `mznm/content/shows/${id}/seasons/${seasonId}`
+  const pathDB = `mznm/content/shows/${id}/seasons/${content.seasonNumber}season`
   update(ref(database, pathDB), {...content, seasonId})
 }
 
-export const addEpisodeToRealtimeDB = ({content, id, seasonId}: 
+export const addEpisodeToRealtimeDB = ({content, link, season}: 
   {
     content: IEpisode, 
-    id: string, 
-    seasonId: string
+    link: string, 
+    season: string
   }) => {
-  const episodeId = push(child(ref(database), `shows/${id}/seasons/${seasonId}/episodes/`)).key;
-  const pathDB = `mznm/content/shows/${id}/seasons/${seasonId}/episodes/${episodeId}`
+  const episodeId = push(child(ref(database), `shows/${link}/seasons/${season}/episodes/`)).key;
+  const pathDB = `mznm/content/shows/${link}/seasons/${season}/episodes/${episodeId}`
   update(ref(database, pathDB), {...content, episodeId})
 }
 
 
 export const changeCardDB = ({content, to}: {
-  content: IContent | IContentShows,
+  content: IContent,
   to: IFirebasePath
 }) => {
   update(ref(database, `mznm/content/${to.contentLink}${content.id}`), {...content})
