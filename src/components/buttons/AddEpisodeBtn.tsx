@@ -4,6 +4,7 @@ import * as yup from 'yup';
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { Formik } from "formik";
 import { IEpisode } from "../../redux/firebase/interfaces";
+import { Plus } from "../icons/plus";
 
 export const AddEpisodeBtn = ({link, season} : {link: string, season: string}) => {
   const [show, setShow] = useState(false);
@@ -55,13 +56,14 @@ export const AddEpisodeBtn = ({link, season} : {link: string, season: string}) =
 return (
 
   <>
-    <div className="btn btn-info" onClick={handleShow}>
-      <span className="lead">Add episode </span>
+    <div className="btn w-25  d-flex" onClick={handleShow}>
+      <p className="lead px-3"> Add Episode</p>
+      <Plus />
     </div>
 
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title> Добавить сериал</Modal.Title>
+        <Modal.Title> Добавить серию</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>

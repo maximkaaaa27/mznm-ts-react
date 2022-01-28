@@ -15,22 +15,15 @@ export const AddSeasonBtn = ({id, totalSeasons} : {id: string, totalSeasons: num
   }
 
   const addToDatabase = ({...values}: {seasonNumber: number, year: string}) => {
-
-    
-
     try {
-      addSeasonToRealtimeDB({
-        content: {...values, seasonId: ''},
-        id
-      });
-
-      handleClose();
-
+        addSeasonToRealtimeDB({
+          content: {...values, seasonId: ''},
+          id
+        });
+        handleClose();
     } catch(error) {
-
-      console.error(error);
-      handleClose();
-
+        console.error(error);
+        handleClose();
     }
   }
 
@@ -43,13 +36,14 @@ export const AddSeasonBtn = ({id, totalSeasons} : {id: string, totalSeasons: num
 return (
 
   <>
-    <div className="btn" onClick={handleShow}>
+    <div className="btn w-25  d-flex" onClick={handleShow}>
+      <p className="lead px-3"> Add Season</p>
       <Plus />
     </div>
 
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title> Добавить сериал</Modal.Title>
+        <Modal.Title> Добавить сезон</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
