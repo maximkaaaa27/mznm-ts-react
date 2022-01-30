@@ -6,21 +6,21 @@ import { Episodes } from "./Episodes";
 
 
 export const Seasons = ({seasons, tvshow, isFullOption} : {
-  seasons: ISeason[], 
+  seasons: ISeason[] | null | undefined, 
   tvshow: IContentShows,
   isFullOption: boolean
 }) => (
   <>
-    {seasons.map(season => (
+    {seasons && seasons.map(season => (
       <div 
-      key={season.seasonId} 
-      className="d-flex flex-column flex-shrink-0 p-3 bg-light border-bottom"
+        key={season.seasonId} 
+        className="d-flex flex-column flex-shrink-0 p-3 bg-light border-bottom"
       >
-      <p className="lead"> {season.seasonNumber} Season {season.year && <>({season.year})</>}</p>
-      { season.episodes && <Episodes episodes={season.episodes} />}
-      { isFullOption && 
-        <AddEpisodeBtn link={tvshow.link} season={season.seasonNumber + 'season'} />
-      }       
+        <p className="lead"> {season.seasonNumber} Season {season.year && <>({season.year})</>}</p>
+        { season.episodes && <Episodes episodes={season.episodes} seasonNumber={season.seasonNumber}/>}
+        { isFullOption && 
+          <AddEpisodeBtn link={tvshow.link} season={season.seasonNumber + 'season'} />
+        }       
       </div>)
       )
     }

@@ -3,7 +3,7 @@ import { addEpisodeToRealtimeDB } from "../../redux/firebase/firebase";
 import * as yup from 'yup';
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { Formik } from "formik";
-import { IEpisode } from "../../redux/firebase/interfaces";
+import { IContent } from "../../redux/firebase/interfaces";
 import { Plus } from "../icons/plus";
 
 export const AddEpisodeBtn = ({link, season} : {link: string, season: string}) => {
@@ -25,7 +25,7 @@ export const AddEpisodeBtn = ({link, season} : {link: string, season: string}) =
     }}
   }
 
-  const addToDatabase = ({...values}: IEpisode) => {
+  const addToDatabase = ({...values}: IContent) => {
     
 
 
@@ -69,7 +69,7 @@ return (
       <Modal.Body>
       <Formik
         validationSchema={schema}
-        onSubmit={(values) => addToDatabase({...values, episodeId: ''})}
+        onSubmit={(values) => addToDatabase({...values, id: ''})}
         initialValues={initialValues}
       >
         {({

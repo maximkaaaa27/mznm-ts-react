@@ -3,7 +3,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/
 import { getDatabase, ref, onValue, push, child, remove, update } from 'firebase/database';
 import { signIn, signOutReducer } from '../auth/authSlice';
 import { store } from '../store';
-import { IAddComment, IContent, IContentShows, IEpisode, IFirebasePath, ISeason } from './interfaces';
+import { IAddComment, IContent, IContentShows, IFirebasePath, ISeason } from './interfaces';
 import { fetchContent, showLoader, hideLoader } from './firebaseSlice';
 
 
@@ -68,13 +68,13 @@ export const addSeasonToRealtimeDB = ({content, id}: {content: ISeason, id: stri
 
 export const addEpisodeToRealtimeDB = ({content, link, season}: 
   {
-    content: IEpisode, 
+    content: IContent, 
     link: string, 
     season: string
   }) => {
-  const episodeId = push(child(ref(database), `shows/${link}/seasons/${season}/episodes/`)).key;
-  const pathDB = `mznm/content/shows/${link}/seasons/${season}/episodes/${episodeId}`
-  update(ref(database, pathDB), {...content, episodeId})
+  const id = push(child(ref(database), `shows/${link}/seasons/${season}/episodes/`)).key;
+  const pathDB = `mznm/content/shows/${link}/seasons/${season}/episodes/${id}`
+  update(ref(database, pathDB), {...content, id})
 }
 
 

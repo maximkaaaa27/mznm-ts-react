@@ -19,17 +19,9 @@ export interface IContent {
   comments: IComment
 }
 
-export interface IEpisode {
-  episodeId: string
-  name: string
-  about: string
-  linkPic: string
-  linkVideo: string
-  comments: IComment
-}
 
 export interface IEpisodes {
-  [key: string]: IEpisode
+  [key: string]: IContent
 }
 
 export interface ISeason {
