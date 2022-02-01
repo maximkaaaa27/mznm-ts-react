@@ -12,11 +12,8 @@ export const Seasons = ({seasons, tvshow, isFullOption} : {
 }) => (
   <>
     {seasons && seasons.map(season => (
-      <div 
-        key={season.seasonId} 
-        className="d-flex flex-column flex-shrink-0 p-3 bg-light border-bottom"
-      >
-        <p className="lead"> {season.seasonNumber} Season {season.year && <>({season.year})</>}</p>
+      <div key={season.seasonId} className="bg-light border my-2 p-3 text-center">
+        <h3> {season.seasonNumber} Season {season.year && <>({season.year})</>}</h3>
         { season.episodes && <Episodes episodes={season.episodes} seasonNumber={season.seasonNumber}/>}
         { isFullOption && 
           <AddEpisodeBtn link={tvshow.link} season={season.seasonNumber + 'season'} />

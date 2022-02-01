@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../../redux/hooks';
+import { fetchFromRealtimeDB } from '../../../redux/firebase/firebase'
 import { VideoView } from '../VideoView';
 
 
@@ -8,7 +9,11 @@ export const Episode = () => {
 
 const {show, s, episode} = useParams();
 const shows = useAppSelector(state => state.firebase.shows)
-
+useEffect(() => {
+  if (!shows.length) {
+    fetchFromRealtimeDB('shows/')
+  }
+}, [shows])
 const targetShow = shows.find(({link}) => link === show);
 const targetSeason = targetShow && targetShow.seasons && targetShow.seasons[`${s}season`];
 const targetEpisodes = targetSeason && targetSeason.episodes;

@@ -1,5 +1,5 @@
 import React from "react";
-import { Image } from "react-bootstrap";
+import { Col, Image, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { IEpisodes } from "../../../redux/firebase/interfaces";
 
@@ -11,19 +11,17 @@ export const Episodes = ({seasonNumber, episodes} : {episodes: IEpisodes, season
   })
 
 return (
-  <div className="my-5 d-flex">
+  <Row className="my-5 p-3" xs={1} lg={3}>
     {epArr.map(episode => (
-      <div key={episode.id} className="w-25 px-3">
-        <div>
+      <Col key={episode.id}>
+        <div className="p-3 bg-dark text-center text-white border">
           <Link to={`${seasonNumber}/${episode.id}`}>
-          <Image alt="ep-pic" fluid src={episode.linkPic} />
+            <Image alt="ep-pic" fluid src={episode.linkPic} />
           </Link>
-        <p>{episode.name}</p>
+          <p className="py-3 lead">{episode.name}</p>
         </div>
-        
-
-      </div>
+      </Col>
     ))}
-  </div>
+  </Row>
 )
 }

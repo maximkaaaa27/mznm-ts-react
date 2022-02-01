@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../../redux/hooks';
 import { fetchFromRealtimeDB } from '../../../redux/firebase/firebase';
 import { Seasons } from "./Seasons";
-import { BadPath } from "../../../pages/BadPath";
+import { Spinner } from "react-bootstrap";
 
 
 export const TvShow = ({contentLink} : {contentLink: string}) => {
@@ -11,6 +11,7 @@ export const TvShow = ({contentLink} : {contentLink: string}) => {
   const showId = useParams().show;
   const shows = useAppSelector(state => state.firebase.shows);
   const uid = useAppSelector(state => state.auth.user.uid);
+  const loading = useAppSelector(state => state.firebase.loading);
   const isFullOption = (process.env.REACT_APP_USER_UID === uid);
 
   useEffect(() => {
@@ -31,9 +32,8 @@ export const TvShow = ({contentLink} : {contentLink: string}) => {
 
   return (
     <div className="py-5 m-3">
-      {(!tvshow) ?
-      <BadPath /> 
-      :<Seasons seasons={seasonsArr} tvshow={tvshow} isFullOption={isFullOption}/>}
+      { loading && <Spinner variant="secondary" animation="grow" />}
+      { tvshow && <Seasons seasons={seasonsArr} tvshow={tvshow} isFullOption={isFullOption} />}
     </div>
   )
 }
