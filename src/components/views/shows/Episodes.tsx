@@ -2,9 +2,15 @@ import React from "react";
 import { Col, Image, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { IEpisodes } from "../../../redux/firebase/interfaces";
+import { RemoveButton } from "../../buttons/RemoveButton";
 
 
-export const Episodes = ({seasonNumber, episodes} : {episodes: IEpisodes, seasonNumber: number}) => {
+export const Episodes = ({tvShowLink, seasonNumber, episodes, isFullOption} : {
+  tvShowLink: string
+  episodes: IEpisodes 
+  seasonNumber: number
+  isFullOption: boolean
+  }) => {
  
   const epArr = Object.keys(episodes).map(key => {
     return {...episodes[key]}
@@ -20,6 +26,9 @@ return (
           </Link>
           <p className="py-3 lead">{episode.name}</p>
         </div>
+      {isFullOption && <RemoveButton 
+      id={`${tvShowLink}/seasons/${seasonNumber}season/episodes/${episode.id}`} 
+      contentLink={'shows/'} />}
       </Col>
     ))}
   </Row>
