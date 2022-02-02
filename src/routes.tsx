@@ -21,7 +21,7 @@ export const useRoutes = () => {
       <Route path="/" element={<Home />} /> 
       <Route path="shows" element={<ShowsPage />} />
       <Route path="shows/:show" element={<TvShow contentLink={SHOWS}/>} />
-      <Route path="shows/:show/:s/:episode" element={<Episode />} />
+      <Route path="shows/:show/:season/:episode" element={<Episode />} />
       <Route path="movies" element={<MoviesPage /> } />
       <Route path="movies/:id" element={<Movie contentLink={MOVIES}/>} />
       <Route path="*" element={<BadPath />} />
