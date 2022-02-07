@@ -4,6 +4,55 @@ $nav-link-hover-color: #838383;
 
 @import '~bootstrap/scss/bootstrap.scss';
 
+.my-navbar-brand {
+  margin: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+  &__title {
+    margin: 0 5px;
+    font-size: 20px;
+    font-weight: 500;
+    color: white;
+  }
+
+  &__logo {
+    margin: 0 5px;
+    display: flex;
+    width: 35px;
+    height: 30px;
+  }
+
+}
+
+.user-pic {
+  background-size: 32px 32px;
+  height: 32px;
+  width: 32px;
+  margin-right: 0.5rem;
+}
+
+
+
+
+.page {
+  margin: 60px 10px;
+}
+
+.my-card {
+  &__title {
+    text-align: center;
+    height: 120px;
+  }
+
+  &__about {
+    height: 220px;
+    text-align: center;
+  }
+}
+
 .card {
   box-shadow: 0 0 20px;
 }
@@ -15,9 +64,8 @@ $nav-link-hover-color: #838383;
 .card:active {
   box-shadow: 0 0 5px;
 }
- #responsive-navbar-nav {
-   justify-content: space-between;
- }
+
+
 
  @media (max-width: 700px) {
   .ok-iframe {
@@ -25,7 +73,19 @@ $nav-link-hover-color: #838383;
     height: auto;
     display: block;
   }
-  .about {
-    display: none;
+
+
+  .my-card {
+
+    &__title {
+      height: auto;
+    }
+
+    &__about {
+      display: none;
+    }
+
+
+
   }
 }

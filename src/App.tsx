@@ -6,16 +6,22 @@ import { MyNavbar } from './components/MyNavbar';
 
 
 function App() {
-
-  
   const routes = useRoutes();
 
-  return (
-  <> 
-    <MyNavbar /> 
-    {routes}
-  </>
-  );
+    return (
+      <>
+        <header>
+          <MyNavbar />
+        </header> 
+
+        <main>
+          <div className="page">
+            {routes}
+          </div>
+        </main> 
+
+      </>
+    )
 }
 
 export default App;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { addSeasonToRealtimeDB } from "../../redux/firebase/firebase";
+import { addSeasonToRealtimeDB } from "../../../redux/firebase/firebase";
 import * as yup from 'yup';
-import { Plus } from "../icons/plus";
+import { Plus } from "../../icons/plus";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { Formik } from "formik";
 

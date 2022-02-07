@@ -28,7 +28,8 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
 
-export const fetchFromRealtimeDB = async (from: string) => {
+const fetchFromRealtimeDB = async (from: string) => {
+
   const contentRef = ref(database, `mznm/content/${from}`);
 
   store.dispatch(showLoader());
@@ -49,24 +50,24 @@ export const fetchFromRealtimeDB = async (from: string) => {
   
 }
 
-export const addToRealtimeDB = ({content, to}: {content: IContent, to: IFirebasePath}) => {
+const addToRealtimeDB = ({content, to}: {content: IContent, to: IFirebasePath}) => {
   let id = push(child(ref(database), to.contentLink)).key;
   const pathDB = `mznm/content/${to.contentLink}${id}`
   update(ref(database, pathDB), {...content, id})
 }
 
-export const addShowToRealtimeDB = ({content}: {content: IContentShows}) => {
+const addShowToRealtimeDB = ({content}: {content: IContentShows}) => {
   const pathDB = `mznm/content/shows/${content.link}`
   update(ref(database, pathDB), {...content})
 }
 
-export const addSeasonToRealtimeDB = ({content, id}: {content: ISeason, id: string}) => {
+const addSeasonToRealtimeDB = ({content, id}: {content: ISeason, id: string}) => {
   const seasonId = push(child(ref(database), `shows/${id}/seasons/`)).key;
   const pathDB = `mznm/content/shows/${id}/seasons/${content.seasonNumber}season`
   update(ref(database, pathDB), {...content, seasonId})
 }
 
-export const addEpisodeToRealtimeDB = ({content, link, season}: 
+const addEpisodeToRealtimeDB = ({content, link, season}: 
   {
     content: IContent, 
     link: string, 
@@ -78,20 +79,27 @@ export const addEpisodeToRealtimeDB = ({content, link, season}:
 }
 
 
-export const changeCardDB = ({content, to}: {
+const changeCardDB = ({content, to}: {
   content: IContent,
   to: IFirebasePath
 }) => {
   update(ref(database, `mznm/content/${to.contentLink}${content.id}`), {...content})
 }
 
-export const addCommentToDB = ({comment, to}: IAddComment) => {
+const changeShowCardDB = ({content, to}: {
+  content: IContentShows,
+  to: IFirebasePath
+}) => {
+  update(ref(database, `mznm/content/${to.contentLink}${content.link}`), {...content})
+}
+
+const addCommentToDB = ({comment, to}: IAddComment) => {
   const id = push(child(ref(database), `${to.contentLink}${to.contentId}/comments/`)).key;
   const path = `mznm/content/${to.contentLink}${to.contentId}/comments/${id}`;
   update(ref(database, path), {...comment.contains, id});
 }
 
-export const toggleVisibleComment = ({comment, contentId, contentLink}: 
+const toggleVisibleComment = ({comment, contentId, contentLink}: 
   {comment: {id: string, visible: boolean},
     contentLink: string
     contentId: string, 
@@ -99,13 +107,13 @@ export const toggleVisibleComment = ({comment, contentId, contentLink}:
     update(ref(database, `mznm/content/${contentLink + contentId}/comments/${comment.id}`), { visible: !comment.visible})
 }
 
-export const removeComment = ({contentLink, contentId, commentId} : 
+const removeComment = ({contentLink, contentId, commentId} : 
   {contentLink: string, contentId: string, commentId: string}) => {
   const commentKey = ref(database, `mznm/content/${contentLink + contentId}/comments/${commentId}`);
   remove(commentKey);
 }
 
-export const removeFromRealtimeDB = (from:string, id:string | null) => {
+const removeFromRealtimeDB = (from:string, id:string | null) => {
   if (!id || !from) return;
   const contentKey = ref(database, `mznm/content/${from + id}`);
   remove(contentKey);
@@ -117,8 +125,7 @@ export const removeFromRealtimeDB = (from:string, id:string | null) => {
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-
-export const authWithGoogle = () => {
+const authWithGoogle = () => {
   signInWithPopup(auth, provider).then((result) => {
     const user = result!.user;
     const payload = {
@@ -134,11 +141,26 @@ export const authWithGoogle = () => {
   })
 }
 
-export const signOutGoogle = () => {
+const signOutGoogle = () => {
   signOut(auth).then(() => {
     sessionStorage.removeItem('client');
     store.dispatch(signOutReducer())
   }).catch((error) => {
     console.log(error)
   });
+}
+
+export { 
+  fetchFromRealtimeDB, 
+  addToRealtimeDB, 
+  addShowToRealtimeDB, 
+  addSeasonToRealtimeDB, 
+  addEpisodeToRealtimeDB, 
+  changeCardDB, 
+  changeShowCardDB, 
+  addCommentToDB, 
+  toggleVisibleComment, 
+  removeComment, 
+  removeFromRealtimeDB, 
+  authWithGoogle, signOutGoogle 
 }

@@ -1,63 +1,84 @@
-import React, { useState } from 'react';
-import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
-import { changeCardDB } from '../../redux/firebase/firebase';
-import { Formik } from 'formik'
-import * as yup from 'yup';
-import { IContent } from '../../redux/firebase/interfaces';
+import React, { useState } from "react";
+import { Button, Col, Form, Modal, Row } from "react-bootstrap";
+import { addToRealtimeDB } from "../../../redux/firebase/firebase";
+import { Formik } from 'formik';
+import * as yup from 'yup'
+import { IContent } from "../../../redux/firebase/interfaces";
 
 
-export const EditButton = ({item, contentLink}:{item: any, contentLink: string}) => {
-
+export const AddButton = ({contentLink}:{contentLink: string}) => {
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const initialValues: IContent = {
+    id: '',
+    name: '',
+    about: '',
+    linkPic: '',
+    linkVideo: '',
+    comments: {'init': {
+      textContent: 'init',
+      date: 1,
+      userName: 'init',
+      userPic: 'pic',
+      visible: false,
+      id: 'init'
+    }}
+  }
 
-  const initialValues = {...item}
-
-  const editDatabase = (values: IContent) => {
-
+  const addToDatabase = (values: IContent) => {
+    
     try {
-      changeCardDB({
-        content: {...values},
+      addToRealtimeDB({
+        content: {
+          id: '', //not use
+          name: values.name,
+          about: values.about,
+          linkPic: values.linkPic,
+          linkVideo: values.linkVideo,
+          comments: initialValues.comments
+        },
         to: {
+          contentId: '',//not use
           contentLink,
-          contentId: item.id
         }
       });
 
       handleClose();
 
     } catch(error) {
-        console.error(error)
-        handleClose()
+
+      console.error(error);
+      handleClose();
+
     }
   }
 
-
   const schema = yup.object().shape({
     name: yup.string().required(),
-    linkPic: yup.string(),
-    linkVideo: yup.string(),
-    totalSeasons: yup.number(),
-    about: yup.string(),
+    about: yup.string().required().min(5),
+    linkPic: yup.string().required(),
+    linkVideo: yup.string().required(),
   });
 
-  return (
-    <>
-    <div className="btn" onClick={handleShow}>
-      ...
-    </div>
+
+return (
+
+  <>
+    <Button variant="secondary" onClick={handleShow}>
+      +
+    </Button>
 
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title> Изменить </Modal.Title>
+        <Modal.Title> Добавить </Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
       <Formik
         validationSchema={schema}
-        onSubmit={(values) => editDatabase(values)}
+        onSubmit={(values) => addToDatabase(values)}
         initialValues={initialValues}
       >
         {({
@@ -98,42 +119,25 @@ export const EditButton = ({item, contentLink}:{item: any, contentLink: string})
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
           </Row>
-          {item.linkVideo && 
-            <Row className="mb-3">
-              <Form.Group as={Col} controlId="validationFormik03">
-                <Form.Label>videoOkID</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="videoOkId"
-                  name="linkVideo"
-                  value={values.linkVideo}
-                  onChange={handleChange}
-                  isInvalid={!!errors.linkVideo}
-                />
-                  <Form.Control.Feedback type="invalid">
+          
+
+          <Row className="mb-3">
+            <Form.Group as={Col} controlId="validationFormik03">
+              <Form.Label>videoOkID</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="videoOkId"
+                name="linkVideo"
+                value={values.linkVideo}
+                onChange={handleChange}
+                isInvalid={!!errors.linkVideo}
+              />
+
+              <Form.Control.Feedback type="invalid">
                 {errors.linkVideo}
               </Form.Control.Feedback>
             </Form.Group>
-          </Row>          
-          }
-
-          {item.totalSeasons && 
-          <Row className="mb-3">
-          <Form.Group as={Col} controlId="validationFormik02">
-            <Form.Label> Количество сезонов: </Form.Label>
-            <Form.Control
-              type="string"
-              name="totalSeasons"
-              value={values.totalSeasons}
-              onChange={handleChange}
-              isValid={touched.totalSeasons && !errors.totalSeasons}
-            />
-            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-          </Form.Group>
           </Row>
-          
-          }
-
 
           <Row className="mb-3">
             <Form.Group as={Col} controlId="validationFormik03">
@@ -148,17 +152,18 @@ export const EditButton = ({item, contentLink}:{item: any, contentLink: string})
               />
 
               <Form.Control.Feedback type="invalid">
-                {errors.linkPic}
+                {errors.linkVideo}
               </Form.Control.Feedback>
             </Form.Group>
           </Row>
-          <Button type="submit" variant="info"> Сохранить </Button>
+          <Button type="submit" variant="info"> Добавить</Button>
         </Form>
       )}
     </Formik>
       </Modal.Body>
 
     </Modal>
-    </>
-  )
-}
+  </>
+)}
+
+

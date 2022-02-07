@@ -1,18 +1,16 @@
 import React, { useState } from "react";
+import { addEpisodeToRealtimeDB } from "../../../redux/firebase/firebase";
+import * as yup from 'yup';
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
-import { addToRealtimeDB } from "../../redux/firebase/firebase";
-import { Formik } from 'formik';
-import * as yup from 'yup'
-import { IContent } from "../../redux/firebase/interfaces";
+import { Formik } from "formik";
+import { IContent } from "../../../redux/firebase/interfaces";
+import { Plus } from "../../icons/plus";
 
-
-export const AddButton = ({contentLink}:{contentLink: string}) => {
-
+export const AddEpisodeBtn = ({link, season} : {link: string, season: string}) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const initialValues: IContent = {
-    id: '',
+  const initialValues = {
     name: '',
     about: '',
     linkPic: '',
@@ -27,22 +25,14 @@ export const AddButton = ({contentLink}:{contentLink: string}) => {
     }}
   }
 
-  const addToDatabase = (values: IContent) => {
+  const addToDatabase = ({...values}: IContent) => {
     
+
+
     try {
-      addToRealtimeDB({
-        content: {
-          id: '', //not use
-          name: values.name,
-          about: values.about,
-          linkPic: values.linkPic,
-          linkVideo: values.linkVideo,
-          comments: initialValues.comments
-        },
-        to: {
-          contentId: '',//not use
-          contentLink,
-        }
+      addEpisodeToRealtimeDB({
+        content: {...values},
+        link, season
       });
 
       handleClose();
@@ -57,28 +47,29 @@ export const AddButton = ({contentLink}:{contentLink: string}) => {
 
   const schema = yup.object().shape({
     name: yup.string().required(),
-    about: yup.string().required().min(5),
-    linkPic: yup.string().required(),
-    linkVideo: yup.string().required(),
+    about: yup.string(),
+    linkPic: yup.string(),
+    linkVideo: yup.string(),
   });
 
 
 return (
 
   <>
-    <Button variant="secondary" onClick={handleShow}>
-      +
-    </Button>
+    <div className="btn w-25  d-flex" onClick={handleShow}>
+      <p className="lead px-3"> Add Episode</p>
+      <Plus />
+    </div>
 
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title> Добавить </Modal.Title>
+        <Modal.Title> Добавить серию</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
       <Formik
         validationSchema={schema}
-        onSubmit={(values) => addToDatabase(values)}
+        onSubmit={(values) => addToDatabase({...values, id: ''})}
         initialValues={initialValues}
       >
         {({
@@ -94,7 +85,7 @@ return (
 
           <Row className="mb-3">
             <Form.Group as={Col}  controlId="validationFormik01">
-              <Form.Label> Название: </Form.Label>
+              <Form.Label> Название серии: </Form.Label>
               <Form.Control
                 type="text"
                 name="name"
@@ -108,7 +99,7 @@ return (
 
           <Row className="mb-3">
             <Form.Group as={Col} controlId="validationFormik02">
-              <Form.Label> Информация: </Form.Label>
+              <Form.Label> Описание: </Form.Label>
               <Form.Control
                 type="text"
                 name="about"
@@ -119,43 +110,36 @@ return (
               <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
           </Row>
-          
 
           <Row className="mb-3">
-            <Form.Group as={Col} controlId="validationFormik03">
-              <Form.Label>videoOkID</Form.Label>
+            <Form.Group as={Col} controlId="validationFormik02">
+              <Form.Label> linkPic: </Form.Label>
               <Form.Control
                 type="text"
-                placeholder="videoOkId"
-                name="linkVideo"
-                value={values.linkVideo}
-                onChange={handleChange}
-                isInvalid={!!errors.linkVideo}
-              />
-
-              <Form.Control.Feedback type="invalid">
-                {errors.linkVideo}
-              </Form.Control.Feedback>
-            </Form.Group>
-          </Row>
-
-          <Row className="mb-3">
-            <Form.Group as={Col} controlId="validationFormik03">
-              <Form.Label>Link for image</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="linkPic"
                 name="linkPic"
                 value={values.linkPic}
                 onChange={handleChange}
-                isInvalid={!!errors.linkPic}
+                isValid={touched.linkPic && !errors.linkPic}
               />
-
-              <Form.Control.Feedback type="invalid">
-                {errors.linkVideo}
-              </Form.Control.Feedback>
+              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
             </Form.Group>
           </Row>
+          
+          <Row className="mb-3">
+            <Form.Group as={Col} controlId="validationFormik02">
+              <Form.Label> linkVideo: </Form.Label>
+              <Form.Control
+                type="text"
+                name="linkVideo"
+                value={values.linkVideo}
+                onChange={handleChange}
+                isValid={touched.linkVideo && !errors.linkVideo}
+              />
+              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+            </Form.Group>
+          </Row>
+          
+
           <Button type="submit" variant="info"> Добавить</Button>
         </Form>
       )}
@@ -165,5 +149,3 @@ return (
     </Modal>
   </>
 )}
-
-

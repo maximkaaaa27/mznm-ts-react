@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
-import { addShowToRealtimeDB } from "../../redux/firebase/firebase";
-import { IContentShows } from "../../redux/firebase/interfaces";
+import { addShowToRealtimeDB } from "../../../redux/firebase/firebase";
+import { IContentShows } from "../../../redux/firebase/interfaces";
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import { Plus } from "../icons/plus";
+import { Plus } from "../../icons/plus";
 
 
 export const AddShowButton = () => {
@@ -143,7 +143,7 @@ return (
               <Form.Label>Link (min: 4, max:12 only Eng Letters</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="linkPic"
+                placeholder="link"
                 name="link"
                 value={values.link}
                 onChange={handleChange}

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Card, Col } from 'react-bootstrap';
+import { Col, Image } from 'react-bootstrap';
 import { IContentShows } from '../../../redux/firebase/interfaces';
-import { EditButton } from '../../buttons/EditButton';
+import { EditShowBtn } from '../../buttons/editors/EditShowBtn';
 import { RemoveButton } from '../../buttons/RemoveButton';
 
 
@@ -13,33 +13,34 @@ export const Shows = ({shows, contentLink, isFullOption} : {
 }) => (
   <>
   {shows.map(tvshow => (
-        <Col key={tvshow.link} className="m-3">  
-          <Card
-          border="secondary"
-          bg="light"
-          >
-            <Card.Header
-            className="d-flex justify-content-between align-items-center"
-            >
-              <Card.Title> {tvshow.name} </Card.Title>
-              {isFullOption && 
-              <div>
-                <EditButton item={tvshow} contentLink={contentLink} />
+        <Col key={tvshow.link}>
+
+          {isFullOption && 
+              <div className='d-flex'>
+                <EditShowBtn item={tvshow} contentLink={contentLink} />
                 <RemoveButton id={tvshow.link} contentLink={contentLink} />
               </div>
-              }
-            </Card.Header>
-            
-            <Card.Body>
-              <Link to={tvshow.link}>
-              <Card.Img alt="..." src={tvshow.linkPic} />
-              </Link>
-              <Card.Text>
-                {tvshow.about}
-              </Card.Text>
-            </Card.Body>
+          }
 
-          </Card>
+          <div className="bg-light shadow overflow-hidden">
+            <div className="my-card my-3 p-4">
+
+              <div className="my-card__title">
+                <h2> {tvshow.name} </h2>
+              </div>
+
+              <div className='mx-auto'>
+                <Link to={tvshow.link}>            
+                  <Image fluid alt="card pic" className="btn" src={tvshow.linkPic} />
+                </ Link>
+              </div>
+
+              <div className="my-card__about">
+                <p className='lead about'>{tvshow.about}</p>
+              </div>
+
+            </div> 
+          </div>
         </Col>
       ))}
   </>
