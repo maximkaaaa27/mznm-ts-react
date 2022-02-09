@@ -38,14 +38,14 @@ export const AddShowButton = () => {
     }
   }
 
-  const nameRegex = /^[a-z]+$/;
+  const lowEngRegex = /^[a-z]+$/;
 
   const schema = yup.object().shape({
     name: yup.string().required(),
     nameEng: yup.string(),
     about: yup.string().required(),
     linkPic: yup.string().required(),
-    link: yup.string().required().matches(nameRegex, "Only low English letters").min(4).max(12),
+    link: yup.string().required().matches(lowEngRegex, "Only low English letters").min(4).max(12),
     totalSeasons: yup.number(),
   });
 

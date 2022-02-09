@@ -8,6 +8,8 @@ export const DropdownProfile = ({userPic, userName, signOut} : {
   signOut: () => void
 }) => {
 
+  const name = userName.split(' ')[0];
+  const firstLetterLastName = userName.split(' ')[1].charAt(0) + '.';
 
   
 return (
@@ -20,7 +22,7 @@ return (
   >
     <Dropdown.Header>
       { userPic && <Image src={userPic} className="user-pic" roundedCircle/> }
-      { userName.split(' ')[0] + ' ' + userName.split(' ')[1].charAt(0) } 
+      { name + ' ' + firstLetterLastName } 
     </Dropdown.Header>
 
     <Dropdown.Item onClick={() => signOut()}>Sign out</Dropdown.Item>

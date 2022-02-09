@@ -81,7 +81,6 @@ export const EditButton = ({item, contentLink}:{item: IContent, contentLink: str
                           value={values.name}
                           onChange={handleChange}
                           isValid={touched.name && !errors.name} />
-                        <Form.Control.Feedback> Ништяк </Form.Control.Feedback>
                       </Form.Group>
                     </Row>
 

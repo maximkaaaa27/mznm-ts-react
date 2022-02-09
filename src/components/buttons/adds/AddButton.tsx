@@ -58,12 +58,13 @@ export const AddButton = ({contentLink}:{contentLink: string}) => {
 
     }
   }
+  const engRegex = /^[A-z]+$/;
 
   const schema = yup.object().shape({
     name: yup.string().required(),
-    nameEng: yup.string(),
+    nameEng: yup.string().matches(engRegex, "Only English letters"),
     year: yup.string(),
-    about: yup.string().required().min(5),
+    about: yup.string().required().min(15,'меньше 15 символов'),
     linkPic: yup.string().required(),
     linkVideo: yup.string().required(),
   });
@@ -119,8 +120,11 @@ return (
                 name="nameEng"
                 value={values.nameEng}
                 onChange={handleChange}
-                isValid={touched.nameEng && !errors.nameEng}
+                isInvalid={!!errors.nameEng}
               />
+              <Form.Control.Feedback type="invalid">
+                {errors.nameEng}
+              </Form.Control.Feedback>
             </Form.Group>
           </Row>
 
