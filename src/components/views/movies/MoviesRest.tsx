@@ -12,15 +12,14 @@ export const MoviesRest = ({currentMovie, movies}:{
   const restMovies = movies.filter(item => item.id !== currentMovie.id);
 
 return (
-  <>
+<>
   {restMovies.map(movie => (
-    <div className='bg-light' key={movie.id} style={{"width": "40%"}}>
- 
+    <div className="rest">
       <Link to={"/movies/" + movie.id}>
-        <Image fluid alt='pic'className='btn' src={movie.linkPic}/>
+        <Image alt='pic' src={movie.linkPic} fluid/>
       </Link>
-      <p className='lead'>{movie.name}</p>
+      {movie.name}
     </div>
   ))}
-  </>
+</>
 )}

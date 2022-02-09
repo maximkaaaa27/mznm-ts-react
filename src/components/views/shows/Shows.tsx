@@ -27,6 +27,7 @@ export const Shows = ({shows, contentLink, isFullOption} : {
 
               <div className="my-card__title">
                 <h2> {tvshow.name} </h2>
+                <p>{tvshow.nameEng}</p>
               </div>
 
               <div className='mx-auto'>

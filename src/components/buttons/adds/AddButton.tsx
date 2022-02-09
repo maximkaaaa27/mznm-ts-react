@@ -14,6 +14,8 @@ export const AddButton = ({contentLink}:{contentLink: string}) => {
   const initialValues: IContent = {
     id: '',
     name: '',
+    nameEng: '',
+    year: '',
     about: '',
     linkPic: '',
     linkVideo: '',
@@ -34,6 +36,8 @@ export const AddButton = ({contentLink}:{contentLink: string}) => {
         content: {
           id: '', //not use
           name: values.name,
+          nameEng: values.nameEng,
+          year: values.year,
           about: values.about,
           linkPic: values.linkPic,
           linkVideo: values.linkVideo,
@@ -57,6 +61,8 @@ export const AddButton = ({contentLink}:{contentLink: string}) => {
 
   const schema = yup.object().shape({
     name: yup.string().required(),
+    nameEng: yup.string(),
+    year: yup.string(),
     about: yup.string().required().min(5),
     linkPic: yup.string().required(),
     linkVideo: yup.string().required(),
@@ -102,7 +108,32 @@ return (
                 onChange={handleChange}
                 isValid={touched.name && !errors.name}
               />
-              <Form.Control.Feedback> Ништяк </Form.Control.Feedback>
+            </Form.Group>
+          </Row>
+
+          <Row className="mb-3">
+            <Form.Group as={Col}  controlId="validationFormik01">
+              <Form.Label> Оригинальное название(eng): </Form.Label>
+              <Form.Control
+                type="text"
+                name="nameEng"
+                value={values.nameEng}
+                onChange={handleChange}
+                isValid={touched.nameEng && !errors.nameEng}
+              />
+            </Form.Group>
+          </Row>
+
+          <Row className="mb-3">
+            <Form.Group as={Col}  controlId="validationFormik01">
+              <Form.Label> Год: </Form.Label>
+              <Form.Control
+                type="text"
+                name="year"
+                value={values.year}
+                onChange={handleChange}
+                isValid={touched.year && !errors.year}
+              />
             </Form.Group>
           </Row>
 

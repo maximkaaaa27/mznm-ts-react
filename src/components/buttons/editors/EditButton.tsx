@@ -86,6 +86,32 @@ export const EditButton = ({item, contentLink}:{item: IContent, contentLink: str
                     </Row>
 
                     <Row className="mb-3">
+                      <Form.Group as={Col}  controlId="validationFormik01">
+                        <Form.Label> Оригинальное название(eng): </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="nameEng"
+                          value={values.nameEng}
+                          onChange={handleChange}
+                          isValid={touched.nameEng && !errors.nameEng}
+                        />
+                      </Form.Group>
+                    </Row>
+
+                    <Row className="mb-3">
+                      <Form.Group as={Col}  controlId="validationFormik01">
+                        <Form.Label> Год: </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="year"
+                          value={values.year}
+                          onChange={handleChange}
+                          isValid={touched.year && !errors.year}
+                        />
+                      </Form.Group>
+                    </Row>
+
+                    <Row className="mb-3">
                       <Form.Group as={Col} controlId="validationFormik02">
                         <Form.Label> Информация: </Form.Label>
                         <Form.Control

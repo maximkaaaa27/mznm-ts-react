@@ -2,6 +2,7 @@ import React from 'react';
 import './styles/App.scss';
 import { useRoutes } from './routes'
 import { MyNavbar } from './components/MyNavbar';
+import { MyFooter } from './components/MyFooter';
 
 
 
@@ -18,7 +19,11 @@ function App() {
           <div className="page">
             {routes}
           </div>
-        </main> 
+        </main>
+
+        <footer className='my-footer'>
+          <MyFooter />
+        </footer> 
 
       </>
     )

@@ -31,9 +31,9 @@ export const TvShow = ({contentLink} : {contentLink: string}) => {
 
 
   return (
-    <div className="py-5 m-3">
+    <>
       { loading && <Spinner variant="secondary" animation="grow" />}
       { tvshow && <Seasons seasons={seasonsArr} tvshow={tvshow} isFullOption={isFullOption} />}
-    </div>
+    </>
   )
 }

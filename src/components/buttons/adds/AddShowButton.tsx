@@ -14,6 +14,7 @@ export const AddShowButton = () => {
   const handleShow = () => setShow(true);
   const initialValues = {
     name: '',
+    nameEng: '',
     about: '',
     totalSeasons: 0,
     linkPic: '',
@@ -41,6 +42,7 @@ export const AddShowButton = () => {
 
   const schema = yup.object().shape({
     name: yup.string().required(),
+    nameEng: yup.string(),
     about: yup.string().required(),
     linkPic: yup.string().required(),
     link: yup.string().required().matches(nameRegex, "Only low English letters").min(4).max(12),
@@ -88,6 +90,19 @@ return (
                 isValid={touched.name && !errors.name}
               />
               <Form.Control.Feedback> Ништяк </Form.Control.Feedback>
+            </Form.Group>
+          </Row>
+
+          <Row className="mb-3">
+            <Form.Group as={Col}  controlId="validationFormik01">
+              <Form.Label> Оригинальное название(eng): </Form.Label>
+              <Form.Control
+                type="text"
+                name="nameEng"
+                value={values.nameEng}
+                onChange={handleChange}
+                isValid={touched.nameEng && !errors.nameEng}
+              />
             </Form.Group>
           </Row>
 

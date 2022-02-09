@@ -13,6 +13,8 @@ export interface IComment {
 export interface IContent {
   id: string
   name: string
+  nameEng: string
+  year: string
   about: string
   linkPic: string
   linkVideo: string
@@ -37,6 +39,7 @@ export interface ISeasons {
 
 export interface IContentShows {
   name: string
+  nameEng: string
   about: string
   linkPic: string
   link: string

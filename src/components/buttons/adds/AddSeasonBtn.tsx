@@ -36,8 +36,7 @@ export const AddSeasonBtn = ({id, totalSeasons} : {id: string, totalSeasons: num
 return (
 
   <>
-    <div className="btn w-25  d-flex" onClick={handleShow}>
-      <p className="lead px-3"> Add Season</p>
+    <div className="btn" onClick={handleShow}>
       <Plus />
     </div>
 

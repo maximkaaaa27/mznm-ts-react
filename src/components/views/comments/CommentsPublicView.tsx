@@ -22,5 +22,4 @@ export const CommentsPublicView = ({comments}: {comments: {id: string, userName:
       )) 
     }  
   </>
-
 )

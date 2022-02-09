@@ -38,6 +38,7 @@ export const EditShowBtn = ({item, contentLink}:{item: any, contentLink: string}
 
   const schema = yup.object().shape({
     name: yup.string().required(),
+    nameEng: yup.string(),
     linkPic: yup.string(),
     link: yup.string().required().matches(nameRegex, "Only low English letters").min(4).max(12),
     linkVideo: yup.string(),
@@ -84,6 +85,19 @@ export const EditShowBtn = ({item, contentLink}:{item: any, contentLink: string}
                           onChange={handleChange}
                           isValid={touched.name && !errors.name} />
                         <Form.Control.Feedback> Ништяк </Form.Control.Feedback>
+                      </Form.Group>
+                    </Row>
+
+                    <Row className="mb-3">
+                      <Form.Group as={Col}  controlId="validationFormik01">
+                        <Form.Label> Оригинальное название(eng): </Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="nameEng"
+                          value={values.nameEng}
+                          onChange={handleChange}
+                          isValid={touched.nameEng && !errors.nameEng}
+                        />
                       </Form.Group>
                     </Row>
 

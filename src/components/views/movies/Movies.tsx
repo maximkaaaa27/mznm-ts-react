@@ -25,6 +25,7 @@ export const Movies = ({listMovies, showTools}:{
 
             <div className="my-card__title">
               <h2> {movie.name} </h2>
+              <p>{movie.nameEng}({movie.year}) </p>
             </div>
 
             <div className='mx-auto'>

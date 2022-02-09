@@ -14,25 +14,39 @@ const user = useAppSelector(state => state.auth.user)
 const isFullOption = (process.env.REACT_APP_USER_UID === user.uid);
 
 
-useEffect(() => {
-  if (!movies.length) {
-    fetchFromRealtimeDB(contentLink);
-  }
-},[movies, contentLink]);
+  useEffect(() => {
+    if (!movies.length) {
+      fetchFromRealtimeDB(contentLink);
+    }
+  },[movies, contentLink]);
 
 
 const movie = 'Not found' && movies.find(({id}) => id === movieId);
 
 
 return (
-  <div className="d-flex-column my-5">
-    <h1 className="display-6 p-3">{movie?.name}</h1>
-    {movie && 
-      <div className="m-3">
-        <VideoView video={movie}/>
-        <MoviesRest currentMovie={movie} movies={movies}/>
-        <CommentsView current={movie} fullOption={isFullOption} contentLink={contentLink}/>
-      </div>
+  <div className="movie">
+
+    {movie &&
+      <div className="movie-contains">
+        <div className="movie-contains__title">
+          <h2>{movie.name}</h2>
+          <p>{movie.nameEng}({movie.year}) </p>
+        </div>
+
+        <div className="movie-contains__video">
+          <VideoView video={movie}/>
+        </div>
+
+        <div className="movie-contains__rest">
+          <MoviesRest currentMovie={movie} movies={movies}/>
+        </div>
+
+        <div className="movie-contains__comments">
+          <CommentsView current={movie} fullOption={isFullOption} contentLink={contentLink}/>
+        </div>
+
+      </div> 
     }
   </div> 
 )

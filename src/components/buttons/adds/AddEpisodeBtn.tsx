@@ -10,8 +10,11 @@ export const AddEpisodeBtn = ({link, season} : {link: string, season: string}) =
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  
   const initialValues = {
     name: '',
+    nameEng: '',
+    year: '',
     about: '',
     linkPic: '',
     linkVideo: '',
@@ -56,8 +59,7 @@ export const AddEpisodeBtn = ({link, season} : {link: string, season: string}) =
 return (
 
   <>
-    <div className="btn w-25  d-flex" onClick={handleShow}>
-      <p className="lead px-3"> Add Episode</p>
+    <div  style={{"cursor": "pointer"}} onClick={handleShow}>
       <Plus />
     </div>
 

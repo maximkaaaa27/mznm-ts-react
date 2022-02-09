@@ -17,27 +17,33 @@ export const Episodes = ({tvShowLink, seasonNumber, episodes, isFullOption} : {
     return {...episodes[key]}
   })
 
+  const pathEpisodes = `${tvShowLink}/seasons/${seasonNumber}season/episodes/`
+
 return (
-  <Row className="my-5 p-3" xs={1} lg={3}>
-    {epArr.map(episode => (
-      <Col key={episode.id}>
-        <div className="d-flex justify-content-end align-items-center">
-          {isFullOption && <EditButton 
-          contentLink={`shows/${tvShowLink}/seasons/${seasonNumber}season/episodes/`} item={episode}/>}
+    <Row xs={1} lg={3}>
+      { epArr.map(episode => (
+          <Col key={episode.id}>
 
-          {isFullOption && <RemoveButton 
-          id={`${tvShowLink}/seasons/${seasonNumber}season/episodes/${episode.id}`} 
-          contentLink={'shows/'} />}
-        </div>
-        <div className="p-3 bg-dark text-center text-white border">
-          <Link to={`${seasonNumber}/${episode.id}`}>
-            <Image alt="ep-pic" fluid src={episode.linkPic} />
-          </Link>
-          <p className="py-3 lead">{episode.name}</p>
-        </div>
+            {isFullOption &&
+              <div className="episode-tools"> 
+                <EditButton 
+                  contentLink={`shows/${pathEpisodes}`} item={episode}/>
+                <RemoveButton 
+                  id={pathEpisodes + episode.id} 
+                  contentLink={'shows/'} />
+              </div>
+            }
 
-      </Col>
-    ))}
-  </Row>
-)
+            <div className="episode-video">
+              <Link to={`${seasonNumber}/${episode.id}`}>
+                <Image alt="ep-pic" fluid src={episode.linkPic} />
+              </Link>
+              <p className="py-3 lead">{episode.name}</p>
+            </div>
+
+          </Col>
+        )
+      )}
+    </Row>
+  )
 }

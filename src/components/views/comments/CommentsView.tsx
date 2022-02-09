@@ -22,18 +22,23 @@ export const CommentsView = ({current, fullOption, contentLink}: {
   return (
     <>
       <h3 className="border-bottom">Comments</h3>
-        {fullOption ? <CommentsPrivateView 
-        comments={comments} 
-        contentLink={contentLink}
-        contentId={current.id}
+        {!!(fullOption) ? 
+        <CommentsPrivateView 
+          comments={comments} 
+          contentLink={contentLink}
+          contentId={current.id}
         /> 
         : <CommentsPublicView comments={publicComments}/>
         }
 
         {(!user.name) ? 
-        <div className="mt-3 d-flex">
-        <p className='btn text-warning' onClick={() => authWithGoogle()}>Представьтесь</p>
-        <p className='btn text-info'>для того чтобы присоединиться к обсуждению</p>
+        <div className="auth">
+          <div className='auth__sign' onClick={() => authWithGoogle()}>
+            <p>Представьтесь</p> 
+          </div>
+          <div className='auth__text'>
+            <p>для того чтобы присоединиться к обсуждению</p>            
+          </div>
         </div> 
         :<SendCommentForm 
         userName={user.name}

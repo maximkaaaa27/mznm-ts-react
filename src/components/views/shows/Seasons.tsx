@@ -11,30 +11,51 @@ export const Seasons = ({ seasons, tvshow, isFullOption } : {
   tvshow: IContentShows,
   isFullOption: boolean
 }) => (
-  <>
-    {seasons?.map(season => (
-      <div key={season.seasonId} className="bg-light border my-2 p-3 text-center">
-        <div className="px-2 d-flex justify-content-center align-items-center">
-          <h3> {season.seasonNumber} Season {season.year && <>({season.year})</>} </h3>
-          <div className="align-self-start px-2">
-          {isFullOption && <RemoveButton
-            contentLink="shows/"
-            id={`${tvshow.link}/seasons/${season.seasonNumber}season`} />}
-          </div>
+  <div className="seasons">
+    { seasons?.map(season => (
+      <div key={season.seasonId} className="season">
+
+        <div className="season__title">
+          {season.seasonNumber} Season {season.year && <>({season.year})</>}
         </div>
 
-        {season.episodes && <Episodes
-          episodes={season.episodes}
-          seasonNumber={season.seasonNumber}
-          isFullOption={isFullOption}
-          tvShowLink={tvshow.link} />}
-        {isFullOption &&
-          <AddEpisodeBtn link={tvshow.link} season={season.seasonNumber + 'season'} />}
-      </div>)
+        <div className="season__tools">
+          { isFullOption && 
+          <>
+            <div className="add-button">
+              <p>Add Episode</p>
+              <AddEpisodeBtn 
+                link={tvshow.link} 
+                season={season.seasonNumber + 'season'} 
+              />
+            </div>
+
+            <div className="remove-button">
+            <p>Delete Season</p>
+              <RemoveButton
+                contentLink="shows/"
+                id={`${tvshow.link}/seasons/${season.seasonNumber}season`} />
+            </div>
+          </> }
+        </div>
+
+        <div className="season__episodes">
+          { season.episodes && 
+          <Episodes
+            episodes={season.episodes}
+            seasonNumber={season.seasonNumber}
+            isFullOption={isFullOption}
+            tvShowLink={tvshow.link} /> }
+        </div>
+      </div>
       )
-    }
+    )}
+
     { tvshow && isFullOption &&
+    <div>
+      <p>Add Season</p>
       <AddSeasonBtn id={ tvshow.link } totalSeasons={ tvshow.totalSeasons }/>
+    </div>
     }
-  </>
+  </div>
 )
