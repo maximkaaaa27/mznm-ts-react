@@ -38,6 +38,35 @@ $nav-link-hover-color: #838383;
 
 .page {
   margin: 50px 10px;
+  .page-home {
+    &__title {   
+      margin: 15px 0;
+      padding: 20px;
+      font-size: 16px;
+      cursor: default;
+      text-align: center;
+      p {
+        color: #565656;
+        font-weight: 300;
+      }
+    }
+
+    &__tvshows {
+      text-align: start;
+
+      h4 {
+        padding: 15px;
+      }
+    }
+
+    &__movies {
+      text-align: start;
+
+      h4 {
+        padding: 15px;
+      }
+    }
+  }
 }
 
 .my-card {
@@ -47,6 +76,7 @@ $nav-link-hover-color: #838383;
   }
 
   &__about {
+    cursor: default;
     height: 220px;
     text-align: center;
   }

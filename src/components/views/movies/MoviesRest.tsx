@@ -14,7 +14,7 @@ export const MoviesRest = ({currentMovie, movies}:{
 return (
 <>
   {restMovies.map(movie => (
-    <div className="rest">
+    <div className="rest" key={movie.id}>
       <Link to={"/movies/" + movie.id}>
         <Image alt='pic' src={movie.linkPic} fluid/>
       </Link>
