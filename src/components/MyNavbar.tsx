@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from 'react-router-dom';
-import { Button, Navbar } from 'react-bootstrap';
+import { Button, Nav, Navbar } from 'react-bootstrap';
 import { useAppSelector } from "../redux/hooks";
 import { authWithGoogle, signOutGoogle } from "../redux/firebase/firebase";
 import { PersonIcon } from "./icons/person";
@@ -39,12 +39,11 @@ export const MyNavbar = () => {
           </div>
 
           <Navbar.Collapse id="responsive-navbar-nav">
-
-            <div className="me-auto navbar-nav">
-              <Link className="nav-link px-4" aria-current="page" to="/"> Home </Link>
-              <Link className="nav-link px-4" to="/shows" > Shows </Link>
-              <Link className="nav-link px-4" to="/movies" > Movies </Link>
-            </div>
+            <Nav className="me-auto">
+              <Nav.Link as={Link} to="/" eventKey="home" className="px-4">Home</Nav.Link>
+              <Nav.Link as={Link} to="/shows" eventKey="shows" className="px-4">Shows</Nav.Link>
+              <Nav.Link as={Link} to="/movies" eventKey="movies" className="px-4">Movies</Nav.Link>
+            </Nav>
 
             <div className="pe-3">
                 {(user.name) ? 
