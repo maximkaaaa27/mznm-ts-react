@@ -18,7 +18,7 @@ return (
   {restMovies.map(episode => (
     <div className="rest">
       <Link to={"/shows/"+ show + season + episode.id}>
-        <Image alt='pic' src={episode.linkPic} fluid/>
+        <Image alt='pic' src={episode.linkPic} width="250px" fluid/>
       </Link>
       {episode.name}
     </div>

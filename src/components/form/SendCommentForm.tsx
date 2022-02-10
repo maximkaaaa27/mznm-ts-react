@@ -7,8 +7,12 @@ import { addCommentToDB } from "../../redux/firebase/firebase";
 import { IContent } from "../../redux/firebase/interfaces";
 
 
-export const SendCommentForm = (
-  {userName, userPic, contentLink, current}: {userName: string, userPic: string, contentLink: string, current: IContent}) => {
+export const SendCommentForm = ({userName, userPic, contentLink, current} : {
+  userName: string 
+  userPic: string 
+  contentLink: string 
+  current: IContent 
+}) => {
 
   const [modalShow, setModalShow] = useState(false);
 
@@ -39,12 +43,12 @@ export const SendCommentForm = (
   
 
   const schema = yup.object().shape({
-    textContent: yup.string().required().min(5),
+    textContent: yup.string().required('пусто пусто'),
   });
 
 
   return (
-    <div className="m-2">
+    <div className="comment_send">
     <Formik
       validationSchema={schema}
       onSubmit={(value, {resetForm}) => addToDatabase(value.textContent, resetForm)}
@@ -62,17 +66,27 @@ export const SendCommentForm = (
         errors,
       }) => (
         <Form noValidate onSubmit={handleSubmit}>
-          <Form.Group className="m-2" controlId="validationFormik01">
+          <Form.Group className="comment_send__field" controlId="validationFormik01">
             <Form.Control
               as="textarea"
               placeholder="Leave a comment here"
-              style={{ 'height': '80px', 'width': '50%', 'resize': 'none', 'marginBottom':'0.5rem'}}
               name="textContent"
               value={values.textContent}
               onChange={handleChange}
-              isValid={touched.textContent && !errors.textContent}
+              isInvalid={!!errors.textContent}
             />
-            <Button type="submit" variant="info" >Send</Button>
+            <Form.Control.Feedback type="invalid">
+              {errors.textContent}
+            </Form.Control.Feedback> 
+
+            <Button 
+              className="comment_send__field__submit-btn"
+              type="submit" 
+              variant="info" 
+            >
+              Send
+            </Button>
+
           </Form.Group>
             
           </Form>

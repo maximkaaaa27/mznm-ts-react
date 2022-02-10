@@ -16,7 +16,7 @@ return (
   {restMovies.map(movie => (
     <div className="rest" key={movie.id}>
       <Link to={"/movies/" + movie.id}>
-        <Image alt='pic' src={movie.linkPic} fluid/>
+        <Image alt='pic' src={movie.linkPic} width="250px" fluid/>
       </Link>
       {movie.name}
     </div>

@@ -9,12 +9,12 @@ export const CommentsPublicView = ({comments}: {comments: {id: string, userName:
     {(!comments.length || !comments) ?
       <h6>Здесь пока нет ни одного комментария, вы можете стать первым!</h6>
       : comments.map(comment => (
-        <div key={comment.id} className="p-3">
-          <div className='d-flex'>
-            <div className='avatar'>
+        <div key={comment.id}>
+          <div className='comment'>
+            <div className='comment__avatar'>
               <Image height="35px" width="35px" roundedCircle src={comment.userPic} />
             </div>
-            <div className="m-2 p-3 bg-light border rounded-3 overflow-auto">           
+            <div className="comment__contains">           
               <p>{comment.textContent}</p>
             </div>
           </div>

@@ -14,20 +14,35 @@ export const CommentsPrivateView = ({comments, contentLink, contentId}: {comment
       {(!comments) ?
         <h6>Здесь пока нет ни одного комментария, вы можете стать первым!</h6>
       : comments.map(comment => (
-          <div key={comment.id} className="p-3">
-           
-              <div className='d-flex'>
-                <Image height="35px" width="35px" roundedCircle src={comment.userPic} />
-                  <div className="m-2 p-3 w-75 bg-light border rounded-3 overflow-auto">           
-                    <p>{comment.textContent}</p>
-                  </div>
+          <div key={comment.id}>
           
-          <div className="btn" onClick={() => toggleVisibleComment({comment, contentLink, contentId})}>
-            {!!comment.visible ? <EyeIcon /> : <EyeSlash />}
-          </div>
-          <div className="btn" onClick={() => removeComment({contentLink, contentId, commentId: comment.id})}>
-            <Trash />
-          </div>
+            <div className='comment'>
+
+            <div className="comment__avatar">
+              <Image height="35px" width="35px" roundedCircle src={comment.userPic} />
+            </div>
+
+            <div className="comment__contains">           
+              <p>{comment.textContent}</p>
+            </div>
+
+            <div className="comment__tools">
+
+              <div 
+                className="btn" 
+                onClick={() => toggleVisibleComment({comment, contentLink, contentId})}
+              >
+                {!!comment.visible ? <EyeIcon /> : <EyeSlash />}
+              </div>
+
+
+              <div 
+              className="btn" 
+              onClick={() => removeComment({contentLink, contentId, commentId: comment.id})}
+              >
+                <Trash />
+              </div>
+            </div>
         </div>
        
         </div>   

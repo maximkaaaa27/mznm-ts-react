@@ -20,8 +20,8 @@ export const CommentsView = ({current, fullOption, contentLink}: {
   const publicComments = !comments ? [] : comments.filter(i => i.visible);
   
   return (
-    <>
-      <h3 className="border-bottom">Comments</h3>
+    <div className='comments'>
+      <h3>Комментарии</h3>
         {!!(fullOption) ? 
         <CommentsPrivateView 
           comments={comments} 
@@ -46,6 +46,6 @@ export const CommentsView = ({current, fullOption, contentLink}: {
         contentLink={contentLink}
         current={current}
         />}    
-    </>
+    </div>
   )
 }
