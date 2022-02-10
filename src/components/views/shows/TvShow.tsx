@@ -12,7 +12,7 @@ export const TvShow = ({contentLink} : {contentLink: string}) => {
   const shows = useAppSelector(state => state.firebase.shows);
   const uid = useAppSelector(state => state.auth.user.uid);
   const loading = useAppSelector(state => state.firebase.loading);
-  const isFullOption = (process.env.REACT_APP_USER_UID === uid);
+  const isFullOption = (process.env.REACT_APP_USER_UID === uid || process.env.REACT_APP_USER_UID_ZHEN === uid);
 
   useEffect(() => {
     if (!shows.length) {

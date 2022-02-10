@@ -10,8 +10,8 @@ export const Movie = ({contentLink} : {contentLink: string}) => {
 
 const movieId = useParams().id;
 const movies = useAppSelector(state => state.firebase.movies);
-const user = useAppSelector(state => state.auth.user)
-const isFullOption = (process.env.REACT_APP_USER_UID === user.uid);
+const uid = useAppSelector(state => state.auth.user.uid)
+const isFullOption = (process.env.REACT_APP_USER_UID === uid || process.env.REACT_APP_USER_UID_ZHEN === uid);
 
 
   useEffect(() => {
