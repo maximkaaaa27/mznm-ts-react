@@ -1,6 +1,7 @@
 import React from "react";
 import { VkLogo } from "./icons/vk_logo";
 
+
 export const MyFooter = () => (
 
   <>

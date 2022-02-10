@@ -14,7 +14,7 @@ export const CommentsPublicView = ({comments}: {comments: {id: string, userName:
             <div className='avatar'>
               <Image height="35px" width="35px" roundedCircle src={comment.userPic} />
             </div>
-            <div className="m-2 p-3 w-75 bg-light border rounded-3 overflow-auto">           
+            <div className="m-2 p-3 bg-light border rounded-3 overflow-auto">           
               <p>{comment.textContent}</p>
             </div>
           </div>

@@ -3,16 +3,19 @@ import { Link } from 'react-router-dom';
 import { Button, Nav, Navbar } from 'react-bootstrap';
 import { useAppSelector } from "../redux/hooks";
 import { authWithGoogle, signOutGoogle } from "../redux/firebase/firebase";
+import navLogo from '../assets/mznm_logo.webp';
 import { PersonIcon } from "./icons/person";
 import { DropdownProfile } from "./buttons/DropdownProfile";
+
 
 
 export const MyNavbar = () => {
 
   const user = useAppSelector(state => state.auth.user)
   const userPic = () => user.pic === null ? undefined : user.pic
-  
 
+
+  
   return (
     <>
       <Navbar 
@@ -28,7 +31,9 @@ export const MyNavbar = () => {
           <div className="my-navbar-brand">
             <div className="my-navbar-brand__logo">
               <img
-                src="https://firebasestorage.googleapis.com/v0/b/mznm-ts.appspot.com/o/mznm%2Fmznm-logo.png?alt=media&token=097c4e30-9922-46ec-a161-73a161ec3e31"
+                width='35px'
+                height='30px'
+                src={navLogo}
                 alt="..."
               />
             </div>

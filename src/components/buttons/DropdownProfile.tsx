@@ -21,7 +21,12 @@ return (
     title={userName.split(' ')[0]}
   >
     <Dropdown.Header>
-      { userPic && <Image src={userPic} className="user-pic" roundedCircle/> }
+      { userPic && <Image 
+      src={userPic} 
+      className="user-pic"
+      width="32px"
+      height="32px" 
+      roundedCircle/> }
       { name + ' ' + firstLetterLastName } 
     </Dropdown.Header>
 
