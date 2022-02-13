@@ -12,12 +12,12 @@ export const ThanksCommModal = ({show, onHide} : {show: boolean, onHide: () => v
     >
       <Modal.Header closeButton>
         <Modal.Title id="thanks-modal">
-          Thank you for review!
+          Спасибо за отзыв
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <p>
-          We will check your comment. And he will appear on our page very soon ;) 
+          Мы проверим ваш комментарий и совсем скоро он окажется на странице ;) 
         </p>
       </Modal.Body>
     </Modal>

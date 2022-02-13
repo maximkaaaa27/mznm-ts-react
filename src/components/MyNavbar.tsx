@@ -6,6 +6,7 @@ import { authWithGoogle, signOutGoogle } from "../redux/firebase/firebase";
 import navLogo from '../assets/mznm_logo.webp';
 import { PersonIcon } from "./icons/person";
 import { DropdownProfile } from "./buttons/DropdownProfile";
+import { HomeIcon } from "./icons/home";
 
 
 
@@ -45,9 +46,9 @@ export const MyNavbar = () => {
 
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link as={Link} to="/" eventKey="home" className="px-4">Home</Nav.Link>
-              <Nav.Link as={Link} to="/shows" eventKey="shows" className="px-4">Shows</Nav.Link>
-              <Nav.Link as={Link} to="/movies" eventKey="movies" className="px-4">Movies</Nav.Link>
+              <Nav.Link as={Link} to="/" eventKey="home" className="px-4"> <HomeIcon /> </Nav.Link>
+              <Nav.Link as={Link} to="/movies" eventKey="movies" className="px-4">Фильмы</Nav.Link>
+              <Nav.Link as={Link} to="/shows" eventKey="shows" className="px-4">Сериалы</Nav.Link>
             </Nav>
 
             <div className="pe-3">
