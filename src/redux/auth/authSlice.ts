@@ -1,56 +1,53 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
 
-
-interface IPayload  {
-  name: string | null
-  pic: string | null
-  uid: string | null
+interface IPayload {
+  name: string | null;
+  pic: string | null;
+  uid: string | null;
 }
 
-
-interface IState  {
-  user: IPayload
+interface IState {
+  user: IPayload;
 }
 
-
-const checkLocalStorage = ():IState => {
+const checkLocalStorage = (): IState => {
   const userLS = sessionStorage.getItem('client');
   const userLSParsed = () => userLS && JSON.parse(userLS);
-  const name = ():null | string => userLSParsed() ? userLSParsed().name : null
-  const pic = ():null | string  => userLSParsed() ? userLSParsed().pic : null
-  const uid = ():null | string => userLSParsed() ? userLSParsed().uid : null
-  
+  const name = (): null | string =>
+    userLSParsed() ? userLSParsed().name : null;
+  const pic = (): null | string => (userLSParsed() ? userLSParsed().pic : null);
+  const uid = (): null | string => (userLSParsed() ? userLSParsed().uid : null);
+
   return {
     user: {
-      name: name(), 
+      name: name(),
       pic: pic(),
       uid: uid(),
-    } 
-  }
-}
+    },
+  };
+};
 
-
-const initialState: IState = checkLocalStorage()
-
-
+const initialState: IState = checkLocalStorage();
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
     signIn: (state, action: PayloadAction<IPayload>) => ({
-      ...state, user: action.payload
+      ...state,
+      user: action.payload,
     }),
     signOutReducer: (state) => ({
-      ...state, user: {
+      ...state,
+      user: {
         name: null,
         pic: null,
         uid: null,
-      }
-    })
+      },
+    }),
   },
-})
+});
 
 export const { signIn, signOutReducer } = authSlice.actions;
 

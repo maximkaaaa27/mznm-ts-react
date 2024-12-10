@@ -6,46 +6,56 @@ import { useAppSelector } from '../../../redux/hooks';
 import { IContent } from '../../../redux/firebase/interfaces';
 import { authWithGoogle } from '../../../redux/firebase/firebase';
 
-export const CommentsView = ({current, fullOption, contentLink}: {
-  current: IContent, fullOption:boolean, contentLink: string
+export const CommentsView = ({
+  current,
+  fullOption,
+  contentLink,
+}: {
+  current: IContent;
+  fullOption: boolean;
+  contentLink: string;
 }) => {
+  const user = useAppSelector((state) => state.auth.user);
+  const comments =
+    current.comments &&
+    Object.keys(current.comments).map((key) => {
+      return {
+        ...current.comments[key],
+      };
+    });
 
-  const user = useAppSelector(state => state.auth.user);
-  const comments = current.comments && Object.keys(current.comments).map(key => {
-    return {
-      ...current.comments[key]
-    } 
-  });
+  const publicComments = !comments ? [] : comments.filter((i) => i.visible);
 
-  const publicComments = !comments ? [] : comments.filter(i => i.visible);
-  
   return (
-    <div className='comments'>
+    <div className="comments">
       <h3>Комментарии</h3>
-        {!!(fullOption) ? 
-        <CommentsPrivateView 
-          comments={comments} 
+      {!!fullOption ? (
+        <CommentsPrivateView
+          comments={comments}
           contentLink={contentLink}
           contentId={current.id}
-        /> 
-        : <CommentsPublicView comments={publicComments}/>
-        }
+        />
+      ) : (
+        <CommentsPublicView comments={publicComments} />
+      )}
 
-        {(!user.name) ? 
+      {!user.name ? (
         <div className="auth">
-          <div className='auth__sign' onClick={() => authWithGoogle()}>
-            <p>Представьтесь</p> 
+          <div className="auth__sign" onClick={() => authWithGoogle()}>
+            <p>Представьтесь</p>
           </div>
-          <div className='auth__text'>
-            <p>для того чтобы присоединиться к обсуждению</p>            
+          <div className="auth__text">
+            <p>для того чтобы присоединиться к обсуждению</p>
           </div>
-        </div> 
-        :<SendCommentForm 
-        userName={user.name}
-        userPic={!user.pic ? '': user.pic} 
-        contentLink={contentLink}
-        current={current}
-        />}    
+        </div>
+      ) : (
+        <SendCommentForm
+          userName={user.name}
+          userPic={!user.pic ? '' : user.pic}
+          contentLink={contentLink}
+          current={current}
+        />
+      )}
     </div>
-  )
-}
+  );
+};

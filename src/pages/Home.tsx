@@ -1,35 +1,29 @@
-import React, { useEffect } from "react";
-import { Row, Spinner } from "react-bootstrap";
-import { Movies } from "../components/views/movies/Movies";
-import { Shows } from "../components/views/shows/Shows";
-import { fetchFromRealtimeDB } from "../redux/firebase/firebase";
-import { useAppSelector } from "../redux/hooks";
-
+import React, { useEffect } from 'react';
+import { Row, Spinner } from 'react-bootstrap';
+import { Movies } from '../components/views/movies/Movies';
+import { Shows } from '../components/views/shows/Shows';
+import { fetchFromRealtimeDB } from '../redux/firebase/firebase';
+import { useAppSelector } from '../redux/hooks';
 
 export const Home = () => {
+  const movies = useAppSelector((state) => state.firebase.movies);
+  const shows = useAppSelector((state) => state.firebase.shows);
+  const loading = useAppSelector((state) => state.firebase.loading);
 
+  useEffect(() => {
+    if (!shows.length) {
+      fetchFromRealtimeDB('shows/');
+    }
+  }, [shows]);
 
-  const movies = useAppSelector(state => state.firebase.movies);
-  const shows = useAppSelector(state => state.firebase.shows);
-  const loading = useAppSelector(state => state.firebase.loading);
-
-
-    useEffect(() => {
-      if (!shows.length ) {
-        fetchFromRealtimeDB('shows/')
-      }
-    }, [shows])
-
-    useEffect(() => {
-      if (!movies.length ) {
-        fetchFromRealtimeDB('movies/')
-      }
-    }, [movies])
-
+  useEffect(() => {
+    if (!movies.length) {
+      fetchFromRealtimeDB('movies/');
+    }
+  }, [movies]);
 
   return (
     <div className="page-home">
-
       {loading && <Spinner variant="secondary" animation="grow" />}
 
       <div className="page-home__title">
@@ -40,7 +34,7 @@ export const Home = () => {
       <div className="page-home__movies">
         <h4>Фильмы</h4>
         <Row xs={1} md={2} className="mb-5">
-            <Movies listMovies={movies} showTools={false} />
+          <Movies listMovies={movies} showTools={false} />
         </Row>
       </div>
 
@@ -51,5 +45,5 @@ export const Home = () => {
         </Row>
       </div>
     </div>
-  )
-}
+  );
+};

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { MoviesPage } from './pages/MoviesPage';
 import { ShowsPage } from './pages/ShowsPage';
@@ -8,23 +8,19 @@ import { Movie } from './components/views/movies/Movie';
 import { TvShow } from './components/views/shows/TvShow';
 import { Episode } from './components/views/shows/Episode';
 
-
-
 const MOVIES = 'movies/';
-const SHOWS ='shows/';
+const SHOWS = 'shows/';
 
 export const useRoutes = () => {
-
-
   return (
     <Routes>
-      <Route path="/" element={<Home />} /> 
+      <Route path="/" element={<Home />} />
       <Route path="shows" element={<ShowsPage />} />
-      <Route path="shows/:show" element={<TvShow contentLink={SHOWS}/>} />
+      <Route path="shows/:show" element={<TvShow contentLink={SHOWS} />} />
       <Route path="shows/:show/:season/:episode" element={<Episode />} />
-      <Route path="movies" element={<MoviesPage /> } />
-      <Route path="movies/:id" element={<Movie contentLink={MOVIES}/>} />
+      <Route path="movies" element={<MoviesPage />} />
+      <Route path="movies/:id" element={<Movie contentLink={MOVIES} />} />
       <Route path="*" element={<BadPath />} />
     </Routes>
-  )
-}
+  );
+};
