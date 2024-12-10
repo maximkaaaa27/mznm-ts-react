@@ -1,16 +1,13 @@
 $nav-link-color: #000000;
 $nav-link-hover-color: #838383;
 
-
 @import '~bootstrap/scss/bootstrap.scss';
-
 
 .my-navbar-brand {
   margin: 4px;
   display: flex;
   justify-content: center;
   align-items: center;
-
 
   &__title {
     margin: 0 5px;
@@ -29,13 +26,10 @@ $nav-link-hover-color: #838383;
   margin-right: 0.5rem;
 }
 
-
-
-
 .page {
   margin: 50px 10px;
   .page-home {
-    &__title {   
+    &__title {
       margin: 15px 0;
       padding: 20px;
       font-size: 16px;
@@ -79,7 +73,7 @@ $nav-link-hover-color: #838383;
 }
 
 .movie {
-  .movie-contains{
+  .movie-contains {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -101,7 +95,7 @@ $nav-link-hover-color: #838383;
 
       margin: 20px;
       padding: 20px;
-      
+
       .rest {
         padding: 10px;
         width: 270px;
@@ -123,7 +117,7 @@ $nav-link-hover-color: #838383;
         }
 
         &__text {
-          cursor:default;
+          cursor: default;
           padding: 0 5px;
         }
       }
@@ -132,7 +126,7 @@ $nav-link-hover-color: #838383;
 }
 
 .tv-show {
-  .tv-show-contains{
+  .tv-show-contains {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -154,7 +148,7 @@ $nav-link-hover-color: #838383;
 
       margin: 20px;
       padding: 20px;
-      
+
       .rest {
         padding: 10px;
         width: 270px;
@@ -176,7 +170,7 @@ $nav-link-hover-color: #838383;
         }
 
         &__text {
-          cursor:default;
+          cursor: default;
           padding: 0 5px;
         }
       }
@@ -224,7 +218,7 @@ $nav-link-hover-color: #838383;
       display: flex;
       justify-content: space-evenly;
     }
-    
+
     &__episodes {
       margin: 10px 0;
       padding: 5px;
@@ -234,7 +228,7 @@ $nav-link-hover-color: #838383;
         justify-content: flex-end;
         align-items: center;
       }
-      
+
       .episode-video {
         margin: 5px;
         padding: 5px;
@@ -244,17 +238,14 @@ $nav-link-hover-color: #838383;
 }
 
 .comments {
-
   h6 {
     font-weight: 300;
   }
 
   .comment {
     display: flex;
-    margin: .5rem;
+    margin: 0.5rem;
     padding: 1rem;
-
-
 
     &__contains {
       cursor: default;
@@ -263,11 +254,11 @@ $nav-link-hover-color: #838383;
       opacity: 1;
       background-color: rgb(248, 249, 250);
       border: 1px solid #dee2e6;
-      border-radius: .3rem;
+      border-radius: 0.3rem;
       padding: 5px;
     }
 
-    &__tools{
+    &__tools {
       display: flex;
       align-items: flex-start;
     }
@@ -277,7 +268,7 @@ $nav-link-hover-color: #838383;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: .5rem;
+    margin: 0.5rem;
     padding: 1rem;
 
     &__field {
@@ -287,20 +278,19 @@ $nav-link-hover-color: #838383;
       padding: 5px;
 
       textarea {
-        height: 80px; 
-        width: 50%; 
+        height: 80px;
+        width: 50%;
         resize: none;
       }
 
       &__submit-btn {
-        margin-left: .5rem;
+        margin-left: 0.5rem;
       }
     }
   }
 }
 
 .my-footer {
-
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -309,13 +299,9 @@ $nav-link-hover-color: #838383;
   border-top: 1px solid #dee2e6;
   color: #6c757d;
   padding: 1rem 2rem;
-
-  
 }
 
 @media (max-width: 700px) {
-
-
   .page {
     margin: 50px 15px;
   }
@@ -327,7 +313,6 @@ $nav-link-hover-color: #838383;
   }
 
   .my-card {
-
     &__title {
       height: auto;
     }
@@ -337,17 +322,14 @@ $nav-link-hover-color: #838383;
     }
   }
 
-
   .movie {
     .movie-contains {
-
       &__title {
         font-size: 20px;
         font-weight: 500;
       }
 
       &__rest {
-
         .rest {
           width: 150px;
         }
@@ -356,17 +338,16 @@ $nav-link-hover-color: #838383;
   }
 
   .tv-show {
-    .tv-show-contains{
-
+    .tv-show-contains {
       &__title {
         font-size: 20px;
         font-weight: 500;
       }
-  
+
       &__rest {
-          .rest {
-            width: 150px;
-          }
+        .rest {
+          width: 150px;
+        }
       }
     }
   }
@@ -382,7 +363,7 @@ $nav-link-hover-color: #838383;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: .5rem;
+    margin: 0.5rem;
     padding: 1rem;
 
     &__field {
@@ -395,14 +376,14 @@ $nav-link-hover-color: #838383;
 
       textarea {
         min-width: 97%;
-        height: 80px; 
+        height: 80px;
         resize: none;
       }
 
       &__submit-btn {
         align-self: flex-start;
         margin-left: 0;
-        margin-top: .5rem;
+        margin-top: 0.5rem;
       }
     }
   }

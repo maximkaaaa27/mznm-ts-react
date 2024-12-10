@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import { useAppSelector } from "../redux/hooks";
-import { fetchFromRealtimeDB } from "../redux/firebase/firebase";
-import { Col, Row, Spinner } from "react-bootstrap";
-import { Movies } from "../components/views/movies/Movies";
-import { AddButton } from "../components/buttons/adds/AddButton";
+import React, { useEffect } from 'react';
+import { useAppSelector } from '../redux/hooks';
+import { fetchFromRealtimeDB } from '../redux/firebase/firebase';
+import { Col, Row, Spinner } from 'react-bootstrap';
+import { Movies } from '../components/views/movies/Movies';
+import { AddButton } from '../components/buttons/adds/AddButton';
 
 export const MoviesPage = () => {
-  const contentLink = "movies/";
+  const contentLink = 'movies/';
 
   const movies = useAppSelector((state) => state.firebase.movies);
   const loading = useAppSelector((state) => state.firebase.loading);

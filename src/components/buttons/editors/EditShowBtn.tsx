@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Button, Col, Form, Modal, Row } from "react-bootstrap";
-import { changeShowCardDB } from "../../../redux/firebase/firebase";
-import { Formik } from "formik";
-import * as yup from "yup";
-import { IContentShows } from "../../../redux/firebase/interfaces";
+import React, { useState } from 'react';
+import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
+import { changeShowCardDB } from '../../../redux/firebase/firebase';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+import { IContentShows } from '../../../redux/firebase/interfaces';
 
 export const EditShowBtn = ({
   item,
@@ -43,7 +43,7 @@ export const EditShowBtn = ({
     link: yup
       .string()
       .required()
-      .matches(nameRegex, "Only low English letters")
+      .matches(nameRegex, 'Only low English letters')
       .min(4)
       .max(12),
     linkVideo: yup.string(),
@@ -155,8 +155,8 @@ export const EditShowBtn = ({
                   <Row className="mb-3">
                     <Form.Group as={Col} controlId="validationFormik02">
                       <Form.Label>
-                        {" "}
-                        Link (min: 4, max:12 only Eng Letter){" "}
+                        {' '}
+                        Link (min: 4, max:12 only Eng Letter){' '}
                       </Form.Label>
                       <Form.Control
                         type="string"
@@ -191,8 +191,8 @@ export const EditShowBtn = ({
                     </Form.Group>
                   </Row>
                   <Button type="submit" variant="info">
-                    {" "}
-                    Сохранить{" "}
+                    {' '}
+                    Сохранить{' '}
                   </Button>
                 </Form>
               );
